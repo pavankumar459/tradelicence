@@ -3,6 +3,7 @@ package org.egov.tradelicence.services;
 import java.util.Date;
 import java.util.List;
 
+import org.egov.models.AuditDetails;
 import org.egov.models.Category;
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
@@ -14,7 +15,9 @@ import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
 import org.egov.tradelicence.exception.DuplicateIdException;
 import org.egov.tradelicence.exception.InvalidInputException;
-import org.egov.tradelicence.repository.TradeLicenceMasterRepository;
+import org.egov.tradelicence.repository.CategoryRepository;
+import org.egov.tradelicence.repository.UOMRepository;
+import org.egov.tradelicence.repository.ValidatorRepository;
 import org.egov.tradelicence.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,13 @@ public class MasterServiceImpl implements MasterService {
 	private ResponseInfoFactory responseInfoFactory;
 
 	@Autowired
-	private TradeLicenceMasterRepository tradeLicenceMasterRepository;
+	private ValidatorRepository validatorRepository;
+
+	@Autowired
+	CategoryRepository categoryRepository;
+
+	@Autowired
+	UOMRepository uomRepository;
 
 	@Override
 	@Transactional
@@ -35,17 +44,18 @@ public class MasterServiceImpl implements MasterService {
 
 		for (Category category : categoryRequest.getCategories()) {
 
-			Boolean isExists = tradeLicenceMasterRepository.checkWhetherRecordExits(category.getTenantId(),
-					category.getCode(), ConstantUtility.CATEGORY_TABLE_NAME, null);
+			Boolean isExists = validatorRepository.checkWhetherRecordExits(category.getTenantId(), category.getCode(),
+					ConstantUtility.CATEGORY_TABLE_NAME, null);
 			if (isExists)
 				throw new DuplicateIdException(categoryRequest.getRequestInfo());
+
+			RequestInfo requestInfo = categoryRequest.getRequestInfo();
+			AuditDetails auditDetails = getCreateMasterAuditDetals(requestInfo);
 			try {
 
-				Long createdTime = new Date().getTime();
-				Long id = tradeLicenceMasterRepository.createCategory(tenantId, category);
+				category.setAuditDetails(auditDetails);
+				Long id = categoryRepository.createCategory(tenantId, category);
 				category.setId(id);
-				category.getAuditDetails().setCreatedTime(createdTime);
-				category.getAuditDetails().setLastModifiedTime(createdTime);
 
 			} catch (Exception e) {
 				throw new InvalidInputException(categoryRequest.getRequestInfo());
@@ -69,21 +79,24 @@ public class MasterServiceImpl implements MasterService {
 
 		for (Category category : categoryRequest.getCategories()) {
 
-			Boolean isExists = tradeLicenceMasterRepository.checkWhetherRecordExits(category.getTenantId(),
-					category.getCode(), ConstantUtility.CATEGORY_TABLE_NAME, category.getId());
+			Boolean isExists = validatorRepository.checkWhetherRecordExits(category.getTenantId(), category.getCode(),
+					ConstantUtility.CATEGORY_TABLE_NAME, category.getId());
 
 			if (isExists)
 				throw new DuplicateIdException(categoryRequest.getRequestInfo());
 
+			RequestInfo requestInfo = categoryRequest.getRequestInfo();
 			try {
+
 				Long updatedTime = new Date().getTime();
-
-				category = tradeLicenceMasterRepository.updateCategory(category);
-
 				category.getAuditDetails().setLastModifiedTime(updatedTime);
+				category.getAuditDetails().setLastModifiedBy(requestInfo.getUserInfo().getUsername());
+				category = categoryRepository.updateCategory(category);
 
 			} catch (Exception e) {
+
 				throw new InvalidInputException(categoryRequest.getRequestInfo());
+
 			}
 		}
 
@@ -102,8 +115,7 @@ public class MasterServiceImpl implements MasterService {
 
 		CategoryResponse categoryResponse = new CategoryResponse();
 		try {
-			List<Category> categories = tradeLicenceMasterRepository.searchCategory(tenantId, ids, name, code, pageSize,
-					offSet);
+			List<Category> categories = categoryRepository.searchCategory(tenantId, ids, name, code, pageSize, offSet);
 			ResponseInfo responseInfo = responseInfoFactory.createResponseInfoFromRequestInfo(requestInfo, true);
 			categoryResponse.setCategories(categories);
 			categoryResponse.setResponseInfo(responseInfo);
@@ -122,17 +134,18 @@ public class MasterServiceImpl implements MasterService {
 
 		for (UOM uom : uomRequest.getUoms()) {
 
-			Boolean isExists = tradeLicenceMasterRepository.checkWhetherRecordExits(uom.getTenantId(), uom.getCode(),
+			Boolean isExists = validatorRepository.checkWhetherRecordExits(uom.getTenantId(), uom.getCode(),
 					ConstantUtility.UOM_TABLE_NAME, null);
 			if (isExists)
 				throw new DuplicateIdException(uomRequest.getRequestInfo());
+
+			RequestInfo requestInfo = uomRequest.getRequestInfo();
+			AuditDetails auditDetails = getCreateMasterAuditDetals(requestInfo);
 			try {
 
-				Long createdTime = new Date().getTime();
-				Long id = tradeLicenceMasterRepository.createUom(tenantId, uom);
+				uom.setAuditDetails(auditDetails);
+				Long id = uomRepository.createUom(tenantId, uom);
 				uom.setId(id);
-				uom.getAuditDetails().setCreatedTime(createdTime);
-				uom.getAuditDetails().setLastModifiedTime(createdTime);
 
 			} catch (Exception e) {
 				throw new InvalidInputException(uomRequest.getRequestInfo());
@@ -156,20 +169,22 @@ public class MasterServiceImpl implements MasterService {
 
 		for (UOM uom : uomRequest.getUoms()) {
 
-			Boolean isExists = tradeLicenceMasterRepository.checkWhetherRecordExits(uom.getTenantId(), uom.getCode(),
+			Boolean isExists = validatorRepository.checkWhetherRecordExits(uom.getTenantId(), uom.getCode(),
 					ConstantUtility.UOM_TABLE_NAME, uom.getId());
 
 			if (isExists)
 				throw new DuplicateIdException(uomRequest.getRequestInfo());
 
+			RequestInfo requestInfo = uomRequest.getRequestInfo();
 			try {
+
 				Long updatedTime = new Date().getTime();
-
-				uom = tradeLicenceMasterRepository.updateUom(uom);
-
 				uom.getAuditDetails().setLastModifiedTime(updatedTime);
+				uom.getAuditDetails().setLastModifiedBy(requestInfo.getUserInfo().getUsername());
+				uom = uomRepository.updateUom(uom);
 
 			} catch (Exception e) {
+
 				throw new InvalidInputException(uomRequest.getRequestInfo());
 			}
 		}
@@ -190,8 +205,7 @@ public class MasterServiceImpl implements MasterService {
 		UOMResponse uomResponse = new UOMResponse();
 
 		try {
-			List<UOM> uoms = tradeLicenceMasterRepository.searchUom(tenantId, ids, name, code, active, pageSize,
-					offSet);
+			List<UOM> uoms = uomRepository.searchUom(tenantId, ids, name, code, active, pageSize, offSet);
 			ResponseInfo responseInfo = responseInfoFactory.createResponseInfoFromRequestInfo(requestInfo, true);
 			uomResponse.setUoms(uoms);
 			uomResponse.setResponseInfo(responseInfo);
@@ -202,5 +216,17 @@ public class MasterServiceImpl implements MasterService {
 
 		return uomResponse;
 
+	}
+
+	private AuditDetails getCreateMasterAuditDetals(RequestInfo requestInfo) {
+
+		AuditDetails auditDetails = new AuditDetails();
+		Long createdTime = new Date().getTime();
+		auditDetails.setCreatedTime(createdTime);
+		auditDetails.setLastModifiedTime(createdTime);
+		auditDetails.setCreatedBy(requestInfo.getUserInfo().getUsername());
+		auditDetails.setCreatedBy(requestInfo.getUserInfo().getUsername());
+
+		return auditDetails;
 	}
 }

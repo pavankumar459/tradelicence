@@ -63,7 +63,7 @@ public interface MasterService {
 	public UOMResponse updateUomMaster(UOMRequest uomRequest);
 
 	/**
-	 * Description : This api for searching UOM master
+	 * Description : service method for searching UOM master
 	 * 
 	 * @param requestInfo
 	 * @param tenantId

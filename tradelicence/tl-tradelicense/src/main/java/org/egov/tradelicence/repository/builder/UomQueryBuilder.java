@@ -1,5 +1,7 @@
 package org.egov.tradelicence.repository.builder;
 
+import java.util.List;
+
 /**
  * This Class contains INSERT, UPDATE and SELECT queries for UOM API's
  * 
@@ -16,11 +18,12 @@ public class UomQueryBuilder {
 			+ " WHERE id = ?";
 
 	public static String buildSearchQuery(String tenantId, Integer[] ids, String name, String code, Boolean active,
-			Integer pageSize, Integer offSet) {
+			Integer pageSize, Integer offSet, List<Object> preparedStatementValues) {
 
 		StringBuffer searchSql = new StringBuffer();
-
-		searchSql.append("select * from egtl_mstr_uom where tenantId = '" + tenantId + "'");
+		searchSql.append("select * from egtl_mstr_uom where ");
+		searchSql.append(" tenantId = ? ");
+		preparedStatementValues.add(tenantId);
 
 		if (ids != null && ids.length > 0) {
 
@@ -35,27 +38,36 @@ public class UomQueryBuilder {
 
 				count++;
 			}
-			searchSql.append(" AND id IN (" + searchIds + ")");
+			searchSql.append(" AND id IN (" + searchIds + ") ");
 		}
 
-		if (code != null && !code.isEmpty())
-			searchSql.append(" AND code = '" + code + "'");
+		if (code != null && !code.isEmpty()) {
+			searchSql.append(" AND code =? ");
+			preparedStatementValues.add(code);
+		}
 
-		if (name != null && !name.isEmpty())
-			searchSql.append(" AND name = '" + name + "'");
+		if (name != null && !name.isEmpty()) {
+			searchSql.append(" AND name =? ");
+			preparedStatementValues.add(name);
+		}
 
-		if (active != null)
-			searchSql.append(" AND name = '" + active + "'");
+		if (active != null) {
+			searchSql.append(" AND active =? ");
+			preparedStatementValues.add(active);
+		}
 
 		if (pageSize == null)
 			pageSize = 30;
 
+		searchSql.append(" limit ? ");
+		preparedStatementValues.add(pageSize);
+
 		if (offSet == null)
 			offSet = 0;
 
-		searchSql.append("offset " + offSet + " limit " + pageSize);
+		searchSql.append(" offset ? ");
+		preparedStatementValues.add(offSet);
 
 		return searchSql.toString();
-
 	}
 }
