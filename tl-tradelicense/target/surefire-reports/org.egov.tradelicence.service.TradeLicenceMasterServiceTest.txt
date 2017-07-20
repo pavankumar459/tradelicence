@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------
+Test set: org.egov.tradelicence.service.TradeLicenceMasterServiceTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 2, Errors: 1, Skipped: 0, Time elapsed: 4.373 sec <<< FAILURE! - in org.egov.tradelicence.service.TradeLicenceMasterServiceTest
+createCategory(org.egov.tradelicence.service.TradeLicenceMasterServiceTest)  Time elapsed: 0.069 sec  <<< FAILURE!
+java.lang.AssertionError: null
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at org.egov.tradelicence.service.TradeLicenceMasterServiceTest.createCategory(TradeLicenceMasterServiceTest.java:77)
+
+modifyCategory(org.egov.tradelicence.service.TradeLicenceMasterServiceTest)  Time elapsed: 0.002 sec  <<< FAILURE!
+java.lang.AssertionError: null
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at org.egov.tradelicence.service.TradeLicenceMasterServiceTest.modifyCategory(TradeLicenceMasterServiceTest.java:116)
+
+searchCategory(org.egov.tradelicence.service.TradeLicenceMasterServiceTest)  Time elapsed: 0.008 sec  <<< ERROR!
+java.lang.NullPointerException: null
+	at org.egov.tradelicence.service.TradeLicenceMasterServiceTest.searchCategory(TradeLicenceMasterServiceTest.java:127)
+

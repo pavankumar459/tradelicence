@@ -1,0 +1,15 @@
+org\egov\tradelicence\exception\GlobalExceptionHandler.class
+org\egov\tradelicence\repository\builder\CategoryQueryBuilder.class
+org\egov\tradelicence\repository\TradeLicenceMasterRepository$2.class
+org\egov\tradelicence\exception\DuplicateIdException.class
+org\egov\tradelicence\config\PropertiesManager.class
+org\egov\tradelicence\repository\TradeLicenceMasterRepository$1.class
+org\egov\tradelicence\services\MasterService.class
+org\egov\tradelicence\services\MasterServiceImpl.class
+org\egov\tradelicence\controller\TradeLicenceMasterController.class
+org\egov\tradelicence\exception\InvalidInputException.class
+org\egov\tradelicence\TradeLicenceApplication.class
+org\egov\tradelicence\utility\ConstantUtility.class
+org\egov\tradelicence\repository\builder\UtilityBuilder.class
+org\egov\tradelicence\TradeLicenceAspectj.class
+org\egov\tradelicence\repository\TradeLicenceMasterRepository.class
