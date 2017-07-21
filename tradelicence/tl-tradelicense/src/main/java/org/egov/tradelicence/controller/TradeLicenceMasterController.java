@@ -3,6 +3,8 @@ package org.egov.tradelicence.controller;
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfoWrapper;
+import org.egov.models.SubCategoryRequest;
+import org.egov.models.SubCategoryResponse;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
 import org.egov.tradelicence.services.MasterService;
@@ -134,6 +136,63 @@ public class TradeLicenceMasterController {
 
 		return masterService.getUomMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, active, pageSize,
 				offSet);
+
+	}
+
+	/**
+	 * Description : This api for creating subcategory master
+	 * 
+	 * @param tenantId
+	 * @param SubCategoryRequest
+	 * @return SubCategoryResponse
+	 */
+	@RequestMapping(path = "/subcategory/_create", method = RequestMethod.POST)
+	public SubCategoryResponse craeateSubCategoryMaster(@RequestParam(required = true) String tenantId,
+			@RequestBody SubCategoryRequest subCategoryRequest) {
+
+		return masterService.craeateSubCategoryMaster(tenantId, subCategoryRequest);
+
+	}
+
+	/**
+	 * Description : This api for updating subcategory master
+	 * 
+	 * 
+	 * @param SubCategoryRequest
+	 * @return SubCategoryResponse
+	 */
+	@RequestMapping(path = "/subcategory/_update", method = RequestMethod.POST)
+	public SubCategoryResponse updateSubCategoryMaster(@RequestBody SubCategoryRequest subCategoryRequest) {
+
+		return masterService.updateSubCategoryMaster(subCategoryRequest);
+
+	}
+
+	/**
+	 * Description : This api for searching subcategory master
+	 * 
+	 * @param requestInfo
+	 * @param tenantId
+	 * @param ids
+	 * @param name
+	 * @param code
+	 * @param categoryId
+	 * @param subCategoryId
+	 * @param pageSize
+	 * @param offSet
+	 * @return SubCategoryResponse
+	 * @throws Exception
+	 */
+	@RequestMapping(path = "/subcategory/_search", method = RequestMethod.POST)
+	public SubCategoryResponse getSubCategoryMaster(@RequestBody RequestInfoWrapper requestInfo,
+			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = false) String name, @RequestParam(required = false) String code,
+			@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) Integer subCategoryId,
+			@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer offSet)
+			throws Exception {
+
+		return masterService.getSubCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, categoryId,
+				subCategoryId, pageSize, offSet);
 
 	}
 }

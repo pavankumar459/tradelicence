@@ -2,9 +2,8 @@ package org.egov.tradelicence.repository.builder;
 
 /**
  * 
- * @author PavanKumar Kamma
- * 	 This class will have all the common queries 
- *   which will be used in the tradelicence master 
+ * @author PavanKumar Kamma This class will have all the common queries which
+ *         will be used in the tradelicence master
  *
  */
 public class UtilityBuilder {
@@ -20,6 +19,22 @@ public class UtilityBuilder {
 
 		return uniqueQuery.toString();
 
+	}
+
+	public static String getCategoryValidationQuery(String tableName, Long categoryId) {
+
+		StringBuffer categoryValidationQuery = new StringBuffer("select count(*) from " + tableName);
+		categoryValidationQuery.append(" where id = '" + categoryId + "'");
+
+		return categoryValidationQuery.toString();
+	}
+
+	public static String getUomValidationQuery(String tableName, String uomId) {
+
+		StringBuffer uomValidationQuery = new StringBuffer("select count(*) from " + tableName);
+		uomValidationQuery.append(" where id = '" + uomId + "'");
+
+		return uomValidationQuery.toString();
 	}
 
 }

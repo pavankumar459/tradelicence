@@ -2,6 +2,9 @@ package org.egov.models;
 
 import javax.validation.constraints.NotNull;
 
+import org.egov.enums.FeeTypeEnum;
+import org.egov.enums.RateTypeEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,10 +25,10 @@ public class SubCategoryDetail {
 	private String subCategoryId = null;
 
 	@NotNull
-	private String feeTypeId = null;
+	private FeeTypeEnum feeTypeId = null;
 
 	@NotNull
-	private String rateTypeId = null;
+	private RateTypeEnum rateTypeId = null;
 	
 	@NotNull
 	private String uomId = null;

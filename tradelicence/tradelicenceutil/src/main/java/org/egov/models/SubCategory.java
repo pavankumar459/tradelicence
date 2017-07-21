@@ -2,8 +2,11 @@ package org.egov.models;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.egov.enums.BusinessNatureEnum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -35,11 +38,12 @@ public class SubCategory {
 	private String code = null;
 
 	@NotNull
-	private Long businessNatureId = null;
+	private BusinessNatureEnum businessNatureId = null;
 
 	@NotNull
 	private Long categoryId = null;
 
+	@Valid
 	private List<SubCategoryDetail> subCategoryDetails;
 
 	@JsonProperty("auditDetails")

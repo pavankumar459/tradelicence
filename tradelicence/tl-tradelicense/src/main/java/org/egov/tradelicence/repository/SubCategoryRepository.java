@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.egov.models.AuditDetails;
-import org.egov.models.Category;
-import org.egov.tradelicence.repository.builder.CategoryQueryBuilder;
+import org.egov.models.SubCategory;
+import org.egov.tradelicence.repository.builder.SubCategoryQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -20,36 +20,38 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class CategoryRepository {
+public class SubCategoryRepository {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	/**
-	 * Description : this method will creating category
+	 * Description : this method will creating subcategory
 	 * 
 	 * @param tenantId
-	 * @param Category
-	 * @return categoryId
+	 * @param SubCategory
+	 * @return subCategoryId
 	 */
-	public Long createCategory(String tenantId, Category category) {
+	public Long createSubCategory(String tenantId, SubCategory subCategory) {
 
 		Long createdTime = new Date().getTime();
 
-		String categoryInsert = CategoryQueryBuilder.INSERT_CATEGORY_QUERY;
+		String subCategoryInsertQuery = SubCategoryQueryBuilder.INSERT_SUB_CATEGORY_QUERY;
 
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
-				final PreparedStatement ps = connection.prepareStatement(categoryInsert, new String[] { "id" });
+				final PreparedStatement ps = connection.prepareStatement(subCategoryInsertQuery, new String[] { "id" });
 
-				ps.setString(1, category.getTenantId());
-				ps.setString(2, category.getCode());
-				ps.setString(3, category.getName());
-				ps.setString(4, category.getAuditDetails().getCreatedBy());
-				ps.setString(5, category.getAuditDetails().getLastModifiedBy());
-				ps.setLong(6, createdTime);
-				ps.setLong(7, createdTime);
+				ps.setString(1, subCategory.getTenantId());
+				ps.setString(2, subCategory.getCode());
+				ps.setString(3, subCategory.getName());
+				ps.setString(4, subCategory.getBusinessNatureId().toString());
+				ps.setLong(5, subCategory.getCategoryId());
+				ps.setString(6, subCategory.getAuditDetails().getCreatedBy());
+				ps.setString(7, subCategory.getAuditDetails().getLastModifiedBy());
+				ps.setLong(8, createdTime);
+				ps.setLong(9, createdTime);
 				return ps;
 			}
 		};
@@ -63,91 +65,96 @@ public class CategoryRepository {
 	}
 
 	/**
-	 * Description : this method for updating category
+	 * Description : this method for updating SubCategory
 	 * 
-	 * @param Category
-	 * @return Category
+	 * @param SubCategory
+	 * @return SubCategory
 	 */
-	public Category updateCategory(Category category) {
+	public SubCategory updateSubCategory(SubCategory subCategory) {
 
 		Long updatedTime = new Date().getTime();
 
-		String categoryUpdateSql = CategoryQueryBuilder.UPDATE_CATEGORY_QUERY;
+		String subCategoryUpdateSql = SubCategoryQueryBuilder.UPDATE_SUB_CATEGORY_QUERY;
 
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
-				final PreparedStatement ps = connection.prepareStatement(categoryUpdateSql);
+				final PreparedStatement ps = connection.prepareStatement(subCategoryUpdateSql);
 
-				ps.setString(1, category.getTenantId());
-				ps.setString(2, category.getCode());
-				ps.setString(3, category.getName());
-				ps.setString(4, category.getAuditDetails().getLastModifiedBy());
-				ps.setLong(5, updatedTime);
-				ps.setLong(6, category.getId());
+				ps.setString(1, subCategory.getTenantId());
+				ps.setString(2, subCategory.getCode());
+				ps.setString(3, subCategory.getName());
+				ps.setString(4, subCategory.getBusinessNatureId().toString());
+				ps.setLong(5, subCategory.getCategoryId());
+				ps.setString(6, subCategory.getAuditDetails().getLastModifiedBy());
+				ps.setLong(7, updatedTime);
+				ps.setLong(8, subCategory.getId());
 
 				return ps;
 			}
 		};
 
 		jdbcTemplate.update(psc);
-		return category;
+		return subCategory;
 	}
 
 	/**
-	 * Description : this method for search category
+	 * Description : this method for search subCategory
 	 * 
 	 * @param tenantId
 	 * @param ids
 	 * @param name
 	 * @param code
+	 * @param businessNatureId
+	 * @param categoryId
 	 * @param pageSize
 	 * @param offSet
-	 * @return List<Category>
+	 * @return List<SubCategory>
 	 * @throws Exception
 	 */
-	public List<Category> searchCategory(String tenantId, Integer[] ids, String name, String code, Integer pageSize,
-			Integer offSet) {
+	public List<SubCategory> searchSubCategory(String tenantId, Integer[] ids, String name, String code,
+			Integer businessNatureId, Integer categoryId, Integer pageSize, Integer offSet) {
 
 		List<Object> preparedStatementValues = new ArrayList<>();
-		String categorySearchQuery = CategoryQueryBuilder.buildSearchQuery(tenantId, ids, name, code, pageSize, offSet,
-				preparedStatementValues);
-		List<Category> categories = getCategories(categorySearchQuery.toString(), preparedStatementValues);
+		String subCategorySearchQuery = SubCategoryQueryBuilder.buildSearchQuery(tenantId, ids, name, code,
+				businessNatureId, categoryId, pageSize, offSet, preparedStatementValues);
+		List<SubCategory> subCategories = getSubCategories(subCategorySearchQuery.toString(), preparedStatementValues);
 
-		return categories;
+		return subCategories;
 
 	}
 
 	/**
-	 * This method will execute the given query & will build the Category object
+	 * This method will execute the given query & will build the SubCategory
+	 * object
 	 * 
 	 * @param query
 	 *            String that need to be executed
-	 * @return {@link Category} List of Category
+	 * @return {@link SubCategory} List of Category
 	 */
-	private List<Category> getCategories(String query, List<Object> preparedStatementValues) {
+	private List<SubCategory> getSubCategories(String query, List<Object> preparedStatementValues) {
 
-		List<Category> categories = new ArrayList<>();
+		List<SubCategory> subCategories = new ArrayList<>();
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(query, preparedStatementValues.toArray());
 
 		for (Map<String, Object> row : rows) {
-			Category category = new Category();
-			category.setId(getLong(row.get("id")));
-			category.setTenantId(getString(row.get("tenantid")));
-			category.setCode(getString(row.get("code")));
-			category.setName(getString(row.get("name")));
+			SubCategory subCategory = new SubCategory();
+			subCategory.setId(getLong(row.get("id")));
+			subCategory.setTenantId(getString(row.get("tenantid")));
+			subCategory.setCode(getString(row.get("code")));
+			subCategory.setName(getString(row.get("name")));
 			AuditDetails auditDetails = new AuditDetails();
 			auditDetails.setCreatedBy(getString(row.get("createdby")));
 			auditDetails.setLastModifiedBy(getString(row.get("lastmodifiedby")));
 			auditDetails.setCreatedTime(getLong(row.get("createdtime")));
 			auditDetails.setLastModifiedTime(getLong(row.get("lastmodifiedtime")));
-			category.setAuditDetails(auditDetails);
+			subCategory.setAuditDetails(auditDetails);
 
-			categories.add(category);
+			subCategories.add(subCategory);
 
 		}
 
-		return categories;
+		return subCategories;
 	}
 
 	/**

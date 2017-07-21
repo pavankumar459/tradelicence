@@ -14,4 +14,6 @@ public class ConstantUtility {
 	public static final String CATEGORY_TABLE_NAME = "egtl_mstr_category";
 
 	public static final String UOM_TABLE_NAME = "egtl_mstr_uom";
+	
+	public static final String SUB_CATEGORY_TABLE_NAME = "egtl_mstr_sub_category";
 }
