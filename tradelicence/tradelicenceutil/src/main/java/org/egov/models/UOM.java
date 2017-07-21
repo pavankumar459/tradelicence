@@ -35,7 +35,7 @@ public class UOM {
 	@Max(value = 256)
 	private String code = null;
 
-	private Boolean active = true;
+	private Boolean active = null;
 
 	@JsonProperty("auditDetails")
 	private AuditDetails auditDetails = null;

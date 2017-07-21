@@ -10,15 +10,16 @@
          "requesterId":"rajesh",
          "authToken":"d0058c65-7c55-445e-89b3-7f5b0cfdc12b"
       },
-      "categories":[  
+      "uoms":[  
          {  
+            "id":1,
             "tenantId":"default",
-            "name":null,
-            "code":null,
-            "active":null,
+            "code": "Flammables",
+     		"name": "Flammables",
+     		"active": null,
             "auditDetails" : {
-            	"createdBy": null,
-            	"lastModifiedBy": null,
+            	"createdBy": "pavankumar",
+            	"lastModifiedBy": "pavan123",
             	"createdTime": null,
             	"lastModifiedTime": null
             }

@@ -13,6 +13,7 @@ import org.egov.models.ResponseInfoFactory;
 import org.egov.models.UOM;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
+import org.egov.models.UserInfo;
 import org.egov.tradelicence.exception.DuplicateIdException;
 import org.egov.tradelicence.exception.InvalidInputException;
 import org.egov.tradelicence.repository.CategoryRepository;
@@ -224,8 +225,11 @@ public class MasterServiceImpl implements MasterService {
 		Long createdTime = new Date().getTime();
 		auditDetails.setCreatedTime(createdTime);
 		auditDetails.setLastModifiedTime(createdTime);
-		auditDetails.setCreatedBy(requestInfo.getUserInfo().getUsername());
-		auditDetails.setCreatedBy(requestInfo.getUserInfo().getUsername());
+		UserInfo userInfo = requestInfo.getUserInfo();
+		if (userInfo != null) {
+			auditDetails.setCreatedBy(userInfo.getUsername());
+			auditDetails.setLastModifiedBy(requestInfo.getUserInfo().getUsername());
+		}
 
 		return auditDetails;
 	}

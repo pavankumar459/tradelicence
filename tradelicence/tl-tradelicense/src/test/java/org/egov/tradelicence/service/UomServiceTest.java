@@ -7,11 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.egov.models.AuditDetails;
-import org.egov.models.Category;
-import org.egov.models.CategoryRequest;
-import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfo;
 import org.egov.models.RequestInfoWrapper;
+import org.egov.models.UOM;
+import org.egov.models.UOMRequest;
+import org.egov.models.UOMResponse;
+import org.egov.models.UserInfo;
 import org.egov.tradelicence.TradeLicenceApplication;
 import org.egov.tradelicence.config.PropertiesManager;
 import org.egov.tradelicence.exception.DuplicateIdException;
@@ -29,8 +30,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @ContextConfiguration(classes = { TradeLicenceApplication.class })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@SuppressWarnings("static-access")
-public class TradeLicenceMasterServiceTest {
+public class UomServiceTest {
 
 	@Autowired
 	MasterService masterService;
@@ -38,23 +38,25 @@ public class TradeLicenceMasterServiceTest {
 	@Autowired
 	private PropertiesManager propertiesManager;
 
-	public Long categoryId = 1l;
+	public Long uomId = 1l;
 	public String tenantId = "default";
 	public String name = "Flammables v1.1";
 	public String code = "Flammables v1.1";
+	public Boolean active = true;
 	public String updatedName = "Flammables v1.1 name updated";
 	public String updatedCode = "Flammables v1.1 code updated";
 
 	@Test
-	public void testAcreateCategory() {
+	public void testAcreateUom() {
 		RequestInfo requestInfo = getRequestInfoObject();
 
-		List<Category> categories = new ArrayList<>();
+		List<UOM> uoms = new ArrayList<>();
 
-		Category category = new Category();
-		category.setTenantId(tenantId);
-		category.setName(name);
-		category.setCode(code);
+		UOM uom = new UOM();
+		uom.setTenantId(tenantId);
+		uom.setName(name);
+		uom.setCode(code);
+		uom.setActive(active);
 		long createdTime = new Date().getTime();
 
 		AuditDetails auditDetails = new AuditDetails();
@@ -63,19 +65,19 @@ public class TradeLicenceMasterServiceTest {
 		auditDetails.setCreatedTime(createdTime);
 		auditDetails.setLastModifiedTime(createdTime);
 
-		category.setAuditDetails(auditDetails);
-		categories.add(category);
+		uom.setAuditDetails(auditDetails);
+		uoms.add(uom);
 
-		CategoryRequest categoryRequest = new CategoryRequest();
-		categoryRequest.setCategories(categories);
-		categoryRequest.setRequestInfo(requestInfo);
+		UOMRequest uomRequest = new UOMRequest();
+		uomRequest.setUoms(uoms);
+		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.craeateCategoryMaster(tenantId, categoryRequest);
-			if (categoryResponse.getCategories().size() == 0) {
+			UOMResponse uomResponse = masterService.createUomMaster(tenantId, uomRequest);
+			if (uomResponse.getUoms().size() == 0) {
 				assertTrue(false);
 			}
-			this.categoryId = categoryResponse.getCategories().get(0).getId();
+			this.uomId = uomResponse.getUoms().get(0).getId();
 
 			assertTrue(true);
 
@@ -86,7 +88,7 @@ public class TradeLicenceMasterServiceTest {
 	}
 
 	@Test
-	public void testAsearchCategory() {
+	public void testAsearchUom() {
 
 		Integer pageSize = Integer.valueOf(propertiesManager.getDefaultPageSize());
 		Integer offset = Integer.valueOf(propertiesManager.getDefaultOffset());
@@ -96,9 +98,9 @@ public class TradeLicenceMasterServiceTest {
 		requestInfoWrapper.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.getCategoryMaster(requestInfo, tenantId,
-					new Integer[] { categoryId.intValue() }, name, code, pageSize, offset);
-			if (categoryResponse.getCategories().size() == 0)
+			UOMResponse uomResponse = masterService.getUomMaster(requestInfo, tenantId,
+					new Integer[] { uomId.intValue() }, name, code, active, pageSize, offset);
+			if (uomResponse.getUoms().size() == 0)
 				assertTrue(false);
 
 			assertTrue(true);
@@ -110,15 +112,16 @@ public class TradeLicenceMasterServiceTest {
 	}
 
 	@Test
-	public void testAcreateDuplicateCategory() {
+	public void testAcreateUomDuplicate() {
+
 		RequestInfo requestInfo = getRequestInfoObject();
+		List<UOM> uoms = new ArrayList<>();
 
-		List<Category> categories = new ArrayList<>();
-
-		Category category = new Category();
-		category.setTenantId(tenantId);
-		category.setName(name);
-		category.setCode(code);
+		UOM uom = new UOM();
+		uom.setTenantId(tenantId);
+		uom.setName(name);
+		uom.setCode(code);
+		uom.setActive(active);
 		long createdTime = new Date().getTime();
 
 		AuditDetails auditDetails = new AuditDetails();
@@ -127,19 +130,19 @@ public class TradeLicenceMasterServiceTest {
 		auditDetails.setCreatedTime(createdTime);
 		auditDetails.setLastModifiedTime(createdTime);
 
-		category.setAuditDetails(auditDetails);
-		categories.add(category);
+		uom.setAuditDetails(auditDetails);
+		uoms.add(uom);
 
-		CategoryRequest categoryRequest = new CategoryRequest();
-		categoryRequest.setCategories(categories);
-		categoryRequest.setRequestInfo(requestInfo);
+		UOMRequest uomRequest = new UOMRequest();
+		uomRequest.setUoms(uoms);
+		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.craeateCategoryMaster(tenantId, categoryRequest);
-			if (categoryResponse.getCategories().size() == 0) {
+			UOMResponse uomResponse = masterService.createUomMaster(tenantId, uomRequest);
+			if (uomResponse.getUoms().size() == 0) {
 				assertTrue(false);
 			}
-			this.categoryId = categoryResponse.getCategories().get(0).getId();
+			this.uomId = uomResponse.getUoms().get(0).getId();
 
 			assertTrue(true);
 
@@ -154,15 +157,17 @@ public class TradeLicenceMasterServiceTest {
 	}
 
 	@Test
-	public void testBmodifyCategoryName() {
+	public void testBmodifyUomName() {
 		RequestInfo requestInfo = getRequestInfoObject();
-		List<Category> categories = new ArrayList<>();
 
-		Category category = new Category();
-		category.setId(categoryId);
-		category.setTenantId(tenantId);
-		category.setName(updatedName);
-		category.setCode(code);
+		List<UOM> uoms = new ArrayList<>();
+
+		UOM uom = new UOM();
+		uom.setId(uomId);
+		uom.setTenantId(tenantId);
+		uom.setName(updatedName);
+		uom.setCode(code);
+		uom.setActive(active);
 		long createdTime = new Date().getTime();
 
 		AuditDetails auditDetails = new AuditDetails();
@@ -171,123 +176,17 @@ public class TradeLicenceMasterServiceTest {
 		auditDetails.setCreatedTime(createdTime);
 		auditDetails.setLastModifiedTime(createdTime);
 
-		category.setAuditDetails(auditDetails);
-		categories.add(category);
+		uom.setAuditDetails(auditDetails);
+		uoms.add(uom);
 
-		CategoryRequest categoryRequest = new CategoryRequest();
-		categoryRequest.setCategories(categories);
-		categoryRequest.setRequestInfo(requestInfo);
-
-		try {
-			CategoryResponse categoryResponse = masterService.updateCategoryMaster(categoryRequest);
-
-			if (categoryResponse.getCategories().size() == 0)
-				assertTrue(false);
-
-			assertTrue(true);
-
-		} catch (Exception e) {
-			if (e.getClass().isInstance(new DuplicateIdException())) {
-				assertTrue(true);
-			} else {
-				assertTrue(false);
-			}
-		}
-
-	}
-
-	@Test
-	public void testBsearchUpdatedCategoryName() {
-
-		Integer pageSize = Integer.valueOf(propertiesManager.getDefaultPageSize());
-		Integer offset = Integer.valueOf(propertiesManager.getDefaultOffset());
-		RequestInfo requestInfo = getRequestInfoObject();
-
-		RequestInfoWrapper requestInfoWrapper = new RequestInfoWrapper();
-		requestInfoWrapper.setRequestInfo(requestInfo);
+		UOMRequest uomRequest = new UOMRequest();
+		uomRequest.setUoms(uoms);
+		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.getCategoryMaster(requestInfo, tenantId,
-					new Integer[] { categoryId.intValue() }, updatedName, code, pageSize, offset);
-			if (categoryResponse.getCategories().size() == 0)
-				assertTrue(false);
+			UOMResponse uomResponse = masterService.updateUomMaster(uomRequest);
 
-			assertTrue(true);
-
-		} catch (Exception e) {
-			assertTrue(false);
-		}
-
-	}
-
-	@Test
-	public void testCmodifyCategoryCode() {
-		RequestInfo requestInfo = getRequestInfoObject();
-		List<Category> categories = new ArrayList<>();
-
-		Category category = new Category();
-		category.setId(categoryId);
-		category.setTenantId(tenantId);
-		category.setName(updatedName);
-		category.setCode(updatedCode);
-		long createdTime = new Date().getTime();
-
-		AuditDetails auditDetails = new AuditDetails();
-		auditDetails.setCreatedBy("pavan");
-		auditDetails.setLastModifiedBy("pavan");
-		auditDetails.setCreatedTime(createdTime);
-		auditDetails.setLastModifiedTime(createdTime);
-
-		category.setAuditDetails(auditDetails);
-		categories.add(category);
-
-		CategoryRequest categoryRequest = new CategoryRequest();
-		categoryRequest.setCategories(categories);
-		categoryRequest.setRequestInfo(requestInfo);
-
-		try {
-			CategoryResponse categoryResponse = masterService.updateCategoryMaster(categoryRequest);
-
-			if (categoryResponse.getCategories().size() == 0)
-				assertTrue(false);
-
-			assertTrue(true);
-
-		} catch (Exception e) {
-			assertTrue(false);
-		}
-
-	}
-
-	@Test
-	public void testCmodifyDuplicateCategoryCode() {
-		RequestInfo requestInfo = getRequestInfoObject();
-		List<Category> categories = new ArrayList<>();
-
-		Category category = new Category();
-		category.setId(categoryId);
-		category.setTenantId(tenantId);
-		category.setName(updatedName);
-		category.setCode(updatedCode);
-		long createdTime = new Date().getTime();
-
-		AuditDetails auditDetails = new AuditDetails();
-		auditDetails.setCreatedBy("pavan");
-		auditDetails.setLastModifiedBy("pavan");
-		auditDetails.setCreatedTime(createdTime);
-		auditDetails.setLastModifiedTime(createdTime);
-
-		category.setAuditDetails(auditDetails);
-		categories.add(category);
-
-		CategoryRequest categoryRequest = new CategoryRequest();
-		categoryRequest.setCategories(categories);
-		categoryRequest.setRequestInfo(requestInfo);
-
-		try {
-			CategoryResponse categoryResponse = masterService.updateCategoryMaster(categoryRequest);
-
-			if (categoryResponse.getCategories().size() == 0)
+			if (uomResponse.getUoms().size() == 0)
 				assertTrue(false);
 
 			assertTrue(true);
@@ -303,7 +202,7 @@ public class TradeLicenceMasterServiceTest {
 	}
 
 	@Test
-	public void testCsearchUpdatedCategoryCode() {
+	public void testBsearchUpdatedUomName() {
 
 		Integer pageSize = Integer.valueOf(propertiesManager.getDefaultPageSize());
 		Integer offset = Integer.valueOf(propertiesManager.getDefaultOffset());
@@ -313,9 +212,117 @@ public class TradeLicenceMasterServiceTest {
 		requestInfoWrapper.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.getCategoryMaster(requestInfo, tenantId,
-					new Integer[] { categoryId.intValue() }, updatedName, updatedCode, pageSize, offset);
-			if (categoryResponse.getCategories().size() == 0)
+			UOMResponse uomResponse = masterService.getUomMaster(requestInfo, tenantId,
+					new Integer[] { uomId.intValue() }, updatedName, code, active, pageSize, offset);
+			if (uomResponse.getUoms().size() == 0)
+				assertTrue(false);
+
+			assertTrue(true);
+
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+
+	}
+
+	@Test
+	public void testCmodifyUomCode() {
+		RequestInfo requestInfo = getRequestInfoObject();
+		List<UOM> uoms = new ArrayList<>();
+
+		UOM uom = new UOM();
+		uom.setId(uomId);
+		uom.setTenantId(tenantId);
+		uom.setName(updatedName);
+		uom.setCode(updatedCode);
+		uom.setActive(active);
+		long createdTime = new Date().getTime();
+
+		AuditDetails auditDetails = new AuditDetails();
+		auditDetails.setCreatedBy("pavan");
+		auditDetails.setLastModifiedBy("pavan");
+		auditDetails.setCreatedTime(createdTime);
+		auditDetails.setLastModifiedTime(createdTime);
+
+		uom.setAuditDetails(auditDetails);
+		uoms.add(uom);
+
+		UOMRequest uomRequest = new UOMRequest();
+		uomRequest.setUoms(uoms);
+		uomRequest.setRequestInfo(requestInfo);
+
+		try {
+			UOMResponse uomResponse = masterService.updateUomMaster(uomRequest);
+
+			if (uomResponse.getUoms().size() == 0)
+				assertTrue(false);
+
+			assertTrue(true);
+
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+
+	}
+
+	@Test
+	public void testCmodifyUomCodeDuplicate() {
+		RequestInfo requestInfo = getRequestInfoObject();
+		List<UOM> uoms = new ArrayList<>();
+
+		UOM uom = new UOM();
+		uom.setId(uomId);
+		uom.setTenantId(tenantId);
+		uom.setName(updatedName);
+		uom.setCode(updatedCode);
+		uom.setActive(active);
+		long createdTime = new Date().getTime();
+
+		AuditDetails auditDetails = new AuditDetails();
+		auditDetails.setCreatedBy("pavan");
+		auditDetails.setLastModifiedBy("pavan");
+		auditDetails.setCreatedTime(createdTime);
+		auditDetails.setLastModifiedTime(createdTime);
+
+		uom.setAuditDetails(auditDetails);
+		uoms.add(uom);
+
+		UOMRequest uomRequest = new UOMRequest();
+		uomRequest.setUoms(uoms);
+		uomRequest.setRequestInfo(requestInfo);
+
+		try {
+			UOMResponse uomResponse = masterService.updateUomMaster(uomRequest);
+
+			if (uomResponse.getUoms().size() == 0)
+				assertTrue(false);
+
+			assertTrue(true);
+
+		} catch (Exception e) {
+			if (e.getClass().isInstance(new DuplicateIdException())) {
+				assertTrue(true);
+			} else {
+				assertTrue(false);
+			}
+		}
+
+	}
+
+	@Test
+	public void testCsearchUpdatedUomCode() {
+
+		Integer pageSize = Integer.valueOf(propertiesManager.getDefaultPageSize());
+		Integer offset = Integer.valueOf(propertiesManager.getDefaultOffset());
+		RequestInfo requestInfo = getRequestInfoObject();
+
+		RequestInfoWrapper requestInfoWrapper = new RequestInfoWrapper();
+		requestInfoWrapper.setRequestInfo(requestInfo);
+
+		try {
+			UOMResponse uomResponse = masterService.getUomMaster(requestInfo, tenantId,
+					new Integer[] { uomId.intValue() }, updatedName, updatedCode, active, pageSize, offset);
+			if (uomResponse.getUoms().size() == 0)
 				assertTrue(false);
 
 			assertTrue(true);
@@ -336,7 +343,11 @@ public class TradeLicenceMasterServiceTest {
 		requestInfo.setMsgId("20170310130900");
 		requestInfo.setRequesterId("rajesh");
 		requestInfo.setAuthToken("b5da31a4-b400-4d6e-aa46-9ebf33cce933");
-
+		UserInfo userInfo = new UserInfo();
+		String username = "pavan";
+		userInfo.setUsername(username);
+		requestInfo.setUserInfo(userInfo);
+		
 		return requestInfo;
 	}
 }

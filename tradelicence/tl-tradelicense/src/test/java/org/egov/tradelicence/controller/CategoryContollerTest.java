@@ -34,7 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @WebMvcTest(TradeLicenceMasterController.class)
 @ContextConfiguration(classes = { TradeLicenceApplication.class })
-public class TradeLicenceMasterControllerTest {
+public class CategoryContollerTest {
 
 	@MockBean
 	private MasterService masterService;
@@ -114,7 +114,7 @@ public class TradeLicenceMasterControllerTest {
 	}
 
 	@Test
-	public void testSearchStructureClasses() throws Exception {
+	public void testSearchCategory() throws Exception {
 
 		CategoryResponse categoryResponse = new CategoryResponse();
 		List<Category> categories = new ArrayList<>();
