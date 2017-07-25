@@ -1,8 +1,11 @@
 package org.egov.tradelicence.services;
 
+import org.egov.models.BusinessNatureRequest;
+import org.egov.models.BusinessNatureResponse;
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfo;
+import org.egov.models.RequestInfoWrapper;
 import org.egov.models.SubCategoryRequest;
 import org.egov.models.SubCategoryResponse;
 import org.egov.models.UOMRequest;
@@ -115,4 +118,39 @@ public interface MasterService {
 	 */
 	public SubCategoryResponse getSubCategoryMaster(RequestInfo requestInfo, String tenantId, Integer[] ids,
 			String name, String code, Integer categoryId, Integer subCategoryId, Integer pageSize, Integer offSet);
+
+	/**
+	 * Description : service method for creating business nature master
+	 * 
+	 * @param tenantId
+	 * @param BusinessNatureRequest
+	 * @return BusinessNatureResponse
+	 */
+	public BusinessNatureResponse craeateBusinessNatureMaster(String tenantId,
+			BusinessNatureRequest businessNatureRequest);
+
+	/**
+	 * Description : service method for updating business nature master
+	 * 
+	 * 
+	 * @param BusinessNatureRequest
+	 * @return BusinessNatureResponse
+	 */
+	public BusinessNatureResponse updateBusinessNatureMaster(BusinessNatureRequest businessNatureRequest);
+
+	/**
+	 * Description : service method for searching business nature master
+	 * 
+	 * @param requestInfo
+	 * @param tenantId
+	 * @param ids
+	 * @param name
+	 * @param code
+	 * @param pageSize
+	 * @param offSet
+	 * @return BusinessNatureResponse
+	 * @throws Exception
+	 */
+	public BusinessNatureResponse getBusinessNatureMaster(RequestInfo requestInfo, String tenantId,
+			Integer[] ids, String name, String code, Integer pageSize, Integer offSet);
 }

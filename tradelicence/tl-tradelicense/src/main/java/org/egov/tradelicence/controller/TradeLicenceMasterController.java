@@ -1,5 +1,7 @@
 package org.egov.tradelicence.controller;
 
+import org.egov.models.BusinessNatureRequest;
+import org.egov.models.BusinessNatureResponse;
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfoWrapper;
@@ -193,6 +195,60 @@ public class TradeLicenceMasterController {
 
 		return masterService.getSubCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, categoryId,
 				subCategoryId, pageSize, offSet);
+
+	}
+
+	/**
+	 * Description : This api for creating business nature master
+	 * 
+	 * @param tenantId
+	 * @param BusinessNatureRequest
+	 * @return BusinessNatureResponse
+	 */
+	@RequestMapping(path = "/businessnature/_create", method = RequestMethod.POST)
+	public BusinessNatureResponse craeateBusinessNatureMaster(@RequestParam(required = true) String tenantId,
+			@RequestBody BusinessNatureRequest businessNatureRequest) {
+
+		return masterService.craeateBusinessNatureMaster(tenantId, businessNatureRequest);
+
+	}
+
+	/**
+	 * Description : This api for updating business nature master
+	 * 
+	 * 
+	 * @param BusinessNatureRequest
+	 * @return BusinessNatureResponse
+	 */
+	@RequestMapping(path = "/businessnature/_update", method = RequestMethod.POST)
+	public BusinessNatureResponse updateBusinessNatureMaster(@RequestBody BusinessNatureRequest businessNatureRequest) {
+
+		return masterService.updateBusinessNatureMaster(businessNatureRequest);
+
+	}
+
+	/**
+	 * Description : This api for searching business nature master
+	 * 
+	 * @param requestInfo
+	 * @param tenantId
+	 * @param ids
+	 * @param name
+	 * @param code
+	 * @param pageSize
+	 * @param offSet
+	 * @return BusinessNatureResponse
+	 * @throws Exception
+	 */
+	@RequestMapping(path = "/businessnature/_search", method = RequestMethod.POST)
+	public BusinessNatureResponse getBusinessNatureMaster(@RequestBody RequestInfoWrapper requestInfo,
+			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = false) String name, @RequestParam(required = false) String code,
+			@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer offSet)
+			throws Exception {
+
+		return masterService.getBusinessNatureMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, pageSize,
+				offSet);
 
 	}
 }

@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class PropertiesManager {
 
-	@Value("${kafka.config.bootstrap_server_config}")
+	@Value("${spring.kafka.bootstrap.servers}")
 	private String kafkaServerConfig;
 
 	@Value("${auto.offset.reset.config}")
