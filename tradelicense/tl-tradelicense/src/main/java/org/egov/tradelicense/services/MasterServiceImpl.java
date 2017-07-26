@@ -11,7 +11,6 @@ import org.egov.models.Category;
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfo;
-import org.egov.models.RequestInfoWrapper;
 import org.egov.models.ResponseInfo;
 import org.egov.models.ResponseInfoFactory;
 import org.egov.models.SubCategory;
@@ -33,8 +32,6 @@ import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class MasterServiceImpl implements MasterService {
@@ -420,19 +417,21 @@ public class MasterServiceImpl implements MasterService {
 	}
 
 	@Override
-	public BusinessNatureResponse getBusinessNatureMaster(RequestInfo requestInfo, String tenantId,
-			Integer[] ids, String name, String code, Integer pageSize, Integer offSet) {
+	public BusinessNatureResponse getBusinessNatureMaster(RequestInfo requestInfo, String tenantId, Integer[] ids,
+			String name, String code, Integer pageSize, Integer offSet) {
 
 		BusinessNatureResponse businessNatureResponse = new BusinessNatureResponse();
-		/*try {
-			List<BusinessNature> businessNatures = businessNatureRepository.searchBusinessNature(tenantId, ids, name, code, pageSize, offSet);
-			ResponseInfo responseInfo = responseInfoFactory.createResponseInfoFromRequestInfo(requestInfo, true);
-			businessNatureResponse.setBusinessNatures(businessNatures);
-			businessNatureResponse.setResponseInfo(responseInfo);
-
-		} catch (Exception e) {
-			throw new InvalidInputException(requestInfo);
-		}*/
+		/*
+		 * try { List<BusinessNature> businessNatures =
+		 * businessNatureRepository.searchBusinessNature(tenantId, ids, name,
+		 * code, pageSize, offSet); ResponseInfo responseInfo =
+		 * responseInfoFactory.createResponseInfoFromRequestInfo(requestInfo,
+		 * true); businessNatureResponse.setBusinessNatures(businessNatures);
+		 * businessNatureResponse.setResponseInfo(responseInfo);
+		 * 
+		 * } catch (Exception e) { throw new InvalidInputException(requestInfo);
+		 * }
+		 */
 
 		return businessNatureResponse;
 

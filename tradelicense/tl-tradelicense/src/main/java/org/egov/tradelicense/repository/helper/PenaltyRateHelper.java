@@ -10,6 +10,7 @@ import org.egov.models.PenaltyRate;
 import org.egov.models.PenaltyRateRequest;
 import org.egov.models.RequestInfo;
 import org.egov.tradelicense.exception.InvalidInputException;
+import org.egov.tradelicense.repository.PenaltyRateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -20,15 +21,28 @@ public class PenaltyRateHelper {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	@Autowired
+	PenaltyRateRepository penaltyRateRepository;
+
 	public void validatePenaltyRange(String tenantId, PenaltyRateRequest penaltyRateRequest) {
 
 		RequestInfo requestInfo = penaltyRateRequest.getRequestInfo();
-		String applicationType = null;
+		String applicationType = penaltyRateRequest.getPenaltyRates().get(0).getApplicationTypeId().toString();
+		List<PenaltyRate> penaltyRates = new ArrayList<PenaltyRate>();
+		try {
+			penaltyRates = penaltyRateRepository.searchPenaltyRate(tenantId, null, applicationType, null, null);
+		} catch (Exception e) {
+			throw new InvalidInputException(requestInfo);
+		}
+		for (PenaltyRate penaltyRate : penaltyRateRequest.getPenaltyRates()) {
+			penaltyRates.add(penaltyRate);
+		}
+		penaltyRates.sort((s1, s2) -> s1.getFromRange().compareTo(s2.getFromRange()));
 		String oldApplicationType = null;
 		Long oldToRange = null;
 		Long fromRange = null;
 		int count = 0;
-		for (PenaltyRate penaltyRate : penaltyRateRequest.getPenaltyRates()) {
+		for (PenaltyRate penaltyRate : penaltyRates) {
 			if (count > 0) {
 				applicationType = penaltyRate.getApplicationTypeId().toString();
 				fromRange = penaltyRate.getFromRange();
@@ -47,7 +61,44 @@ public class PenaltyRateHelper {
 	}
 
 	public void validateUpdatePenaltyRange(PenaltyRateRequest penaltyRateRequest) {
-
+		RequestInfo requestInfo = penaltyRateRequest.getRequestInfo();
+		String applicationType = penaltyRateRequest.getPenaltyRates().get(0).getApplicationTypeId().toString();
+		List<PenaltyRate> penaltyRates = new ArrayList<PenaltyRate>();
+		String tenantId = penaltyRateRequest.getPenaltyRates().get(0).getTenantId();
+		try {
+			penaltyRates = penaltyRateRepository.searchPenaltyRate(tenantId, null, applicationType, null, null);
+		} catch (Exception e) {
+			throw new InvalidInputException(requestInfo);
+		}
+		for (PenaltyRate penaltyRate : penaltyRateRequest.getPenaltyRates()) {
+			for (int i = 0; i < penaltyRates.size(); i++) {
+				Long id = penaltyRates.get(i).getId();
+				if (penaltyRate.getId() != null && id == penaltyRate.getId()) {
+					penaltyRates.set(i, penaltyRate);
+				}
+			}
+		}
+		penaltyRates.sort((s1, s2) -> s1.getFromRange().compareTo(s2.getFromRange()));
+		String oldApplicationType = null;
+		Long oldToRange = null;
+		Long fromRange = null;
+		int count = 0;
+		for (PenaltyRate penaltyRate : penaltyRates) {
+			if (count > 0) {
+				applicationType = penaltyRate.getApplicationTypeId().toString();
+				fromRange = penaltyRate.getFromRange();
+				if (applicationType.equalsIgnoreCase(oldApplicationType)) {
+					if (!fromRange.equals(oldToRange)) {
+						throw new InvalidInputException(requestInfo);
+					}
+				} else {
+					throw new InvalidInputException(requestInfo);
+				}
+			}
+			oldApplicationType = penaltyRate.getApplicationTypeId().toString();
+			oldToRange = penaltyRate.getToRange();
+			count++;
+		}
 	}
 
 	/**
@@ -66,7 +117,7 @@ public class PenaltyRateHelper {
 			PenaltyRate penaltyRate = new PenaltyRate();
 			penaltyRate.setId(getLong(row.get("id")));
 			penaltyRate.setTenantId(getString(row.get("tenantid")));
-			penaltyRate.setApplicationTypeId(ApplicationTypeEnum.valueOf(getString(row.get("applicationTypeId"))));
+			penaltyRate.setApplicationTypeId(ApplicationTypeEnum.fromValue(getString(row.get("applicationTypeId"))));
 			penaltyRate.setFromRange(getLong(row.get("fromRange")));
 			penaltyRate.setToRange(getLong(row.get("toRange")));
 			penaltyRate.setRate(getDouble(row.get("rate")));

@@ -72,7 +72,7 @@ public class PenaltyRateRepository {
 	public PenaltyRate updatePenaltyRate(PenaltyRate penaltyRate) {
 
 		AuditDetails auditDetails = penaltyRate.getAuditDetails();
-		String penaltyRateUpdateQuery = PenaltyRateQueryBuilder.INSERT_PENALTY_RATE_QUERY;
+		String penaltyRateUpdateQuery = PenaltyRateQueryBuilder.UPDATE_PENALTY_RATE_QUERY;
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
@@ -81,11 +81,11 @@ public class PenaltyRateRepository {
 				ps.setString(1, penaltyRate.getTenantId());
 				ps.setString(2, penaltyRate.getApplicationTypeId().toString());
 				ps.setLong(3, penaltyRate.getFromRange());
-				ps.setLong(3, penaltyRate.getToRange());
-				ps.setDouble(3, penaltyRate.getToRange());
-				ps.setString(4, auditDetails.getLastModifiedBy());
-				ps.setLong(5, auditDetails.getLastModifiedTime());
-				ps.setLong(6, penaltyRate.getId());
+				ps.setLong(4, penaltyRate.getToRange());
+				ps.setDouble(5, penaltyRate.getToRange());
+				ps.setString(6, auditDetails.getLastModifiedBy());
+				ps.setLong(7, auditDetails.getLastModifiedTime());
+				ps.setLong(8, penaltyRate.getId());
 
 				return ps;
 			}
