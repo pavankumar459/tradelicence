@@ -18,11 +18,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PenalityRateRequest {
+public class PenaltyRateRequest {
 
 	@JsonProperty("RequestInfo")
 	private RequestInfo requestInfo;
 
 	@Valid
-	private List<PenalityRate> penalityRates;
+	private List<PenaltyRate> penaltyRates;
 }

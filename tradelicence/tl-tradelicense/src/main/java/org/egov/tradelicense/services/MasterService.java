@@ -21,7 +21,7 @@ public interface MasterService {
 	 * @return CategoryResponse
 	 * @throws Exception
 	 */
-	public CategoryResponse craeateCategoryMaster(String tenantId, CategoryRequest categoryRequest);
+	public CategoryResponse createCategoryMaster(String tenantId, CategoryRequest categoryRequest);
 
 	/**
 	 * Description : service method for updating category master
@@ -91,7 +91,7 @@ public interface MasterService {
 	 * @param SubCategoryRequest
 	 * @return SubCategoryResponse
 	 */
-	public SubCategoryResponse craeateSubCategoryMaster(String tenantId, SubCategoryRequest subCategoryRequest);
+	public SubCategoryResponse createSubCategoryMaster(String tenantId, SubCategoryRequest subCategoryRequest);
 
 	/**
 	 * Description : service method for updating subcategory master
@@ -126,7 +126,7 @@ public interface MasterService {
 	 * @param BusinessNatureRequest
 	 * @return BusinessNatureResponse
 	 */
-	public BusinessNatureResponse craeateBusinessNatureMaster(String tenantId,
+	public BusinessNatureResponse createBusinessNatureMaster(String tenantId,
 			BusinessNatureRequest businessNatureRequest);
 
 	/**

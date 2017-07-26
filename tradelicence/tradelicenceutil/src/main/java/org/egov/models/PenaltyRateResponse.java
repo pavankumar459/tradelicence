@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PenalityRateResponse {
+public class PenaltyRateResponse {
 
 	private ResponseInfo responseInfo;
 
-	private List<PenalityRate> penalityRates;
+	private List<PenaltyRate> penaltyRates;
 }

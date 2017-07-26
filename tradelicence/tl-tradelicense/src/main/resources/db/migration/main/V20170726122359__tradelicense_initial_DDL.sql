@@ -108,3 +108,27 @@ ALTER TABLE ONLY egtl_mstr_business_nature
 ALTER TABLE ONLY egtl_mstr_business_nature
     ADD CONSTRAINT unq_tlbusiness_nature UNIQUE (tenantId, code, name);
 -------------------END-------------------
+    
+------------------START------------------
+CREATE TABLE egtl_mstr_penalty_rate(
+    id bigint NOT NULL,
+    tenantId character varying NOT NULL,
+    applicationTypeId character varying(256) NOT NULL,
+    fromRange bigint NOT NULL,
+    toRange bigint NOT NULL,
+    rate bigint NOT NULL,
+    createdBy character varying,
+    lastModifiedBy character varying,
+    createdTime bigint,
+    lastModifiedTime bigint
+);
+
+CREATE SEQUENCE seq_egtl_mstr_penalty_rate;
+
+ALTER TABLE ONLY egtl_mstr_penalty_rate 
+	ALTER COLUMN id SET DEFAULT nextval('seq_egtl_mstr_penalty_rate');
+ALTER TABLE ONLY egtl_mstr_penalty_rate
+    ADD CONSTRAINT pk_egtl_mstr_penalty_rate PRIMARY KEY (id);
+ALTER TABLE ONLY egtl_mstr_penalty_rate
+    ADD CONSTRAINT unq_tlpenalty_rate UNIQUE (tenantId, applicationTypeId, fromRange, toRange);
+-------------------END-------------------

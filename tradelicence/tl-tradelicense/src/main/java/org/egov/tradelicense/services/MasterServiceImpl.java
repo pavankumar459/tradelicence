@@ -59,7 +59,7 @@ public class MasterServiceImpl implements MasterService {
 
 	@Override
 	@Transactional
-	public CategoryResponse craeateCategoryMaster(String tenantId, CategoryRequest categoryRequest) {
+	public CategoryResponse createCategoryMaster(String tenantId, CategoryRequest categoryRequest) {
 
 		for (Category category : categoryRequest.getCategories()) {
 
@@ -239,7 +239,7 @@ public class MasterServiceImpl implements MasterService {
 
 	@Override
 	@Transactional
-	public SubCategoryResponse craeateSubCategoryMaster(String tenantId, SubCategoryRequest subCategoryRequest) {
+	public SubCategoryResponse createSubCategoryMaster(String tenantId, SubCategoryRequest subCategoryRequest) {
 
 		for (SubCategory subCategory : subCategoryRequest.getSubCategories()) {
 
@@ -349,7 +349,7 @@ public class MasterServiceImpl implements MasterService {
 
 	@Override
 	@Transactional
-	public BusinessNatureResponse craeateBusinessNatureMaster(String tenantId,
+	public BusinessNatureResponse createBusinessNatureMaster(String tenantId,
 			BusinessNatureRequest businessNatureRequest) {
 
 		for (BusinessNature businessNature : businessNatureRequest.getBusinessNatures()) {

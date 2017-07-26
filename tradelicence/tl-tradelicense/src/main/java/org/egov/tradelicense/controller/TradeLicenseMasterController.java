@@ -4,12 +4,15 @@ import org.egov.models.BusinessNatureRequest;
 import org.egov.models.BusinessNatureResponse;
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
+import org.egov.models.PenaltyRateRequest;
+import org.egov.models.PenaltyRateResponse;
 import org.egov.models.RequestInfoWrapper;
 import org.egov.models.SubCategoryRequest;
 import org.egov.models.SubCategoryResponse;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
 import org.egov.tradelicense.services.MasterService;
+import org.egov.tradelicense.services.PenaltyRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,9 @@ public class TradeLicenseMasterController {
 	@Autowired
 	MasterService masterService;
 
+	@Autowired
+	PenaltyRateService penaltyRateService;
+
 	/**
 	 * Description : This api for creating category master
 	 * 
@@ -40,10 +46,10 @@ public class TradeLicenseMasterController {
 	 */
 
 	@RequestMapping(path = "/category/_create", method = RequestMethod.POST)
-	public CategoryResponse craeateCategoryMaster(@RequestParam(required = true) String tenantId,
+	public CategoryResponse createCategoryMaster(@RequestParam(required = true) String tenantId,
 			@RequestBody CategoryRequest categoryRequest) {
 
-		return masterService.craeateCategoryMaster(tenantId, categoryRequest);
+		return masterService.createCategoryMaster(tenantId, categoryRequest);
 
 	}
 
@@ -149,10 +155,10 @@ public class TradeLicenseMasterController {
 	 * @return SubCategoryResponse
 	 */
 	@RequestMapping(path = "/subcategory/_create", method = RequestMethod.POST)
-	public SubCategoryResponse craeateSubCategoryMaster(@RequestParam(required = true) String tenantId,
+	public SubCategoryResponse createSubCategoryMaster(@RequestParam(required = true) String tenantId,
 			@RequestBody SubCategoryRequest subCategoryRequest) {
 
-		return masterService.craeateSubCategoryMaster(tenantId, subCategoryRequest);
+		return masterService.createSubCategoryMaster(tenantId, subCategoryRequest);
 
 	}
 
@@ -206,10 +212,10 @@ public class TradeLicenseMasterController {
 	 * @return BusinessNatureResponse
 	 */
 	@RequestMapping(path = "/businessnature/_create", method = RequestMethod.POST)
-	public BusinessNatureResponse craeateBusinessNatureMaster(@RequestParam(required = true) String tenantId,
+	public BusinessNatureResponse createBusinessNatureMaster(@RequestParam(required = true) String tenantId,
 			@RequestBody BusinessNatureRequest businessNatureRequest) {
 
-		return masterService.craeateBusinessNatureMaster(tenantId, businessNatureRequest);
+		return masterService.createBusinessNatureMaster(tenantId, businessNatureRequest);
 
 	}
 
@@ -249,6 +255,57 @@ public class TradeLicenseMasterController {
 
 		return masterService.getBusinessNatureMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, pageSize,
 				offSet);
+
+	}
+
+	/**
+	 * Description : This api for creating penaltyRate master
+	 * 
+	 * @param tenantId
+	 * @param PenaltyRateRequest
+	 * @return PenaltyRateResponse
+	 */
+
+	@RequestMapping(path = "/penaltyrate/_create", method = RequestMethod.POST)
+	public PenaltyRateResponse createPenaltyRateMaster(@RequestParam(required = true) String tenantId,
+			@RequestBody PenaltyRateRequest penaltyRateRequest) {
+
+		return penaltyRateService.createPenaltyRateMaster(tenantId, penaltyRateRequest);
+	}
+
+	/**
+	 * Description : This api for updating penaltyRate master
+	 * 
+	 * @param PenaltyRateRequest
+	 * @return PenaltyRateResponse
+	 */
+
+	@RequestMapping(path = "/penaltyrate/_update", method = RequestMethod.POST)
+	public PenaltyRateResponse createPenaltyRateMaster(@RequestBody PenaltyRateRequest penaltyRateRequest) {
+
+		return penaltyRateService.updatePenaltyRateMaster(penaltyRateRequest);
+	}
+
+	/**
+	 * Description : This api for searching penaltyRate master
+	 * 
+	 * @param requestInfo
+	 * @param tenantId
+	 * @param ids
+	 * @param applicationTypeId
+	 * @param pageSize
+	 * @param offSet
+	 * @return PenaltyRateResponse
+	 * @throws Exception
+	 */
+	@RequestMapping(path = "/penaltyrate/_search", method = RequestMethod.POST)
+	public PenaltyRateResponse getPenaltyRateMaster(@RequestBody RequestInfoWrapper requestInfo,
+			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = true) String applicationTypeId, @RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = false) Integer offSet) throws Exception {
+
+		return penaltyRateService.getPenaltyRateMaster(requestInfo.getRequestInfo(), tenantId, ids, applicationTypeId,
+				pageSize, offSet);
 
 	}
 }

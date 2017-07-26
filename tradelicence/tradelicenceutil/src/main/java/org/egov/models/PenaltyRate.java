@@ -3,6 +3,8 @@ package org.egov.models;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.egov.enums.ApplicationTypeEnum;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PenalityRate {
+public class PenaltyRate {
 
 	private Long id = null;
 
@@ -27,7 +29,7 @@ public class PenalityRate {
 	private String tenantId = null;
 
 	@NotNull
-	private Long applicationTypeId = null;
+	private ApplicationTypeEnum applicationTypeId = null;
 
 	@NotNull
 	private Long fromRange = null;
@@ -36,7 +38,7 @@ public class PenalityRate {
 	private Long toRange = null;
 
 	@NotNull
-	private Long rate = null;
+	private Double rate = null;
 
 	@JsonProperty("auditDetails")
 	private AuditDetails auditDetails = null;

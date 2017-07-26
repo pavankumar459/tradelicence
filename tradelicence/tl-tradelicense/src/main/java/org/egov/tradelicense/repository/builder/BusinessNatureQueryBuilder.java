@@ -3,7 +3,8 @@ package org.egov.tradelicense.repository.builder;
 import java.util.List;
 
 /**
- * This Class contains INSERT, UPDATE and SELECT queries for BusinessNature API's
+ * This Class contains INSERT, UPDATE and SELECT queries for BusinessNature
+ * API's
  * 
  * @author Pavan Kumar Kamma
  */
