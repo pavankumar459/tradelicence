@@ -4,7 +4,7 @@
   <artifactId>tl-tradelicense</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>tl-tradelicense</name>
-  <description>tradelicence service</description>
+  <description>tradelicense service</description>
   
   <parent>
 		<groupId>org.springframework.boot</groupId>
@@ -62,7 +62,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.egov</groupId>
-			<artifactId>tradelicenceutil</artifactId>
+			<artifactId>tradelicenseutil</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

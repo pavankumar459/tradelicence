@@ -15,7 +15,9 @@ import lombok.NoArgsConstructor;
  * Error object will be returned as a part of reponse body in conjunction with
  * ResponseInfo as part of ErrorResponse whenever the request processing status
  * in the ResponseInfo is FAILED. HTTP return in this scenario will usually be
- * HTTP 400. Author : Pavan Kumar Kamma
+ * HTTP 400.
+ * 
+ * @author : Pavan Kumar Kamma
  */
 
 @Data
