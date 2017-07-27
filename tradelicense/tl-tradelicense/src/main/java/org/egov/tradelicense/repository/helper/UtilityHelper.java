@@ -4,8 +4,11 @@ import java.util.Date;
 
 import org.egov.models.AuditDetails;
 import org.egov.models.RequestInfo;
+import org.egov.models.SubCategory;
+import org.egov.models.SubCategoryDetail;
 import org.egov.models.UserInfo;
 import org.egov.tradelicense.repository.builder.UtilityBuilder;
+import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -48,7 +51,55 @@ public class UtilityHelper {
 		return isExists;
 
 	}
-	
+
+	public Boolean checkWhetherCategoryExists(SubCategory subCategory) {
+
+		Boolean isExists = Boolean.FALSE;
+		String tableName = ConstantUtility.CATEGORY_TABLE_NAME;
+		Long categoryId = subCategory.getCategoryId();
+		String query = UtilityBuilder.getCategoryValidationQuery(tableName, categoryId);
+		int count = 0;
+
+		try {
+
+			count = (Integer) jdbcTemplate.queryForObject(query, Integer.class);
+
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+
+		}
+
+		if (count > 0)
+			isExists = Boolean.TRUE;
+
+		return isExists;
+	}
+
+	public Boolean checkWhetherUomExists(SubCategoryDetail subCategoryDetail) {
+
+		Boolean isExists = Boolean.FALSE;
+		String tableName = ConstantUtility.UOM_TABLE_NAME;
+		String uomId = subCategoryDetail.getUomId();
+		String query = UtilityBuilder.getUomValidationQuery(tableName, uomId);
+		int count = 0;
+
+		try {
+
+			count = (Integer) jdbcTemplate.queryForObject(query, Integer.class);
+
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+
+		}
+
+		if (count > 0)
+			isExists = Boolean.TRUE;
+
+		return isExists;
+	}
+
 	public AuditDetails getCreateMasterAuditDetals(RequestInfo requestInfo) {
 
 		AuditDetails auditDetails = new AuditDetails();

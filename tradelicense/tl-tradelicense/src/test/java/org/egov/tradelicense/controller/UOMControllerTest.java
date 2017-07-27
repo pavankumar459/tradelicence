@@ -20,8 +20,7 @@ import org.egov.models.UOM;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
 import org.egov.tradelicense.TradeLicenseApplication;
-import org.egov.tradelicense.controller.TradeLicenseMasterController;
-import org.egov.tradelicense.services.MasterService;
+import org.egov.tradelicense.services.UOMService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ import org.springframework.test.web.servlet.MockMvc;
 public class UOMControllerTest {
 
 	@MockBean
-	private MasterService masterService;
+	private UOMService uomService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -61,7 +60,7 @@ public class UOMControllerTest {
 
 		try {
 
-			when(masterService.createUomMaster(any(String.class), any(UOMRequest.class))).thenReturn(uomResponse);
+			when(uomService.createUomMaster(any(String.class), any(UOMRequest.class))).thenReturn(uomResponse);
 
 			mockMvc.perform(post("/tradelicense/uom/_create").param("tenantId", "default")
 					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("uomCreateRequest.json")))
@@ -96,7 +95,7 @@ public class UOMControllerTest {
 
 		try {
 
-			when(masterService.updateUomMaster(any(UOMRequest.class))).thenReturn(uomResponse);
+			when(uomService.updateUomMaster(any(UOMRequest.class))).thenReturn(uomResponse);
 			mockMvc.perform(post("/tradelicense/uom/_update").param("tenantId", "default")
 					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("uomUpdateRequest.json")))
 					.andExpect(status().isOk())
@@ -131,7 +130,7 @@ public class UOMControllerTest {
 
 		try {
 
-			when(masterService.getUomMaster(any(RequestInfo.class), any(String.class), any(Integer[].class),
+			when(uomService.getUomMaster(any(RequestInfo.class), any(String.class), any(Integer[].class),
 					any(String.class), any(String.class), any(Boolean.class), any(Integer.class), any(Integer.class)))
 							.thenReturn(uomResponse);
 

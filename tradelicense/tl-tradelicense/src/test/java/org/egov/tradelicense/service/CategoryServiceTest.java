@@ -16,7 +16,7 @@ import org.egov.models.UserInfo;
 import org.egov.tradelicense.TradeLicenseApplication;
 import org.egov.tradelicense.config.PropertiesManager;
 import org.egov.tradelicense.exception.DuplicateIdException;
-import org.egov.tradelicense.services.MasterService;
+import org.egov.tradelicense.services.CategoryService;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class CategoryServiceTest {
 
 	@Autowired
-	MasterService masterService;
+	CategoryService categoryService;
 
 	@Autowired
 	private PropertiesManager propertiesManager;
@@ -71,7 +71,7 @@ public class CategoryServiceTest {
 		categoryRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.createCategoryMaster(tenantId, categoryRequest);
+			CategoryResponse categoryResponse = categoryService.createCategoryMaster(tenantId, categoryRequest);
 			if (categoryResponse.getCategories().size() == 0) {
 				assertTrue(false);
 			}
@@ -96,7 +96,7 @@ public class CategoryServiceTest {
 		requestInfoWrapper.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.getCategoryMaster(requestInfo, tenantId,
+			CategoryResponse categoryResponse = categoryService.getCategoryMaster(requestInfo, tenantId,
 					new Integer[] { categoryId.intValue() }, name, code, pageSize, offset);
 			if (categoryResponse.getCategories().size() == 0)
 				assertTrue(false);
@@ -135,7 +135,7 @@ public class CategoryServiceTest {
 		categoryRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.createCategoryMaster(tenantId, categoryRequest);
+			CategoryResponse categoryResponse = categoryService.createCategoryMaster(tenantId, categoryRequest);
 			if (categoryResponse.getCategories().size() == 0) {
 				assertTrue(false);
 			}
@@ -179,7 +179,7 @@ public class CategoryServiceTest {
 		categoryRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.updateCategoryMaster(categoryRequest);
+			CategoryResponse categoryResponse = categoryService.updateCategoryMaster(categoryRequest);
 
 			if (categoryResponse.getCategories().size() == 0)
 				assertTrue(false);
@@ -207,7 +207,7 @@ public class CategoryServiceTest {
 		requestInfoWrapper.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.getCategoryMaster(requestInfo, tenantId,
+			CategoryResponse categoryResponse = categoryService.getCategoryMaster(requestInfo, tenantId,
 					new Integer[] { categoryId.intValue() }, updatedName, code, pageSize, offset);
 			if (categoryResponse.getCategories().size() == 0)
 				assertTrue(false);
@@ -246,7 +246,7 @@ public class CategoryServiceTest {
 		categoryRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.updateCategoryMaster(categoryRequest);
+			CategoryResponse categoryResponse = categoryService.updateCategoryMaster(categoryRequest);
 
 			if (categoryResponse.getCategories().size() == 0)
 				assertTrue(false);
@@ -285,7 +285,7 @@ public class CategoryServiceTest {
 		categoryRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.updateCategoryMaster(categoryRequest);
+			CategoryResponse categoryResponse = categoryService.updateCategoryMaster(categoryRequest);
 
 			if (categoryResponse.getCategories().size() == 0)
 				assertTrue(false);
@@ -313,7 +313,7 @@ public class CategoryServiceTest {
 		requestInfoWrapper.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = masterService.getCategoryMaster(requestInfo, tenantId,
+			CategoryResponse categoryResponse = categoryService.getCategoryMaster(requestInfo, tenantId,
 					new Integer[] { categoryId.intValue() }, updatedName, updatedCode, pageSize, offset);
 			if (categoryResponse.getCategories().size() == 0)
 				assertTrue(false);
@@ -340,7 +340,7 @@ public class CategoryServiceTest {
 		String username = "pavan";
 		userInfo.setUsername(username);
 		requestInfo.setUserInfo(userInfo);
-		
+
 		return requestInfo;
 	}
 }

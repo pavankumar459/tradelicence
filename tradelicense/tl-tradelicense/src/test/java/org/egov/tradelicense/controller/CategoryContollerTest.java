@@ -20,8 +20,7 @@ import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfo;
 import org.egov.models.ResponseInfo;
 import org.egov.tradelicense.TradeLicenseApplication;
-import org.egov.tradelicense.controller.TradeLicenseMasterController;
-import org.egov.tradelicense.services.MasterService;
+import org.egov.tradelicense.services.CategoryService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ import org.springframework.test.web.servlet.MockMvc;
 public class CategoryContollerTest {
 
 	@MockBean
-	private MasterService masterService;
+	private CategoryService categoryService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -61,7 +60,7 @@ public class CategoryContollerTest {
 
 		try {
 
-			when(masterService.createCategoryMaster(any(String.class), any(CategoryRequest.class)))
+			when(categoryService.createCategoryMaster(any(String.class), any(CategoryRequest.class)))
 					.thenReturn(categoryResponse);
 
 			mockMvc.perform(post("/tradelicense/category/_create").param("tenantId", "default")
@@ -97,7 +96,7 @@ public class CategoryContollerTest {
 
 		try {
 
-			when(masterService.updateCategoryMaster(any(CategoryRequest.class))).thenReturn(categoryResponse);
+			when(categoryService.updateCategoryMaster(any(CategoryRequest.class))).thenReturn(categoryResponse);
 			mockMvc.perform(post("/tradelicense/category/_update").param("tenantId", "default")
 					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("categoryUpdateRequest.json")))
 					.andExpect(status().isOk())
@@ -132,7 +131,7 @@ public class CategoryContollerTest {
 
 		try {
 
-			when(masterService.getCategoryMaster(any(RequestInfo.class), any(String.class), any(Integer[].class),
+			when(categoryService.getCategoryMaster(any(RequestInfo.class), any(String.class), any(Integer[].class),
 					any(String.class), any(String.class), any(Integer.class), any(Integer.class)))
 							.thenReturn(categoryResponse);
 

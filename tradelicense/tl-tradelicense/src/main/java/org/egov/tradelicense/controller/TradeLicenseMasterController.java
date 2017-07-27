@@ -11,8 +11,11 @@ import org.egov.models.SubCategoryRequest;
 import org.egov.models.SubCategoryResponse;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
-import org.egov.tradelicense.services.MasterService;
+import org.egov.tradelicense.services.BusinessNatureService;
+import org.egov.tradelicense.services.CategoryService;
 import org.egov.tradelicense.services.PenaltyRateService;
+import org.egov.tradelicense.services.SubCategoryService;
+import org.egov.tradelicense.services.UOMService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +35,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class TradeLicenseMasterController {
 
 	@Autowired
-	MasterService masterService;
+	CategoryService categoryService;
+
+	@Autowired
+	UOMService uomService;
+
+	@Autowired
+	SubCategoryService subCategoryService;
+
+	@Autowired
+	BusinessNatureService businessNatureService;
 
 	@Autowired
 	PenaltyRateService penaltyRateService;
@@ -49,7 +61,7 @@ public class TradeLicenseMasterController {
 	public CategoryResponse createCategoryMaster(@RequestParam(required = true) String tenantId,
 			@RequestBody CategoryRequest categoryRequest) {
 
-		return masterService.createCategoryMaster(tenantId, categoryRequest);
+		return categoryService.createCategoryMaster(tenantId, categoryRequest);
 
 	}
 
@@ -63,7 +75,7 @@ public class TradeLicenseMasterController {
 	@RequestMapping(path = "/category/_update", method = RequestMethod.POST)
 	public CategoryResponse updateCategoryMaster(@RequestBody CategoryRequest categoryRequest) {
 
-		return masterService.updateCategoryMaster(categoryRequest);
+		return categoryService.updateCategoryMaster(categoryRequest);
 
 	}
 
@@ -87,7 +99,7 @@ public class TradeLicenseMasterController {
 			@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer offSet)
 			throws Exception {
 
-		return masterService.getCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, pageSize,
+		return categoryService.getCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, pageSize,
 				offSet);
 
 	}
@@ -103,7 +115,7 @@ public class TradeLicenseMasterController {
 	public UOMResponse createUomMaster(@RequestParam(required = true) String tenantId,
 			@RequestBody UOMRequest uomRequest) {
 
-		return masterService.createUomMaster(tenantId, uomRequest);
+		return uomService.createUomMaster(tenantId, uomRequest);
 
 	}
 
@@ -117,7 +129,7 @@ public class TradeLicenseMasterController {
 	@RequestMapping(path = "/uom/_update", method = RequestMethod.POST)
 	public UOMResponse updateUomMaster(@RequestBody UOMRequest uomRequest) {
 
-		return masterService.updateUomMaster(uomRequest);
+		return uomService.updateUomMaster(uomRequest);
 
 	}
 
@@ -142,7 +154,7 @@ public class TradeLicenseMasterController {
 			@RequestParam(required = false) Boolean active, @RequestParam(required = false) Integer pageSize,
 			@RequestParam(required = false) Integer offSet) throws Exception {
 
-		return masterService.getUomMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, active, pageSize,
+		return uomService.getUomMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, active, pageSize,
 				offSet);
 
 	}
@@ -158,7 +170,7 @@ public class TradeLicenseMasterController {
 	public SubCategoryResponse createSubCategoryMaster(@RequestParam(required = true) String tenantId,
 			@RequestBody SubCategoryRequest subCategoryRequest) {
 
-		return masterService.createSubCategoryMaster(tenantId, subCategoryRequest);
+		return subCategoryService.createSubCategoryMaster(tenantId, subCategoryRequest);
 
 	}
 
@@ -172,7 +184,7 @@ public class TradeLicenseMasterController {
 	@RequestMapping(path = "/subcategory/_update", method = RequestMethod.POST)
 	public SubCategoryResponse updateSubCategoryMaster(@RequestBody SubCategoryRequest subCategoryRequest) {
 
-		return masterService.updateSubCategoryMaster(subCategoryRequest);
+		return subCategoryService.updateSubCategoryMaster(subCategoryRequest);
 
 	}
 
@@ -199,8 +211,8 @@ public class TradeLicenseMasterController {
 			@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer offSet)
 			throws Exception {
 
-		return masterService.getSubCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, categoryId,
-				subCategoryId, pageSize, offSet);
+		return subCategoryService.getSubCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code,
+				categoryId, subCategoryId, pageSize, offSet);
 
 	}
 
@@ -215,7 +227,7 @@ public class TradeLicenseMasterController {
 	public BusinessNatureResponse createBusinessNatureMaster(@RequestParam(required = true) String tenantId,
 			@RequestBody BusinessNatureRequest businessNatureRequest) {
 
-		return masterService.createBusinessNatureMaster(tenantId, businessNatureRequest);
+		return businessNatureService.createBusinessNatureMaster(tenantId, businessNatureRequest);
 
 	}
 
@@ -229,7 +241,7 @@ public class TradeLicenseMasterController {
 	@RequestMapping(path = "/businessnature/_update", method = RequestMethod.POST)
 	public BusinessNatureResponse updateBusinessNatureMaster(@RequestBody BusinessNatureRequest businessNatureRequest) {
 
-		return masterService.updateBusinessNatureMaster(businessNatureRequest);
+		return businessNatureService.updateBusinessNatureMaster(businessNatureRequest);
 
 	}
 
@@ -253,8 +265,8 @@ public class TradeLicenseMasterController {
 			@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer offSet)
 			throws Exception {
 
-		return masterService.getBusinessNatureMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, pageSize,
-				offSet);
+		return businessNatureService.getBusinessNatureMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code,
+				pageSize, offSet);
 
 	}
 

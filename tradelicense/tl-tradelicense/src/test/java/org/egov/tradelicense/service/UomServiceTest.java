@@ -16,7 +16,7 @@ import org.egov.models.UserInfo;
 import org.egov.tradelicense.TradeLicenseApplication;
 import org.egov.tradelicense.config.PropertiesManager;
 import org.egov.tradelicense.exception.DuplicateIdException;
-import org.egov.tradelicense.services.MasterService;
+import org.egov.tradelicense.services.UOMService;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class UomServiceTest {
 
 	@Autowired
-	MasterService masterService;
+	UOMService uomService;
 
 	@Autowired
 	private PropertiesManager propertiesManager;
@@ -73,7 +73,7 @@ public class UomServiceTest {
 		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = masterService.createUomMaster(tenantId, uomRequest);
+			UOMResponse uomResponse = uomService.createUomMaster(tenantId, uomRequest);
 			if (uomResponse.getUoms().size() == 0) {
 				assertTrue(false);
 			}
@@ -98,8 +98,8 @@ public class UomServiceTest {
 		requestInfoWrapper.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = masterService.getUomMaster(requestInfo, tenantId,
-					new Integer[] { uomId.intValue() }, name, code, active, pageSize, offset);
+			UOMResponse uomResponse = uomService.getUomMaster(requestInfo, tenantId, new Integer[] { uomId.intValue() },
+					name, code, active, pageSize, offset);
 			if (uomResponse.getUoms().size() == 0)
 				assertTrue(false);
 
@@ -138,7 +138,7 @@ public class UomServiceTest {
 		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = masterService.createUomMaster(tenantId, uomRequest);
+			UOMResponse uomResponse = uomService.createUomMaster(tenantId, uomRequest);
 			if (uomResponse.getUoms().size() == 0) {
 				assertTrue(false);
 			}
@@ -184,7 +184,7 @@ public class UomServiceTest {
 		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = masterService.updateUomMaster(uomRequest);
+			UOMResponse uomResponse = uomService.updateUomMaster(uomRequest);
 
 			if (uomResponse.getUoms().size() == 0)
 				assertTrue(false);
@@ -212,8 +212,8 @@ public class UomServiceTest {
 		requestInfoWrapper.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = masterService.getUomMaster(requestInfo, tenantId,
-					new Integer[] { uomId.intValue() }, updatedName, code, active, pageSize, offset);
+			UOMResponse uomResponse = uomService.getUomMaster(requestInfo, tenantId, new Integer[] { uomId.intValue() },
+					updatedName, code, active, pageSize, offset);
 			if (uomResponse.getUoms().size() == 0)
 				assertTrue(false);
 
@@ -252,7 +252,7 @@ public class UomServiceTest {
 		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = masterService.updateUomMaster(uomRequest);
+			UOMResponse uomResponse = uomService.updateUomMaster(uomRequest);
 
 			if (uomResponse.getUoms().size() == 0)
 				assertTrue(false);
@@ -292,7 +292,7 @@ public class UomServiceTest {
 		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = masterService.updateUomMaster(uomRequest);
+			UOMResponse uomResponse = uomService.updateUomMaster(uomRequest);
 
 			if (uomResponse.getUoms().size() == 0)
 				assertTrue(false);
@@ -320,8 +320,8 @@ public class UomServiceTest {
 		requestInfoWrapper.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = masterService.getUomMaster(requestInfo, tenantId,
-					new Integer[] { uomId.intValue() }, updatedName, updatedCode, active, pageSize, offset);
+			UOMResponse uomResponse = uomService.getUomMaster(requestInfo, tenantId, new Integer[] { uomId.intValue() },
+					updatedName, updatedCode, active, pageSize, offset);
 			if (uomResponse.getUoms().size() == 0)
 				assertTrue(false);
 
@@ -347,7 +347,7 @@ public class UomServiceTest {
 		String username = "pavan";
 		userInfo.setUsername(username);
 		requestInfo.setUserInfo(userInfo);
-		
+
 		return requestInfo;
 	}
 }
