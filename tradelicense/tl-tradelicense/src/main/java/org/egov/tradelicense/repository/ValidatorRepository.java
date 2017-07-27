@@ -1,7 +1,5 @@
 package org.egov.tradelicense.repository;
 
-import org.egov.models.SubCategory;
-import org.egov.models.SubCategoryDetail;
 import org.egov.tradelicense.repository.builder.UtilityBuilder;
 import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +45,7 @@ public class ValidatorRepository {
 
 	}
 
-	public Boolean checkWhetherCategoryExists(SubCategory subCategory) {
+	/*public Boolean checkWhetherCategoryExists(SubCategory subCategory) {
 
 		Boolean isExists = Boolean.FALSE;
 		String tableName = ConstantUtility.CATEGORY_TABLE_NAME;
@@ -93,5 +91,5 @@ public class ValidatorRepository {
 			isExists = Boolean.TRUE;
 
 		return isExists;
-	}
+	}*/
 }

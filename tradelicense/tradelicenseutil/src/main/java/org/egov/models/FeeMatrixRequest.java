@@ -24,5 +24,5 @@ public class FeeMatrixRequest {
 	private RequestInfo requestInfo;
 
 	@Valid
-	private List<FeeMatrix> feeMatrices;
+	private List<FeeMatrix> feeMatrixs;
 }

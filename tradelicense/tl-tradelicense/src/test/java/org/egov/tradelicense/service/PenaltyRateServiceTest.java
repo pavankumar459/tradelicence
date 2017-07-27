@@ -41,7 +41,7 @@ public class PenaltyRateServiceTest {
 
 	public Long penaltyRateId = 1l;
 	public String tenantId = "default";
-	public String applicationTypeId = "New";
+	public String applicationType = "New";
 	public Long fromRange = -9999l;
 	public Long toRange = 10l;
 	public Double rate = 50d;
@@ -56,7 +56,7 @@ public class PenaltyRateServiceTest {
 
 		PenaltyRate penaltyRate = new PenaltyRate();
 		penaltyRate.setTenantId(tenantId);
-		penaltyRate.setApplicationTypeId(ApplicationTypeEnum.fromValue(applicationTypeId));
+		penaltyRate.setApplicationType(ApplicationTypeEnum.fromValue(applicationType));
 		penaltyRate.setFromRange(fromRange);
 		penaltyRate.setToRange(toRange);
 		penaltyRate.setRate(rate);
@@ -103,7 +103,7 @@ public class PenaltyRateServiceTest {
 
 		try {
 			PenaltyRateResponse penaltyRateResponse = penaltyRateService.getPenaltyRateMaster(requestInfo, tenantId,
-					new Integer[] { penaltyRateId.intValue() }, applicationTypeId, pageSize, offset);
+					new Integer[] { penaltyRateId.intValue() }, applicationType, pageSize, offset);
 			if (penaltyRateResponse.getPenaltyRates().size() == 0)
 				assertTrue(false);
 
@@ -124,7 +124,7 @@ public class PenaltyRateServiceTest {
 		PenaltyRate penaltyRate = new PenaltyRate();
 		penaltyRate.setId(penaltyRateId);
 		penaltyRate.setTenantId(tenantId);
-		penaltyRate.setApplicationTypeId(ApplicationTypeEnum.fromValue(applicationTypeId));
+		penaltyRate.setApplicationType(ApplicationTypeEnum.fromValue(applicationType));
 		penaltyRate.setFromRange(updatedFromRange);
 		penaltyRate.setToRange(updatedToRange);
 		penaltyRate.setRate(rate);

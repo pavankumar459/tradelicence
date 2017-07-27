@@ -29,7 +29,7 @@ public class PenaltyRate {
 	private String tenantId = null;
 
 	@NotNull
-	private ApplicationTypeEnum applicationTypeId = null;
+	private ApplicationTypeEnum applicationType = null;
 
 	@NotNull
 	private Long fromRange = null;

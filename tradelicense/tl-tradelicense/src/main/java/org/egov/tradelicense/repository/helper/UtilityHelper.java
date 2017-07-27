@@ -4,11 +4,8 @@ import java.util.Date;
 
 import org.egov.models.AuditDetails;
 import org.egov.models.RequestInfo;
-import org.egov.models.SubCategory;
-import org.egov.models.SubCategoryDetail;
 import org.egov.models.UserInfo;
 import org.egov.tradelicense.repository.builder.UtilityBuilder;
-import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -52,7 +49,7 @@ public class UtilityHelper {
 
 	}
 
-	public Boolean checkWhetherCategoryExists(SubCategory subCategory) {
+	/*public Boolean checkWhetherCategoryExists(SubCategory subCategory) {
 
 		Boolean isExists = Boolean.FALSE;
 		String tableName = ConstantUtility.CATEGORY_TABLE_NAME;
@@ -98,7 +95,7 @@ public class UtilityHelper {
 			isExists = Boolean.TRUE;
 
 		return isExists;
-	}
+	}*/
 
 	public AuditDetails getCreateMasterAuditDetals(RequestInfo requestInfo) {
 

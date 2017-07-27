@@ -1,8 +1,9 @@
 package org.egov.models;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.egov.enums.ApplicationTypeEnum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,15 +12,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This class describe the set of fields contained in a Trade license Nature of
- * Business
+ * This class describe the set of fields contained in a Trade license
+ * DocumentType
  * 
  * @author Pavan Kumar Kamma
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BusinessNature {
+public class DocumentType {
 
 	private Long id = null;
 
@@ -29,12 +30,14 @@ public class BusinessNature {
 	private String tenantId = null;
 
 	@NotNull
-	@Max(value = 256)
+	@Size(min = 4, max = 256)
 	private String name = null;
 
-	@NotNull
-	@Max(value = 256)
-	private String code = null;
+	private Boolean mandatory = true;
+
+	private Boolean enabled = true;
+
+	private ApplicationTypeEnum applicationType = null;
 
 	@JsonProperty("auditDetails")
 	private AuditDetails auditDetails = null;

@@ -20,10 +20,8 @@ import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfo;
 import org.egov.models.ResponseInfo;
 import org.egov.tradelicense.TradeLicenseApplication;
-import org.egov.tradelicense.services.BusinessNatureService;
 import org.egov.tradelicense.services.CategoryService;
 import org.egov.tradelicense.services.PenaltyRateService;
-import org.egov.tradelicense.services.SubCategoryService;
 import org.egov.tradelicense.services.UOMService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,13 +43,7 @@ public class CategoryContollerTest {
 
 	@MockBean
 	private UOMService uomService;
-
-	@MockBean
-	private SubCategoryService subCategoryService;
-
-	@MockBean
-	private BusinessNatureService businessNatureService;
-
+	
 	@MockBean
 	private PenaltyRateService penaltyRateService;
 

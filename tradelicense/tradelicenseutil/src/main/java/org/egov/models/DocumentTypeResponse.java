@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 
 /**
  * This class describe the set of fields contained in a Trade license
- * BusinessNatureResponse
+ * DocumentTypeResponse
  * 
  * @author Pavan Kumar Kamma
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BusinessNatureResponse {
+public class DocumentTypeResponse {
 
 	private ResponseInfo responseInfo;
 
-	private List<BusinessNature> BusinessNatures;
+	private List<DocumentType> documentTypes;
 }

@@ -44,7 +44,7 @@ public class PenaltyRateRepository {
 				final PreparedStatement ps = connection.prepareStatement(penaltyRateInsertQuery, new String[] { "id" });
 
 				ps.setString(1, penaltyRate.getTenantId());
-				ps.setString(2, penaltyRate.getApplicationTypeId().toString());
+				ps.setString(2, penaltyRate.getApplicationType().toString());
 				ps.setLong(3, penaltyRate.getFromRange());
 				ps.setLong(4, penaltyRate.getToRange());
 				ps.setDouble(5, penaltyRate.getRate());
@@ -79,7 +79,7 @@ public class PenaltyRateRepository {
 				final PreparedStatement ps = connection.prepareStatement(penaltyRateUpdateQuery);
 
 				ps.setString(1, penaltyRate.getTenantId());
-				ps.setString(2, penaltyRate.getApplicationTypeId().toString());
+				ps.setString(2, penaltyRate.getApplicationType().toString());
 				ps.setLong(3, penaltyRate.getFromRange());
 				ps.setLong(4, penaltyRate.getToRange());
 				ps.setDouble(5, penaltyRate.getToRange());

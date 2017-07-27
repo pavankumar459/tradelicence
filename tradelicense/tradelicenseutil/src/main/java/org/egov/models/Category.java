@@ -1,8 +1,11 @@
 package org.egov.models;
 
-import javax.validation.constraints.Max;
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.egov.enums.BusinessNatureEnum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,12 +31,18 @@ public class Category {
 	private String tenantId = null;
 
 	@NotNull
-	@Max(value=256)
+	@Size(min = 4, max = 256)
 	private String name = null;
 
 	@NotNull
-	@Max(value=256)
+	@Size(min = 4, max = 50)
 	private String code = null;
+
+	private Long parentId = null;
+
+	private BusinessNatureEnum businessNature = null;;
+
+	private List<CategoryDetail> details;
 
 	@JsonProperty("auditDetails")
 	private AuditDetails auditDetails = null;

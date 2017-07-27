@@ -1,20 +1,14 @@
 package org.egov.tradelicense.controller;
 
-import org.egov.models.BusinessNatureRequest;
-import org.egov.models.BusinessNatureResponse;
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
 import org.egov.models.PenaltyRateRequest;
 import org.egov.models.PenaltyRateResponse;
 import org.egov.models.RequestInfoWrapper;
-import org.egov.models.SubCategoryRequest;
-import org.egov.models.SubCategoryResponse;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
-import org.egov.tradelicense.services.BusinessNatureService;
 import org.egov.tradelicense.services.CategoryService;
 import org.egov.tradelicense.services.PenaltyRateService;
-import org.egov.tradelicense.services.SubCategoryService;
 import org.egov.tradelicense.services.UOMService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,12 +33,6 @@ public class TradeLicenseMasterController {
 
 	@Autowired
 	UOMService uomService;
-
-	@Autowired
-	SubCategoryService subCategoryService;
-
-	@Autowired
-	BusinessNatureService businessNatureService;
 
 	@Autowired
 	PenaltyRateService penaltyRateService;
@@ -156,117 +144,6 @@ public class TradeLicenseMasterController {
 
 		return uomService.getUomMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, active, pageSize,
 				offSet);
-
-	}
-
-	/**
-	 * Description : This api for creating subcategory master
-	 * 
-	 * @param tenantId
-	 * @param SubCategoryRequest
-	 * @return SubCategoryResponse
-	 */
-	@RequestMapping(path = "/subcategory/_create", method = RequestMethod.POST)
-	public SubCategoryResponse createSubCategoryMaster(@RequestParam(required = true) String tenantId,
-			@RequestBody SubCategoryRequest subCategoryRequest) {
-
-		return subCategoryService.createSubCategoryMaster(tenantId, subCategoryRequest);
-
-	}
-
-	/**
-	 * Description : This api for updating subcategory master
-	 * 
-	 * 
-	 * @param SubCategoryRequest
-	 * @return SubCategoryResponse
-	 */
-	@RequestMapping(path = "/subcategory/_update", method = RequestMethod.POST)
-	public SubCategoryResponse updateSubCategoryMaster(@RequestBody SubCategoryRequest subCategoryRequest) {
-
-		return subCategoryService.updateSubCategoryMaster(subCategoryRequest);
-
-	}
-
-	/**
-	 * Description : This api for searching subcategory master
-	 * 
-	 * @param requestInfo
-	 * @param tenantId
-	 * @param ids
-	 * @param name
-	 * @param code
-	 * @param categoryId
-	 * @param subCategoryId
-	 * @param pageSize
-	 * @param offSet
-	 * @return SubCategoryResponse
-	 * @throws Exception
-	 */
-	@RequestMapping(path = "/subcategory/_search", method = RequestMethod.POST)
-	public SubCategoryResponse getSubCategoryMaster(@RequestBody RequestInfoWrapper requestInfo,
-			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
-			@RequestParam(required = false) String name, @RequestParam(required = false) String code,
-			@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) Integer subCategoryId,
-			@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer offSet)
-			throws Exception {
-
-		return subCategoryService.getSubCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code,
-				categoryId, subCategoryId, pageSize, offSet);
-
-	}
-
-	/**
-	 * Description : This api for creating business nature master
-	 * 
-	 * @param tenantId
-	 * @param BusinessNatureRequest
-	 * @return BusinessNatureResponse
-	 */
-	@RequestMapping(path = "/businessnature/_create", method = RequestMethod.POST)
-	public BusinessNatureResponse createBusinessNatureMaster(@RequestParam(required = true) String tenantId,
-			@RequestBody BusinessNatureRequest businessNatureRequest) {
-
-		return businessNatureService.createBusinessNatureMaster(tenantId, businessNatureRequest);
-
-	}
-
-	/**
-	 * Description : This api for updating business nature master
-	 * 
-	 * 
-	 * @param BusinessNatureRequest
-	 * @return BusinessNatureResponse
-	 */
-	@RequestMapping(path = "/businessnature/_update", method = RequestMethod.POST)
-	public BusinessNatureResponse updateBusinessNatureMaster(@RequestBody BusinessNatureRequest businessNatureRequest) {
-
-		return businessNatureService.updateBusinessNatureMaster(businessNatureRequest);
-
-	}
-
-	/**
-	 * Description : This api for searching business nature master
-	 * 
-	 * @param requestInfo
-	 * @param tenantId
-	 * @param ids
-	 * @param name
-	 * @param code
-	 * @param pageSize
-	 * @param offSet
-	 * @return BusinessNatureResponse
-	 * @throws Exception
-	 */
-	@RequestMapping(path = "/businessnature/_search", method = RequestMethod.POST)
-	public BusinessNatureResponse getBusinessNatureMaster(@RequestBody RequestInfoWrapper requestInfo,
-			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
-			@RequestParam(required = false) String name, @RequestParam(required = false) String code,
-			@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer offSet)
-			throws Exception {
-
-		return businessNatureService.getBusinessNatureMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code,
-				pageSize, offSet);
 
 	}
 

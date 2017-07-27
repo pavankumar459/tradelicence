@@ -10,11 +10,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum FeeTypeEnum {
 
-	LICENSEFEE("License Fee"),
+	LICENSE("License"),
 
-	MOTORFEE("Motor Fee"),
+	MOTOR("Motor"),
 
-	WORKFORCEFEE("Workforce Fee");
+	WORKFORCE("Workforce");
 
 	private String value;
 

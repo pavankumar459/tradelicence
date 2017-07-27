@@ -11,18 +11,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This class describe the set of fields contained in SubCategoryRequest
+ * This class describe the set of fields contained in a Trade license
+ * DocumentTypeRequest
  * 
  * @author Pavan Kumar Kamma
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class SubCategoryRequest {
+@NoArgsConstructor
+public class DocumentTypeRequest {
 
 	@JsonProperty("RequestInfo")
 	private RequestInfo requestInfo;
 
 	@Valid
-	private List<SubCategory> subCategories;
+	private List<DocumentType> documentTypes;
 }

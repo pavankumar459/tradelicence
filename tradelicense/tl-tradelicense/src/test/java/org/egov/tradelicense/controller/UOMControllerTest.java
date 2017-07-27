@@ -20,10 +20,8 @@ import org.egov.models.UOM;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
 import org.egov.tradelicense.TradeLicenseApplication;
-import org.egov.tradelicense.services.BusinessNatureService;
 import org.egov.tradelicense.services.CategoryService;
 import org.egov.tradelicense.services.PenaltyRateService;
-import org.egov.tradelicense.services.SubCategoryService;
 import org.egov.tradelicense.services.UOMService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,12 +43,6 @@ public class UOMControllerTest {
 
 	@MockBean
 	private UOMService uomService;
-
-	@MockBean
-	private SubCategoryService subCategoryService;
-
-	@MockBean
-	private BusinessNatureService businessNatureService;
 
 	@MockBean
 	private PenaltyRateService penaltyRateService;

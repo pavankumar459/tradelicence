@@ -12,7 +12,7 @@ public enum RateTypeEnum {
 
 	FLAT_BY_RANGE("Flat_By_Range"),
 
-	PERCENTAGE("Percentage"),
+	FLAT_BY_PERCENTAGE("Flat_By_Percentage"),
 
 	UNIT_BY_RANGE("Unit_By_Range");
 

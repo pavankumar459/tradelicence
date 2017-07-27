@@ -28,5 +28,5 @@ public class FeeMatrixDetail {
 	private Long uomTo = null;
 
 	@NotNull
-	private Long amount = null;
+	private Double amount = null;
 }

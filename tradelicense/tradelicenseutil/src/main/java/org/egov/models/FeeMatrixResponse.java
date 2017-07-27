@@ -18,5 +18,5 @@ public class FeeMatrixResponse {
 
 	private ResponseInfo responseInfo;
 
-	private List<FeeMatrix> feeMatrices;
+	private List<FeeMatrix> feeMatrixs;
 }

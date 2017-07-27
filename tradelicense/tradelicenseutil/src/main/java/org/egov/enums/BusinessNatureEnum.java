@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * FeeTypeEnum
+ * BusinessNatureEnum
  * 
  * Author : Pavan Kumar kamma
  */
 public enum BusinessNatureEnum {
 
-	PERMANENT("Permanent"),
+	PERMENANT("Permanent"),
 
 	TEMPORARY("Temporary");
 

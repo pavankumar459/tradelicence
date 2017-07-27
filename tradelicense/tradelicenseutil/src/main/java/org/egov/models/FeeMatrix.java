@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.egov.enums.ApplicationTypeEnum;
+import org.egov.enums.BusinessNatureEnum;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -29,18 +33,19 @@ public class FeeMatrix {
 	private String tenantId = null;
 
 	@NotNull
-	private Long applicationTypeId = null;
+	private ApplicationTypeEnum applicationType = null;
 
 	@NotNull
 	private Long categoryId = null;
 
 	@NotNull
-	private Long businessNatureId = null;
+	private BusinessNatureEnum businessNature = null;
 
 	@NotNull
 	private Long subCategoryId = null;
 
 	@NotNull
+	@DateTimeFormat(pattern = "YY-YY")
 	private String financialYear = null;
 
 	private String effectiveFrom = null;

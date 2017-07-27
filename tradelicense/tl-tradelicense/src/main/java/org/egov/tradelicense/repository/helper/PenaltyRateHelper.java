@@ -28,7 +28,7 @@ public class PenaltyRateHelper {
 	public void validatePenaltyRange(String tenantId, PenaltyRateRequest penaltyRateRequest) {
 
 		RequestInfo requestInfo = penaltyRateRequest.getRequestInfo();
-		String applicationType = penaltyRateRequest.getPenaltyRates().get(0).getApplicationTypeId().toString();
+		String applicationType = penaltyRateRequest.getPenaltyRates().get(0).getApplicationType().toString();
 		List<PenaltyRate> penaltyRates = new ArrayList<PenaltyRate>();
 		try {
 			penaltyRates = penaltyRateRepository.searchPenaltyRate(tenantId, null, applicationType, null, null);
@@ -45,7 +45,7 @@ public class PenaltyRateHelper {
 		int count = 0;
 		for (PenaltyRate penaltyRate : penaltyRates) {
 			if (count > 0) {
-				applicationType = penaltyRate.getApplicationTypeId().toString();
+				applicationType = penaltyRate.getApplicationType().toString();
 				fromRange = penaltyRate.getFromRange();
 				if (applicationType.equalsIgnoreCase(oldApplicationType)) {
 					if (!fromRange.equals(oldToRange)) {
@@ -55,7 +55,7 @@ public class PenaltyRateHelper {
 					throw new InvalidInputException(requestInfo);
 				}
 			}
-			oldApplicationType = penaltyRate.getApplicationTypeId().toString();
+			oldApplicationType = penaltyRate.getApplicationType().toString();
 			oldToRange = penaltyRate.getToRange();
 			count++;
 		}
@@ -63,7 +63,7 @@ public class PenaltyRateHelper {
 
 	public void validateUpdatePenaltyRange(PenaltyRateRequest penaltyRateRequest) {
 		RequestInfo requestInfo = penaltyRateRequest.getRequestInfo();
-		String applicationType = penaltyRateRequest.getPenaltyRates().get(0).getApplicationTypeId().toString();
+		String applicationType = penaltyRateRequest.getPenaltyRates().get(0).getApplicationType().toString();
 		List<PenaltyRate> penaltyRates = new ArrayList<PenaltyRate>();
 		String tenantId = penaltyRateRequest.getPenaltyRates().get(0).getTenantId();
 		try {
@@ -86,7 +86,7 @@ public class PenaltyRateHelper {
 		int count = 0;
 		for (PenaltyRate penaltyRate : penaltyRates) {
 			if (count > 0) {
-				applicationType = penaltyRate.getApplicationTypeId().toString();
+				applicationType = penaltyRate.getApplicationType().toString();
 				fromRange = penaltyRate.getFromRange();
 				if (applicationType.equalsIgnoreCase(oldApplicationType)) {
 					if (!fromRange.equals(oldToRange)) {
@@ -96,7 +96,7 @@ public class PenaltyRateHelper {
 					throw new InvalidInputException(requestInfo);
 				}
 			}
-			oldApplicationType = penaltyRate.getApplicationTypeId().toString();
+			oldApplicationType = penaltyRate.getApplicationType().toString();
 			oldToRange = penaltyRate.getToRange();
 			count++;
 		}
@@ -118,7 +118,7 @@ public class PenaltyRateHelper {
 			PenaltyRate penaltyRate = new PenaltyRate();
 			penaltyRate.setId(getLong(row.get("id")));
 			penaltyRate.setTenantId(getString(row.get("tenantid")));
-			penaltyRate.setApplicationTypeId(ApplicationTypeEnum.fromValue(getString(row.get("applicationTypeId"))));
+			penaltyRate.setApplicationType(ApplicationTypeEnum.fromValue(getString(row.get("applicationTypeId"))));
 			penaltyRate.setFromRange(getLong(row.get("fromRange")));
 			penaltyRate.setToRange(getLong(row.get("toRange")));
 			penaltyRate.setRate(getDouble(row.get("rate")));

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
  * @author Pavan Kumar Kamma
  *
  */
+
 @Service
 public class ResponseInfoFactory {
 	public ResponseInfo createResponseInfoFromRequestInfo(RequestInfo requestInfo, Boolean success) {
