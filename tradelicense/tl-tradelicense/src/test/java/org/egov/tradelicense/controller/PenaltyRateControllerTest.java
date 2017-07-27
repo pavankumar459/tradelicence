@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.egov.models.AuditDetails;
+import org.egov.models.PenaltyRate;
+import org.egov.models.PenaltyRateRequest;
+import org.egov.models.PenaltyRateResponse;
 import org.egov.models.RequestInfo;
 import org.egov.models.ResponseInfo;
-import org.egov.models.UOM;
-import org.egov.models.UOMRequest;
-import org.egov.models.UOMResponse;
 import org.egov.tradelicense.TradeLicenseApplication;
 import org.egov.tradelicense.services.BusinessNatureService;
 import org.egov.tradelicense.services.CategoryService;
@@ -38,7 +38,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @WebMvcTest(TradeLicenseMasterController.class)
 @ContextConfiguration(classes = { TradeLicenseApplication.class })
-public class UOMControllerTest {
+public class PenaltyRateControllerTest {
 
 	@MockBean
 	private CategoryService categoryService;
@@ -59,30 +59,31 @@ public class UOMControllerTest {
 	private MockMvc mockMvc;
 
 	@Test
-	public void testCreateUom() throws Exception {
+	public void testCreatePenaltyRate() throws Exception {
 
-		List<UOM> uoms = new ArrayList<>();
-		UOM uom = new UOM();
-		uom.setTenantId("default");
+		List<PenaltyRate> penaltyRates = new ArrayList<>();
+		PenaltyRate penaltyRate = new PenaltyRate();
+		penaltyRate.setTenantId("default");
 
 		AuditDetails auditDetails = new AuditDetails();
-		uom.setAuditDetails(auditDetails);
+		penaltyRate.setAuditDetails(auditDetails);
 
-		UOMResponse uomResponse = new UOMResponse();
-		uoms.add(uom);
+		PenaltyRateResponse penaltyRateResponse = new PenaltyRateResponse();
+		penaltyRates.add(penaltyRate);
 
-		uomResponse.setResponseInfo(new ResponseInfo());
-		uomResponse.setUoms(uoms);
+		penaltyRateResponse.setResponseInfo(new ResponseInfo());
+		penaltyRateResponse.setPenaltyRates(penaltyRates);
 
 		try {
 
-			when(uomService.createUomMaster(any(String.class), any(UOMRequest.class))).thenReturn(uomResponse);
+			when(penaltyRateService.createPenaltyRateMaster(any(String.class), any(PenaltyRateRequest.class)))
+					.thenReturn(penaltyRateResponse);
 
-			mockMvc.perform(post("/tradelicense/uom/_create").param("tenantId", "default")
-					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("uomCreateRequest.json")))
+			mockMvc.perform(post("/tradelicense/penaltyrate/_create").param("tenantId", "default")
+					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("penaltyRateCreateRequest.json")))
 					.andExpect(status().isOk())
 					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-					.andExpect(content().json(getFileContents("uomCreateResponse.json")));
+					.andExpect(content().json(getFileContents("penaltyRateCreateResponse.json")));
 
 		} catch (Exception e) {
 
@@ -90,33 +91,33 @@ public class UOMControllerTest {
 		}
 
 		assertTrue(Boolean.TRUE);
-
 	}
 
 	@Test
-	public void testUpdateUom() throws Exception {
+	public void testUpdatePenaltyRate() throws Exception {
 
-		UOMResponse uomResponse = new UOMResponse();
-		List<UOM> uoms = new ArrayList<>();
-		UOM uom = new UOM();
-		uom.setTenantId("default");
+		List<PenaltyRate> penaltyRates = new ArrayList<>();
+		PenaltyRate penaltyRate = new PenaltyRate();
+		penaltyRate.setTenantId("default");
 
 		AuditDetails auditDetails = new AuditDetails();
-		uom.setAuditDetails(auditDetails);
+		penaltyRate.setAuditDetails(auditDetails);
 
-		uoms.add(uom);
+		PenaltyRateResponse penaltyRateResponse = new PenaltyRateResponse();
+		penaltyRates.add(penaltyRate);
 
-		uomResponse.setResponseInfo(new ResponseInfo());
-		uomResponse.setUoms(uoms);
+		penaltyRateResponse.setResponseInfo(new ResponseInfo());
+		penaltyRateResponse.setPenaltyRates(penaltyRates);
 
 		try {
 
-			when(uomService.updateUomMaster(any(UOMRequest.class))).thenReturn(uomResponse);
-			mockMvc.perform(post("/tradelicense/uom/_update").param("tenantId", "default")
-					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("uomUpdateRequest.json")))
+			when(penaltyRateService.updatePenaltyRateMaster(any(PenaltyRateRequest.class)))
+					.thenReturn(penaltyRateResponse);
+			mockMvc.perform(post("/tradelicense/penaltyrate/_update").param("tenantId", "default")
+					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("penaltyRateUpdateRequest.json")))
 					.andExpect(status().isOk())
 					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-					.andExpect(content().json(getFileContents("uomUpdateResponse.json")));
+					.andExpect(content().json(getFileContents("penaltyRateUpdateResponse.json")));
 
 		} catch (Exception e) {
 
@@ -129,32 +130,32 @@ public class UOMControllerTest {
 	}
 
 	@Test
-	public void testSearchUom() throws Exception {
+	public void testSearchPenaltyRate() throws Exception {
 
-		UOMResponse uomResponse = new UOMResponse();
-		List<UOM> uoms = new ArrayList<>();
-		UOM uom = new UOM();
-		uom.setTenantId("default");
+		List<PenaltyRate> penaltyRates = new ArrayList<>();
+		PenaltyRate penaltyRate = new PenaltyRate();
+		penaltyRate.setTenantId("default");
 
 		AuditDetails auditDetails = new AuditDetails();
-		uom.setAuditDetails(auditDetails);
+		penaltyRate.setAuditDetails(auditDetails);
 
-		uoms.add(uom);
+		PenaltyRateResponse penaltyRateResponse = new PenaltyRateResponse();
+		penaltyRates.add(penaltyRate);
 
-		uomResponse.setResponseInfo(new ResponseInfo());
-		uomResponse.setUoms(uoms);
+		penaltyRateResponse.setResponseInfo(new ResponseInfo());
+		penaltyRateResponse.setPenaltyRates(penaltyRates);
 
 		try {
 
-			when(uomService.getUomMaster(any(RequestInfo.class), any(String.class), any(Integer[].class),
-					any(String.class), any(String.class), any(Boolean.class), any(Integer.class), any(Integer.class)))
-							.thenReturn(uomResponse);
+			when(penaltyRateService.getPenaltyRateMaster(any(RequestInfo.class), any(String.class),
+					any(Integer[].class), any(String.class), any(Integer.class), any(Integer.class)))
+							.thenReturn(penaltyRateResponse);
 
-			mockMvc.perform(post("/tradelicense/uom/_search").param("tenantId", "default")
-					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("uomSearchRequest.json")))
-					.andExpect(status().isOk())
+			mockMvc.perform(post("/tradelicense/penaltyrate/_search").param("tenantId", "default")
+					.param("applicationTypeId", "New").contentType(MediaType.APPLICATION_JSON)
+					.content(getFileContents("penaltyRateSearchRequest.json"))).andExpect(status().isOk())
 					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-					.andExpect(content().json(getFileContents("uomSearchResponse.json")));
+					.andExpect(content().json(getFileContents("penaltyRateSearchResponse.json")));
 
 		} catch (Exception e) {
 
