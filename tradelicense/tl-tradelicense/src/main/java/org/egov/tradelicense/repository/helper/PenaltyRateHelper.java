@@ -10,6 +10,7 @@ import org.egov.models.PenaltyRate;
 import org.egov.models.PenaltyRateRequest;
 import org.egov.models.RequestInfo;
 import org.egov.tradelicense.exception.InvalidInputException;
+import org.egov.tradelicense.exception.InvalidRangeException;
 import org.egov.tradelicense.repository.PenaltyRateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,7 +49,7 @@ public class PenaltyRateHelper {
 				fromRange = penaltyRate.getFromRange();
 				if (applicationType.equalsIgnoreCase(oldApplicationType)) {
 					if (!fromRange.equals(oldToRange)) {
-						throw new InvalidInputException(requestInfo);
+						throw new InvalidRangeException(requestInfo);
 					}
 				} else {
 					throw new InvalidInputException(requestInfo);
@@ -89,7 +90,7 @@ public class PenaltyRateHelper {
 				fromRange = penaltyRate.getFromRange();
 				if (applicationType.equalsIgnoreCase(oldApplicationType)) {
 					if (!fromRange.equals(oldToRange)) {
-						throw new InvalidInputException(requestInfo);
+						throw new InvalidRangeException(requestInfo);
 					}
 				} else {
 					throw new InvalidInputException(requestInfo);

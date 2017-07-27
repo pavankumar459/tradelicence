@@ -77,8 +77,20 @@ public class GlobalExceptionHandler {
 			errorList.add(error);
 			return new ErrorRes(responseInfo, errorList);
 		} else if (ex instanceof DuplicateIdException) {
-			Error error = new Error(HttpStatus.INTERNAL_SERVER_ERROR.toString(), propertiesManager.getDuplicateCode(),
-					null, null);
+			Error error = new Error(HttpStatus.BAD_REQUEST.toString(), propertiesManager.getDuplicateCode(), null,
+					null);
+			ResponseInfo responseInfo = new ResponseInfo();
+			responseInfo.setApiId(((DuplicateIdException) ex).getRequestInfo().getApiId());
+			responseInfo.setVer(((DuplicateIdException) ex).getRequestInfo().getVer());
+			responseInfo.setMsgId(((DuplicateIdException) ex).getRequestInfo().getMsgId());
+			responseInfo.setTs(new Date().getTime());
+			responseInfo.setStatus(propertiesManager.getFailedStatus());
+			List<Error> errorList = new ArrayList<Error>();
+			errorList.add(error);
+			return new ErrorRes(responseInfo, errorList);
+		} else if (ex instanceof InvalidRangeException) {
+			Error error = new Error(HttpStatus.BAD_REQUEST.toString(), propertiesManager.getInvalidRangeCode(), null,
+					null);
 			ResponseInfo responseInfo = new ResponseInfo();
 			responseInfo.setApiId(((DuplicateIdException) ex).getRequestInfo().getApiId());
 			responseInfo.setVer(((DuplicateIdException) ex).getRequestInfo().getVer());

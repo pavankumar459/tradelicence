@@ -23,6 +23,9 @@ public class PropertiesManager {
 	@Value("${duplicate.code}")
 	private String duplicateCode;
 	
+	@Value("${invalid.range.code}")
+	private String invalidRangeCode;
+	
 	@Value("${success.status}")
 	private String successStatus;
 	
