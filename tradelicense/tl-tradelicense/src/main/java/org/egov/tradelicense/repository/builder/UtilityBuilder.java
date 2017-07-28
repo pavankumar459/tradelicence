@@ -32,13 +32,16 @@ public class UtilityBuilder {
 	public static String getCategoryDetailValidationQuery(String tableName, Long categoryId, String feeType,
 			String rateType, Long id) {
 
-		StringBuffer categoryDetailValidationQuery = new StringBuffer("select count(*) from " + tableName);
-		categoryDetailValidationQuery.append(" where id = '" + categoryId + "'");
+		StringBuffer categoryDetailValidationQuery = new StringBuffer("select count(*) from " + tableName + " where");
+		
+		if (categoryId != null) {
+			categoryDetailValidationQuery.append(" categoryId = '" + categoryId + "'");
+		}
 		if (feeType != null && !feeType.isEmpty()) {
-			categoryDetailValidationQuery.append(" where feeType = '" + feeType + "'");
+			categoryDetailValidationQuery.append(" AND feeType = '" + feeType + "'");
 		}
 		if (rateType != null && !rateType.isEmpty()) {
-			categoryDetailValidationQuery.append(" where rateType = '" + rateType + "'");
+			categoryDetailValidationQuery.append(" AND rateType = '" + rateType + "'");
 		}
 		if (id != null) {
 			categoryDetailValidationQuery.append(" AND id !=" + id);

@@ -20,7 +20,9 @@ import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfo;
 import org.egov.models.ResponseInfo;
 import org.egov.tradelicense.TradeLicenseApplication;
+import org.egov.tradelicense.config.PropertiesManager;
 import org.egov.tradelicense.services.CategoryService;
+import org.egov.tradelicense.services.DocumentTypeService;
 import org.egov.tradelicense.services.PenaltyRateService;
 import org.egov.tradelicense.services.UOMService;
 import org.junit.Test;
@@ -43,9 +45,15 @@ public class CategoryContollerTest {
 
 	@MockBean
 	private UOMService uomService;
-	
+
 	@MockBean
 	private PenaltyRateService penaltyRateService;
+	
+	@MockBean
+	DocumentTypeService documentTypeService;
+	
+	@MockBean
+	private PropertiesManager propertiesManager;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -69,13 +77,13 @@ public class CategoryContollerTest {
 		try {
 
 			when(categoryService.createCategoryMaster(any(CategoryRequest.class)))
-					.thenReturn(categoryResponse);
+			.thenReturn(categoryResponse);
 
 			mockMvc.perform(post("/tradelicense/category/_create").param("tenantId", "default")
 					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("categoryCreateRequest.json")))
-					.andExpect(status().isOk())
-					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-					.andExpect(content().json(getFileContents("categoryCreateResponse.json")));
+			.andExpect(status().isOk())
+			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(content().json(getFileContents("categoryCreateResponse.json")));
 
 		} catch (Exception e) {
 
@@ -107,9 +115,9 @@ public class CategoryContollerTest {
 			when(categoryService.updateCategoryMaster(any(CategoryRequest.class))).thenReturn(categoryResponse);
 			mockMvc.perform(post("/tradelicense/category/_update").param("tenantId", "default")
 					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("categoryUpdateRequest.json")))
-					.andExpect(status().isOk())
-					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-					.andExpect(content().json(getFileContents("categoryUpdateResponse.json")));
+			.andExpect(status().isOk())
+			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(content().json(getFileContents("categoryUpdateResponse.json")));
 
 		} catch (Exception e) {
 
@@ -141,13 +149,13 @@ public class CategoryContollerTest {
 
 			when(categoryService.getCategoryMaster(any(RequestInfo.class), any(String.class), any(Integer[].class),
 					any(String.class), any(String.class), any(String.class), any(Integer.class), any(Integer.class)))
-							.thenReturn(categoryResponse);
+			.thenReturn(categoryResponse);
 
 			mockMvc.perform(post("/tradelicense/category/_search").param("tenantId", "default")
 					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("categorySearchRequest.json")))
-					.andExpect(status().isOk())
-					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-					.andExpect(content().json(getFileContents("categorySearchResponse.json")));
+			.andExpect(status().isOk())
+			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(content().json(getFileContents("categorySearchResponse.json")));
 
 		} catch (Exception e) {
 

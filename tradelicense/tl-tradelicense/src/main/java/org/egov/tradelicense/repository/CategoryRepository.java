@@ -75,7 +75,7 @@ public class CategoryRepository {
 				ps.setLong(1, categoryDetail.getCategoryId());
 				ps.setString(2, categoryDetail.getFeeType().toString());
 				ps.setString(3, categoryDetail.getRateType().toString());
-				ps.setString(4, categoryDetail.getUomId().toString());
+				ps.setLong(4, categoryDetail.getUomId());
 
 				return ps;
 			}

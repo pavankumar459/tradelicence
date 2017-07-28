@@ -55,23 +55,23 @@ public class CategoryServiceImpl implements CategoryService {
 				Boolean isParentExists = utilityHelper.checkWhetherParentRecordExits(category.getParentId(),
 						ConstantUtility.CATEGORY_TABLE_NAME);
 				if (isParentExists) {
-					for (CategoryDetail categoryDetail : category.getDetails()) {
-						Boolean isCategoryDetailExists = utilityHelper.checkWhetherDuplicateCategoryDetailRecordExits(
-								categoryDetail, ConstantUtility.CATEGORY_DETAIL_TABLE_NAME, null);
-						if (isCategoryDetailExists) {
-							throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(), requestInfo);
-						}
-						Boolean isUomExists = utilityHelper.checkWhetherUomExists(categoryDetail);
-						if (!isUomExists) {
-							throw new InvalidInputException(requestInfo);
-						}
-					}
+
 					try {
 						category.setAuditDetails(auditDetails);
 						Long categoryId = categoryRepository.createCategory(category.getTenantId(), category);
 						category.setId(categoryId);
 						for (CategoryDetail categoryDetail : category.getDetails()) {
 							categoryDetail.setCategoryId(categoryId);
+							Boolean isCategoryDetailExists = utilityHelper
+									.checkWhetherDuplicateCategoryDetailRecordExits(categoryDetail,
+											ConstantUtility.CATEGORY_DETAIL_TABLE_NAME, null);
+							if (isCategoryDetailExists) {
+								throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(), requestInfo);
+							}
+							Boolean isUomExists = utilityHelper.checkWhetherUomExists(categoryDetail);
+							if (!isUomExists) {
+								throw new InvalidInputException(requestInfo);
+							}
 							Long categoryDetailId = categoryRepository.createCategoryDetail(categoryDetail);
 							categoryDetail.setId(categoryDetailId);
 						}
