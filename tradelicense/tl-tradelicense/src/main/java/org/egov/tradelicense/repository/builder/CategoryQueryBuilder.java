@@ -10,24 +10,25 @@ import java.util.List;
 public class CategoryQueryBuilder {
 
 	public static final String INSERT_CATEGORY_QUERY = "INSERT INTO egtl_mstr_category"
-			+ " (tenantId, code, name, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
-			+ " VALUES(?,?,?,?,?,?,?)";
+			+ " (tenantId, name, code, parentId, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
+			+ " VALUES(?,?,?,?,?,?,?,?)";
 
 	public static final String INSERT_CATEGORY_DETAIL_QUERY = "INSERT INTO egtl_category_details"
 			+ " (categoryId, feeType, rateType, uomId)" + " VALUES(?,?,?,?)";
 
 	public static final String UPDATE_CATEGORY_QUERY = "UPDATE egtl_mstr_category"
-			+ " SET tenantId = ?, code = ?, name = ?," + " lastModifiedBy = ?, lastModifiedTime = ?" + " WHERE id = ?";
+			+ " SET tenantId = ?, name = ?, code = ?, parentId = ?," + " lastModifiedBy = ?, lastModifiedTime = ?"
+			+ " WHERE id = ?";
 
 	public static final String UPDATE_CATEGORY_DETAIL_QUERY = "UPDATE egtl_category_details"
 			+ " SET categoryId = ?, feeType = ?, rateType = ?," + " uomId = ?" + " WHERE id = ?";
-	
-	public static final String buildCategoryDetailSearchQuery(Long categoryId, Integer pageSize,
-			Integer offSet, List<Object> preparedStatementValues){
-		
+
+	public static final String buildCategoryDetailSearchQuery(Long categoryId, Integer pageSize, Integer offSet,
+			List<Object> preparedStatementValues) {
+
 		StringBuffer searchSql = new StringBuffer();
 		searchSql.append("select * from egtl_category_details where ");
-		if(categoryId != null){
+		if (categoryId != null) {
 			searchSql.append(" categoryId = ? ");
 			preparedStatementValues.add(categoryId);
 		}
@@ -45,7 +46,6 @@ public class CategoryQueryBuilder {
 
 		return searchSql.toString();
 	}
-			
 
 	public static String buildSearchQuery(String tenantId, Integer[] ids, String name, String code, Integer pageSize,
 			Integer offSet, List<Object> preparedStatementValues) {

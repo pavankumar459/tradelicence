@@ -45,12 +45,13 @@ public class CategoryRepository {
 				final PreparedStatement ps = connection.prepareStatement(categoryInsert, new String[] { "id" });
 
 				ps.setString(1, category.getTenantId());
-				ps.setString(2, category.getCode());
-				ps.setString(3, category.getName());
-				ps.setString(4, auditDetails.getCreatedBy());
-				ps.setString(5, auditDetails.getLastModifiedBy());
-				ps.setLong(6, auditDetails.getCreatedTime());
-				ps.setLong(7, auditDetails.getLastModifiedTime());
+				ps.setString(2, category.getName());
+				ps.setString(3, category.getCode());
+				ps.setLong(4, category.getParentId());
+				ps.setString(5, auditDetails.getCreatedBy());
+				ps.setString(6, auditDetails.getLastModifiedBy());
+				ps.setLong(7, auditDetails.getCreatedTime());
+				ps.setLong(8, auditDetails.getLastModifiedTime());
 				return ps;
 			}
 		};
@@ -106,11 +107,12 @@ public class CategoryRepository {
 				final PreparedStatement ps = connection.prepareStatement(categoryUpdateSql);
 
 				ps.setString(1, category.getTenantId());
-				ps.setString(2, category.getCode());
-				ps.setString(3, category.getName());
-				ps.setString(4, category.getAuditDetails().getLastModifiedBy());
-				ps.setLong(5, auditDetails.getLastModifiedTime());
-				ps.setLong(6, category.getId());
+				ps.setString(2, category.getName());
+				ps.setString(3, category.getCode());
+				ps.setLong(4, category.getParentId());
+				ps.setString(5, category.getAuditDetails().getLastModifiedBy());
+				ps.setLong(6, auditDetails.getLastModifiedTime());
+				ps.setLong(7, category.getId());
 
 				return ps;
 			}
@@ -132,7 +134,7 @@ public class CategoryRepository {
 				ps.setLong(1, categoryDetail.getCategoryId());
 				ps.setString(2, categoryDetail.getFeeType().toString());
 				ps.setString(3, categoryDetail.getRateType().toString());
-				ps.setString(4, categoryDetail.getUomId().toString());
+				ps.setLong(4, categoryDetail.getUomId());
 				ps.setLong(5, categoryDetail.getId());
 
 				return ps;
