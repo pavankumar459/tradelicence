@@ -218,6 +218,11 @@ public class CategoryRepository {
 			category.setTenantId(getString(row.get("tenantid")));
 			category.setCode(getString(row.get("code")));
 			category.setName(getString(row.get("name")));
+			if(getLong(row.get("parentId")) == 0){
+				category.setParentId(null);
+			} else {
+				category.setParentId(getLong(row.get("parentId")));
+			}
 			AuditDetails auditDetails = new AuditDetails();
 			auditDetails.setCreatedBy(getString(row.get("createdby")));
 			auditDetails.setLastModifiedBy(getString(row.get("lastmodifiedby")));
