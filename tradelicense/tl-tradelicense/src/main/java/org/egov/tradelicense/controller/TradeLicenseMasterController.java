@@ -4,6 +4,8 @@ import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
 import org.egov.models.DocumentTypeRequest;
 import org.egov.models.DocumentTypeResponse;
+import org.egov.models.FeeMatrixRequest;
+import org.egov.models.FeeMatrixResponse;
 import org.egov.models.PenaltyRateRequest;
 import org.egov.models.PenaltyRateResponse;
 import org.egov.models.RequestInfoWrapper;
@@ -11,6 +13,7 @@ import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
 import org.egov.tradelicense.services.CategoryService;
 import org.egov.tradelicense.services.DocumentTypeService;
+import org.egov.tradelicense.services.FeeMatrixService;
 import org.egov.tradelicense.services.PenaltyRateService;
 import org.egov.tradelicense.services.UOMService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,9 @@ public class TradeLicenseMasterController {
 
 	@Autowired
 	DocumentTypeService documentTypeService;
+
+	@Autowired
+	FeeMatrixService feeMatrixService;
 
 	/**
 	 * Description : This api for creating category master
@@ -105,7 +111,7 @@ public class TradeLicenseMasterController {
 	@RequestMapping(path = "/uom/_create", method = RequestMethod.POST)
 	public UOMResponse createUomMaster(@RequestBody UOMRequest uomRequest) {
 
-		return uomService.createUomMaster( uomRequest );
+		return uomService.createUomMaster(uomRequest);
 
 	}
 
@@ -139,12 +145,9 @@ public class TradeLicenseMasterController {
 	 */
 	@RequestMapping(path = "/uom/_search", method = RequestMethod.POST)
 	public UOMResponse getUomMaster(@RequestBody RequestInfoWrapper requestInfo,
-			@RequestParam(required = true) String tenantId,
-			@RequestParam(required = false) Integer[] ids,
-			@RequestParam(required = false) String name,
-			@RequestParam(required = false) String code,
-			@RequestParam(required = false) Boolean active,
-			@RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = false) String name, @RequestParam(required = false) String code,
+			@RequestParam(required = false) Boolean active, @RequestParam(required = false) Integer pageSize,
 			@RequestParam(required = false) Integer offSet) throws Exception {
 
 		return uomService.getUomMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, active, pageSize,
@@ -175,7 +178,7 @@ public class TradeLicenseMasterController {
 	 */
 
 	@RequestMapping(path = "/penaltyrate/_update", method = RequestMethod.POST)
-	public PenaltyRateResponse createPenaltyRateMaster(@RequestBody PenaltyRateRequest penaltyRateRequest) {
+	public PenaltyRateResponse updatePenaltyRateMaster(@RequestBody PenaltyRateRequest penaltyRateRequest) {
 
 		return penaltyRateService.updatePenaltyRateMaster(penaltyRateRequest);
 	}
@@ -194,17 +197,14 @@ public class TradeLicenseMasterController {
 	 */
 	@RequestMapping(path = "/penaltyrate/_search", method = RequestMethod.POST)
 	public PenaltyRateResponse getPenaltyRateMaster(@RequestBody RequestInfoWrapper requestInfo,
-			@RequestParam(required = true) String tenantId,
-			@RequestParam(required = false) Integer[] ids,
-			@RequestParam(required = true) String applicationTypeId, 
-			@RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = true) String applicationTypeId, @RequestParam(required = false) Integer pageSize,
 			@RequestParam(required = false) Integer offSet) throws Exception {
 
 		return penaltyRateService.getPenaltyRateMaster(requestInfo.getRequestInfo(), tenantId, ids, applicationTypeId,
 				pageSize, offSet);
 
 	}
-
 
 	/**
 	 * Description : This api for creating documentType master
@@ -215,14 +215,11 @@ public class TradeLicenseMasterController {
 	 */
 
 	@RequestMapping(path = "/documenttype/_create", method = RequestMethod.POST)
-	public DocumentTypeResponse createDocumentTypeMaster(
-			@RequestBody DocumentTypeRequest documentTypeRequest) {
+	public DocumentTypeResponse createDocumentTypeMaster(@RequestBody DocumentTypeRequest documentTypeRequest) {
 
-		return documentTypeService.createDocumentType( documentTypeRequest);
+		return documentTypeService.createDocumentType(documentTypeRequest);
 
 	}
-
-
 
 	/**
 	 * Description : This api for updating DocumentType master
@@ -233,12 +230,9 @@ public class TradeLicenseMasterController {
 	@RequestMapping(path = "/documenttype/_update", method = RequestMethod.POST)
 	public DocumentTypeResponse updateDocumentTypeMaster(@RequestBody DocumentTypeRequest documentTypeRequest) {
 
-		return documentTypeService.updateDocumentType( documentTypeRequest );
+		return documentTypeService.updateDocumentType(documentTypeRequest);
 
 	}
-
-
-
 
 	/**
 	 * Description : This api for searching DocumentType master
@@ -255,14 +249,71 @@ public class TradeLicenseMasterController {
 	 */
 	@RequestMapping(path = "/documenttype/_search", method = RequestMethod.POST)
 	public DocumentTypeResponse getDocumentTypeMaster(@RequestBody RequestInfoWrapper requestInfo,
-			@RequestParam(required = true) String tenantId,
-			@RequestParam(required = false) Integer[] ids,
-			@RequestParam(required = false) String name,
-			@RequestParam(required = false) Boolean enabled,
-			@RequestParam(required = false) String applicationType,
-			@RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = false) String name, @RequestParam(required = false) Boolean enabled,
+			@RequestParam(required = false) String applicationType, @RequestParam(required = false) Integer pageSize,
 			@RequestParam(required = false) Integer offSet) throws Exception {
 
-		return documentTypeService.getDocumentType(requestInfo.getRequestInfo(), tenantId, ids, name, enabled, applicationType, pageSize, offSet);
+		return documentTypeService.getDocumentType(requestInfo.getRequestInfo(), tenantId, ids, name, enabled,
+				applicationType, pageSize, offSet);
+	}
+
+	/**
+	 * Description : This api for creating feeMatrix master
+	 * 
+	 * @param tenantId
+	 * @param FeeMatrixRequest
+	 * @return FeeMatrixResponse
+	 */
+	@RequestMapping(path = "/feematrix/_create", method = RequestMethod.POST)
+	public FeeMatrixResponse createFeeMatrixMaster(@RequestParam(required = true) String tenantId,
+			@RequestBody FeeMatrixRequest feeMatrixRequest) {
+
+		return feeMatrixService.createFeeMatrixMaster(tenantId, feeMatrixRequest);
+
+	}
+
+	/**
+	 * Description : This api for updating feeMatrix master
+	 * 
+	 * 
+	 * @param FeeMatrixRequest
+	 * @return FeeMatrixResponse
+	 */
+	@RequestMapping(path = "/feematrix/_update", method = RequestMethod.POST)
+	public FeeMatrixResponse updateFeeMatrixMaster(@RequestBody FeeMatrixRequest feeMatrixRequest) {
+
+		return feeMatrixService.updateFeeMatrixMaster(feeMatrixRequest);
+
+	}
+
+	/**
+	 * Description : This api for searching feeMatrix master
+	 * 
+	 * @param requestInfo
+	 * @param tenantId
+	 * @param ids
+	 * @param categoryId
+	 * @param subcategoryId
+	 * @param financialYear
+	 * @param applicationType
+	 * @param businessNature
+	 * @param pageSize
+	 * @param offSet
+	 * @return FeeMatrixResponse
+	 * @throws Exception
+	 */
+	@RequestMapping(path = "/feematrix/_search", method = RequestMethod.POST)
+	public FeeMatrixResponse getFeeMatrixMaster(@RequestBody RequestInfoWrapper requestInfo,
+			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) Integer subcategoryId,
+			@RequestParam(required = false) Integer financialYear,
+			@RequestParam(required = false) String applicationType,
+			@RequestParam(required = false) String businessNature, @RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = false) Integer offSet) throws Exception {
+
+		return feeMatrixService.getFeeMatrixMaster(requestInfo.getRequestInfo(), tenantId, ids, categoryId,
+				subcategoryId, financialYear, applicationType, businessNature, pageSize, offSet);
+
 	}
 }

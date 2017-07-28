@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	UtilityHelper utilityHelper;
-	
+
 	@Autowired
 	private PropertiesManager propertiesManager;
 
@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 			Boolean isExists = utilityHelper.checkWhetherDuplicateRecordExits(category.getTenantId(),
 					category.getCode(), ConstantUtility.CATEGORY_TABLE_NAME, null);
 			if (isExists) {
-				throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(),requestInfo);
+				throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(), requestInfo);
 			}
 
 			if (ParentId != null) {
@@ -62,17 +62,21 @@ public class CategoryServiceImpl implements CategoryService {
 							throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(), requestInfo);
 						}
 						Boolean isUomExists = utilityHelper.checkWhetherUomExists(categoryDetail);
-						if (isUomExists) {
-							try {
-								category.setAuditDetails(auditDetails);
-								Long id = categoryRepository.createCategory(category.getTenantId(), category);
-								category.setId(id);
-							} catch (Exception e) {
-								throw new InvalidInputException(requestInfo);
-							}
-						} else {
+						if (!isUomExists) {
 							throw new InvalidInputException(requestInfo);
 						}
+					}
+					try {
+						category.setAuditDetails(auditDetails);
+						Long categoryId = categoryRepository.createCategory(category.getTenantId(), category);
+						category.setId(categoryId);
+						for (CategoryDetail categoryDetail : category.getDetails()) {
+							categoryDetail.setCategoryId(categoryId);
+							Long categoryDetailId = categoryRepository.createCategoryDetail(categoryDetail);
+							categoryDetail.setId(categoryDetailId);
+						}
+					} catch (Exception e) {
+						throw new InvalidInputException(requestInfo);
 					}
 				} else {
 					throw new InvalidInputException(requestInfo);
@@ -107,7 +111,7 @@ public class CategoryServiceImpl implements CategoryService {
 			Boolean isExists = utilityHelper.checkWhetherDuplicateRecordExits(category.getTenantId(),
 					category.getCode(), ConstantUtility.CATEGORY_TABLE_NAME, category.getId());
 			if (isExists) {
-				throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(),requestInfo);
+				throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(), requestInfo);
 			}
 			if (ParentId != null) {
 				Boolean isParentExists = utilityHelper.checkWhetherParentRecordExits(category.getParentId(),
@@ -117,22 +121,23 @@ public class CategoryServiceImpl implements CategoryService {
 						Boolean isCategoryDetailExists = utilityHelper.checkWhetherDuplicateCategoryDetailRecordExits(
 								categoryDetail, ConstantUtility.CATEGORY_DETAIL_TABLE_NAME, categoryDetail.getId());
 						if (isCategoryDetailExists) {
-							throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(),requestInfo);
+							throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(), requestInfo);
 						}
 						Boolean isUomExists = utilityHelper.checkWhetherUomExists(categoryDetail);
-						if (isUomExists) {
-							try {
-								Long updatedTime = new Date().getTime();
-								category.getAuditDetails().setLastModifiedTime(updatedTime);
-								category.getAuditDetails().setLastModifiedBy(requestInfo.getUserInfo().getUsername());
-								categoryDetail = categoryRepository.updateCategoryDetail(categoryDetail);
-								category = categoryRepository.updateCategory(category);
-							} catch (Exception e) {
-								throw new InvalidInputException(categoryRequest.getRequestInfo());
-							}
-						} else {
+						if (!isUomExists) {
 							throw new InvalidInputException(requestInfo);
 						}
+					}
+					try {
+						Long updatedTime = new Date().getTime();
+						category.getAuditDetails().setLastModifiedTime(updatedTime);
+						category.getAuditDetails().setLastModifiedBy(requestInfo.getUserInfo().getUsername());
+						for (CategoryDetail categoryDetail : category.getDetails()) {
+							categoryDetail = categoryRepository.updateCategoryDetail(categoryDetail);
+						}
+						category = categoryRepository.updateCategory(category);
+					} catch (Exception e) {
+						throw new InvalidInputException(categoryRequest.getRequestInfo());
 					}
 				} else {
 					throw new InvalidInputException(requestInfo);
