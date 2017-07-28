@@ -40,7 +40,7 @@ public class DocumentType {
 	private Boolean enabled = true;
 	
 	@NotNull
-	private ApplicationTypeEnum application_type;
+	private ApplicationTypeEnum applicationType;
 
 	@JsonProperty("auditDetails")
 	private AuditDetails auditDetails = null;

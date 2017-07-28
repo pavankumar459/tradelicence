@@ -134,7 +134,7 @@ public class ValidatorRepository {
 		String tableName = ConstantUtility.DOCUMENT_TYPE_TABLE_NAME;
 		String name = documentType.getName();
 		String tantentId = documentType.getTenantId();
-		String applicationName = documentType.getApplication_type().toString();
+		String applicationName = documentType.getApplicationType().toString();
 		String query = UtilityBuilder.getDocumentTypeValidationQuery(tantentId, name, applicationName, tableName);
 		int count = 0;
 
