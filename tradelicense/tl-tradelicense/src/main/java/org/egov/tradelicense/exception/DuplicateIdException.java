@@ -20,6 +20,10 @@ import lombok.Setter;
 public class DuplicateIdException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private String customMsg ;
 
 	private RequestInfo requestInfo;
+	
+	
 }

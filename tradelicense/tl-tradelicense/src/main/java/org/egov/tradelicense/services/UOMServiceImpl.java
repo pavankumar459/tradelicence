@@ -10,6 +10,7 @@ import org.egov.models.ResponseInfoFactory;
 import org.egov.models.UOM;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
+import org.egov.tradelicense.config.PropertiesManager;
 import org.egov.tradelicense.exception.DuplicateIdException;
 import org.egov.tradelicense.exception.InvalidInputException;
 import org.egov.tradelicense.repository.UOMRepository;
@@ -30,24 +31,29 @@ public class UOMServiceImpl implements UOMService {
 
 	@Autowired
 	UOMRepository uomRepository;
+	
+	@Autowired
+	private PropertiesManager propertiesManager;
 
 	@Override
 	@Transactional
-	public UOMResponse createUomMaster(String tenantId, UOMRequest uomRequest) {
+	public UOMResponse createUomMaster( UOMRequest uomRequest) {
+		
+	
 
 		for (UOM uom : uomRequest.getUoms()) {
 
 			Boolean isExists = utilityHelper.checkWhetherDuplicateRecordExits(uom.getTenantId(), uom.getCode(),
 					ConstantUtility.UOM_TABLE_NAME, null);
 			if (isExists)
-				throw new DuplicateIdException(uomRequest.getRequestInfo());
+				throw new DuplicateIdException(propertiesManager.getUomCustomMsg(),uomRequest.getRequestInfo());
 
 			RequestInfo requestInfo = uomRequest.getRequestInfo();
 			AuditDetails auditDetails = utilityHelper.getCreateMasterAuditDetals(requestInfo);
 			try {
 
 				uom.setAuditDetails(auditDetails);
-				Long id = uomRepository.createUom(tenantId, uom);
+				Long id = uomRepository.createUom( uom);
 				uom.setId(id);
 
 			} catch (Exception e) {
@@ -76,7 +82,7 @@ public class UOMServiceImpl implements UOMService {
 					ConstantUtility.UOM_TABLE_NAME, uom.getId());
 
 			if (isExists)
-				throw new DuplicateIdException(uomRequest.getRequestInfo());
+				throw new DuplicateIdException(propertiesManager.getUomCustomMsg(),uomRequest.getRequestInfo());
 
 			RequestInfo requestInfo = uomRequest.getRequestInfo();
 			try {

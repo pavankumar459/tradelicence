@@ -32,7 +32,7 @@ public class UOMRepository {
 	 * @param UOM
 	 * @return UOMId
 	 */
-	public Long createUom(String tenantId, UOM uom) {
+	public Long createUom( UOM uom) {
 
 		Long createdTime = new Date().getTime();
 

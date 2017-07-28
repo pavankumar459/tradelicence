@@ -7,10 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This class describe the set of fields contained in a Trade license
- * DocumentTypeResponse
+ * This class describe the set of fields contained in DocumentTypeResponse
  * 
- * @author Pavan Kumar Kamma
+ * 
+ * @author Shubham Pratap Singh
  */
 @Data
 @AllArgsConstructor

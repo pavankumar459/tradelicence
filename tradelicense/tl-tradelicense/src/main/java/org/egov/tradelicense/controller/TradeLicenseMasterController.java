@@ -2,12 +2,15 @@ package org.egov.tradelicense.controller;
 
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
+import org.egov.models.DocumentTypeRequest;
+import org.egov.models.DocumentTypeResponse;
 import org.egov.models.PenaltyRateRequest;
 import org.egov.models.PenaltyRateResponse;
 import org.egov.models.RequestInfoWrapper;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
 import org.egov.tradelicense.services.CategoryService;
+import org.egov.tradelicense.services.DocumentTypeService;
 import org.egov.tradelicense.services.PenaltyRateService;
 import org.egov.tradelicense.services.UOMService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,9 @@ public class TradeLicenseMasterController {
 
 	@Autowired
 	PenaltyRateService penaltyRateService;
+	
+	@Autowired
+	DocumentTypeService documentTypeService;
 
 	/**
 	 * Description : This api for creating category master
@@ -98,17 +104,15 @@ public class TradeLicenseMasterController {
 	/**
 	 * Description : This api for creating UOM master
 	 * 
-	 * @param tenantId
 	 * @param UOMRequest
 	 * @return UOMResponse
 	 */
-	@RequestMapping(path = "/uom/_create", method = RequestMethod.POST)
-	public UOMResponse createUomMaster(@RequestParam(required = true) String tenantId,
-			@RequestBody UOMRequest uomRequest) {
+	 @RequestMapping(path = "/uom/_create", method = RequestMethod.POST)
+		public UOMResponse createUomMaster(@RequestBody UOMRequest uomRequest) {
 
-		return uomService.createUomMaster(tenantId, uomRequest);
+			return uomService.createUomMaster( uomRequest );
 
-	}
+		}
 
 	/**
 	 * Description : This api for updating UOM master
@@ -140,9 +144,12 @@ public class TradeLicenseMasterController {
 	 */
 	@RequestMapping(path = "/uom/_search", method = RequestMethod.POST)
 	public UOMResponse getUomMaster(@RequestBody RequestInfoWrapper requestInfo,
-			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
-			@RequestParam(required = false) String name, @RequestParam(required = false) String code,
-			@RequestParam(required = false) Boolean active, @RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = true) String tenantId,
+			@RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = false) String name,
+			@RequestParam(required = false) String code,
+			@RequestParam(required = false) Boolean active,
+			@RequestParam(required = false) Integer pageSize,
 			@RequestParam(required = false) Integer offSet) throws Exception {
 
 		return uomService.getUomMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, active, pageSize,
@@ -199,5 +206,66 @@ public class TradeLicenseMasterController {
 		return penaltyRateService.getPenaltyRateMaster(requestInfo.getRequestInfo(), tenantId, ids, applicationTypeId,
 				pageSize, offSet);
 
+	}
+	
+	
+	/**
+	 * Description : This api for creating documentType master
+	 * 
+	 * @param tenantId
+	 * @param DocumentTypeRequest
+	 * @return DocumentTypeResponse
+	 */
+
+	@RequestMapping(path = "/documenttype/_create", method = RequestMethod.POST)
+	public DocumentTypeResponse createDocumentTypeMaster(
+			@RequestBody DocumentTypeRequest documentTypeRequest) {
+
+		return documentTypeService.createDocumentType( documentTypeRequest);
+
+	}
+
+
+
+	/**
+	 * Description : This api for updating DocumentType master
+	 * 
+	 * @param DocumentTypeRequest
+	 * @return DocumentTypeResponse
+	 */
+	@RequestMapping(path = "/documenttype/_update", method = RequestMethod.POST)
+	public DocumentTypeResponse updateDocumentTypeMaster(@RequestBody DocumentTypeRequest documentTypeRequest) {
+
+		return documentTypeService.updateDocumentType( documentTypeRequest );
+
+	}
+
+
+
+
+	/**
+	 * Description : This api for searching DocumentType master
+	 * 
+	 * @param requestInfo
+	 * @param tenantId
+	 * @param ids
+	 * @param name
+	 * @param applicationType
+	 * @param pageSize
+	 * @param offSet
+	 * @return PenaltyRateResponse
+	 * @throws Exception
+	 */
+	@RequestMapping(path = "/documenttype/_search", method = RequestMethod.POST)
+	public DocumentTypeResponse getDocumentTypeMaster(@RequestBody RequestInfoWrapper requestInfo,
+			@RequestParam(required = true) String tenantId,
+			@RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = false) String name,
+			@RequestParam(required = false) Boolean enabled,
+			@RequestParam(required = false) String applicationType,
+			@RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = false) Integer offSet) throws Exception {
+
+		return documentTypeService.getDocumentType(requestInfo.getRequestInfo(), tenantId, ids, name, enabled, applicationType, pageSize, offSet);
 	}
 }

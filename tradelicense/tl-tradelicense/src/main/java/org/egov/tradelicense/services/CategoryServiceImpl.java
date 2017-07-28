@@ -11,6 +11,7 @@ import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfo;
 import org.egov.models.ResponseInfo;
 import org.egov.models.ResponseInfoFactory;
+import org.egov.tradelicense.config.PropertiesManager;
 import org.egov.tradelicense.exception.DuplicateIdException;
 import org.egov.tradelicense.exception.InvalidInputException;
 import org.egov.tradelicense.repository.CategoryRepository;
@@ -31,6 +32,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	UtilityHelper utilityHelper;
+	
+	@Autowired
+	private PropertiesManager propertiesManager;
 
 	@Override
 	@Transactional
@@ -44,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 			Boolean isExists = utilityHelper.checkWhetherDuplicateRecordExits(category.getTenantId(),
 					category.getCode(), ConstantUtility.CATEGORY_TABLE_NAME, null);
 			if (isExists) {
-				throw new DuplicateIdException(requestInfo);
+				throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(),requestInfo);
 			}
 
 			if (ParentId != null) {
@@ -55,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 						Boolean isCategoryDetailExists = utilityHelper.checkWhetherDuplicateCategoryDetailRecordExits(
 								categoryDetail, ConstantUtility.CATEGORY_DETAIL_TABLE_NAME, null);
 						if (isCategoryDetailExists) {
-							throw new DuplicateIdException(requestInfo);
+							throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(), requestInfo);
 						}
 						Boolean isUomExists = utilityHelper.checkWhetherUomExists(categoryDetail);
 						if (isUomExists) {
@@ -103,7 +107,7 @@ public class CategoryServiceImpl implements CategoryService {
 			Boolean isExists = utilityHelper.checkWhetherDuplicateRecordExits(category.getTenantId(),
 					category.getCode(), ConstantUtility.CATEGORY_TABLE_NAME, category.getId());
 			if (isExists) {
-				throw new DuplicateIdException(requestInfo);
+				throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(),requestInfo);
 			}
 			if (ParentId != null) {
 				Boolean isParentExists = utilityHelper.checkWhetherParentRecordExits(category.getParentId(),
@@ -113,7 +117,7 @@ public class CategoryServiceImpl implements CategoryService {
 						Boolean isCategoryDetailExists = utilityHelper.checkWhetherDuplicateCategoryDetailRecordExits(
 								categoryDetail, ConstantUtility.CATEGORY_DETAIL_TABLE_NAME, categoryDetail.getId());
 						if (isCategoryDetailExists) {
-							throw new DuplicateIdException(requestInfo);
+							throw new DuplicateIdException(propertiesManager.getCategoryCustomMsg(),requestInfo);
 						}
 						Boolean isUomExists = utilityHelper.checkWhetherUomExists(categoryDetail);
 						if (isUomExists) {

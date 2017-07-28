@@ -40,4 +40,20 @@ public class PropertiesManager {
 	
 	@Value("${default.offset}")
 	private String defaultOffset;
+	
+	@Value("${duplicate.documentType.name}")
+	private String documentTypeCustomMsg;
+	
+	@Value("${duplicate.uom.code}")
+	private String uomCustomMsg;
+	
+	@Value("${duplicate.category.code}")
+	private String categoryCustomMsg;
+	
+	@Value("${duplicate.subcategory.code}")
+	private String subCategoryCustomMsg;
+	
+	
+	@Value("${duplicate.businessnature.code}")
+	private String businessNatureCustomMsg;
 }

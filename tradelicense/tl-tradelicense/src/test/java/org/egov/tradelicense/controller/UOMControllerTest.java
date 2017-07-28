@@ -20,6 +20,7 @@ import org.egov.models.UOM;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
 import org.egov.tradelicense.TradeLicenseApplication;
+import org.egov.tradelicense.config.PropertiesManager;
 import org.egov.tradelicense.services.CategoryService;
 import org.egov.tradelicense.services.PenaltyRateService;
 import org.egov.tradelicense.services.UOMService;
@@ -49,6 +50,9 @@ public class UOMControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@MockBean
+	private PropertiesManager propertiesManager;
 
 	@Test
 	public void testCreateUom() throws Exception {
@@ -68,7 +72,7 @@ public class UOMControllerTest {
 
 		try {
 
-			when(uomService.createUomMaster(any(String.class), any(UOMRequest.class))).thenReturn(uomResponse);
+			when(uomService.createUomMaster( any(UOMRequest.class))).thenReturn(uomResponse);
 
 			mockMvc.perform(post("/tradelicense/uom/_create").param("tenantId", "default")
 					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("uomCreateRequest.json")))

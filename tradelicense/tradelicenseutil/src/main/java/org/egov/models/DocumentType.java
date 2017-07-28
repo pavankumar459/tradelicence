@@ -1,5 +1,6 @@
 package org.egov.models;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -15,11 +16,12 @@ import lombok.NoArgsConstructor;
  * This class describe the set of fields contained in a Trade license
  * DocumentType
  * 
- * @author Pavan Kumar Kamma
+ * @author Shubham pratap Singh
  */
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class DocumentType {
 
 	private Long id = null;
@@ -30,14 +32,15 @@ public class DocumentType {
 	private String tenantId = null;
 
 	@NotNull
-	@Size(min = 4, max = 256)
+	@Max(value = 256)
 	private String name = null;
 
 	private Boolean mandatory = true;
 
 	private Boolean enabled = true;
-
-	private ApplicationTypeEnum applicationType = null;
+	
+	@NotNull
+	private ApplicationTypeEnum application_type;
 
 	@JsonProperty("auditDetails")
 	private AuditDetails auditDetails = null;

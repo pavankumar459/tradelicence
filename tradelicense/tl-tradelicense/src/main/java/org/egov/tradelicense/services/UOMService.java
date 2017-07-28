@@ -13,7 +13,7 @@ public interface UOMService {
 	 * @param UOMRequest
 	 * @return UOMResponse
 	 */
-	public UOMResponse createUomMaster(String tenantId, UOMRequest uomRequest);
+	public UOMResponse createUomMaster( UOMRequest uomRequest);
 
 	/**
 	 * Description : service method for updating UOM master

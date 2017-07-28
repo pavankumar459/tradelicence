@@ -73,7 +73,7 @@ public class UomServiceTest {
 		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = uomService.createUomMaster(tenantId, uomRequest);
+			UOMResponse uomResponse = uomService.createUomMaster( uomRequest);
 			if (uomResponse.getUoms().size() == 0) {
 				assertTrue(false);
 			}
@@ -138,7 +138,7 @@ public class UomServiceTest {
 		uomRequest.setRequestInfo(requestInfo);
 
 		try {
-			UOMResponse uomResponse = uomService.createUomMaster(tenantId, uomRequest);
+			UOMResponse uomResponse = uomService.createUomMaster( uomRequest);
 			if (uomResponse.getUoms().size() == 0) {
 				assertTrue(false);
 			}

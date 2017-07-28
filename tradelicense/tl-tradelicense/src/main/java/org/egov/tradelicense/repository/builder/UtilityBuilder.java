@@ -54,5 +54,30 @@ public class UtilityBuilder {
 
 		return uomValidationQuery.toString();
 	}
+	
+	public static String getUniqueTenantCodeQuerywithName(String tableName, String name, String tenantId, String applicationType, Long id) {
+
+		StringBuffer uniqueQuery = new StringBuffer("select count(*) from " + tableName);
+		uniqueQuery.append(" where name = '" + name + "'");
+		uniqueQuery.append(" AND tenantId = '" + tenantId + "'");
+		uniqueQuery.append(" AND applicationType = '" + applicationType + "'");
+		if (id != null) {
+			uniqueQuery.append(" AND id !=" + id);
+		}
+
+		return uniqueQuery.toString();
+
+	}
+	
+	
+	public static String getDocumentTypeValidationQuery(String tanentId, String name, String applicationName, String tableName) {
+
+		StringBuffer documentTypeValidationQuery = new StringBuffer("select count(*) from " + tableName);
+		documentTypeValidationQuery.append(" where tenantId = '" + tanentId + "'");
+		documentTypeValidationQuery.append(" AND name = '" + name + "'");
+		documentTypeValidationQuery.append(" AND applicationType = '" + applicationName + "'");
+
+		return documentTypeValidationQuery.toString();
+	}
 
 }
