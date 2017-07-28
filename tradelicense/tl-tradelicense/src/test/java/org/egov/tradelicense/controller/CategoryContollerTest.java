@@ -68,7 +68,7 @@ public class CategoryContollerTest {
 
 		try {
 
-			when(categoryService.createCategoryMaster(any(String.class), any(CategoryRequest.class)))
+			when(categoryService.createCategoryMaster(any(CategoryRequest.class)))
 					.thenReturn(categoryResponse);
 
 			mockMvc.perform(post("/tradelicense/category/_create").param("tenantId", "default")

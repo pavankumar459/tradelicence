@@ -71,7 +71,7 @@ public class CategoryServiceTest {
 		categoryRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = categoryService.createCategoryMaster(tenantId, categoryRequest);
+			CategoryResponse categoryResponse = categoryService.createCategoryMaster(categoryRequest);
 			if (categoryResponse.getCategories().size() == 0) {
 				assertTrue(false);
 			}
@@ -135,7 +135,7 @@ public class CategoryServiceTest {
 		categoryRequest.setRequestInfo(requestInfo);
 
 		try {
-			CategoryResponse categoryResponse = categoryService.createCategoryMaster(tenantId, categoryRequest);
+			CategoryResponse categoryResponse = categoryService.createCategoryMaster(categoryRequest);
 			if (categoryResponse.getCategories().size() == 0) {
 				assertTrue(false);
 			}

@@ -26,7 +26,7 @@ public class UOMServiceImpl implements UOMService {
 	private ResponseInfoFactory responseInfoFactory;
 
 	@Autowired
-	private UtilityHelper utilityHelper;
+	UtilityHelper utilityHelper;
 
 	@Autowired
 	UOMRepository uomRepository;
@@ -37,7 +37,7 @@ public class UOMServiceImpl implements UOMService {
 
 		for (UOM uom : uomRequest.getUoms()) {
 
-			Boolean isExists = utilityHelper.checkWhetherRecordExits(uom.getTenantId(), uom.getCode(),
+			Boolean isExists = utilityHelper.checkWhetherDuplicateRecordExits(uom.getTenantId(), uom.getCode(),
 					ConstantUtility.UOM_TABLE_NAME, null);
 			if (isExists)
 				throw new DuplicateIdException(uomRequest.getRequestInfo());
@@ -72,7 +72,7 @@ public class UOMServiceImpl implements UOMService {
 
 		for (UOM uom : uomRequest.getUoms()) {
 
-			Boolean isExists = utilityHelper.checkWhetherRecordExits(uom.getTenantId(), uom.getCode(),
+			Boolean isExists = utilityHelper.checkWhetherDuplicateRecordExits(uom.getTenantId(), uom.getCode(),
 					ConstantUtility.UOM_TABLE_NAME, uom.getId());
 
 			if (isExists)

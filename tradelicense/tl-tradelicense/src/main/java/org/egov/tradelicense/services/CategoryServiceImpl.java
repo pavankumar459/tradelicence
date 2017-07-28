@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.egov.models.AuditDetails;
 import org.egov.models.Category;
+import org.egov.models.CategoryDetail;
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfo;
@@ -33,33 +34,58 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional
-	public CategoryResponse createCategoryMaster(String tenantId, CategoryRequest categoryRequest) {
+	public CategoryResponse createCategoryMaster(CategoryRequest categoryRequest) {
 
+		RequestInfo requestInfo = categoryRequest.getRequestInfo();
+		AuditDetails auditDetails = utilityHelper.getCreateMasterAuditDetals(requestInfo);
 		for (Category category : categoryRequest.getCategories()) {
 
-			Boolean isExists = utilityHelper.checkWhetherRecordExits(category.getTenantId(), category.getCode(),
-					ConstantUtility.CATEGORY_TABLE_NAME, null);
-			if (isExists)
-				throw new DuplicateIdException(categoryRequest.getRequestInfo());
+			Long ParentId = category.getParentId();
+			Boolean isExists = utilityHelper.checkWhetherDuplicateRecordExits(category.getTenantId(),
+					category.getCode(), ConstantUtility.CATEGORY_TABLE_NAME, null);
+			if (isExists) {
+				throw new DuplicateIdException(requestInfo);
+			}
 
-			RequestInfo requestInfo = categoryRequest.getRequestInfo();
-			AuditDetails auditDetails = utilityHelper.getCreateMasterAuditDetals(requestInfo);
-			try {
-
-				category.setAuditDetails(auditDetails);
-				Long id = categoryRepository.createCategory(tenantId, category);
-				category.setId(id);
-
-			} catch (Exception e) {
-				throw new InvalidInputException(categoryRequest.getRequestInfo());
+			if (ParentId != null) {
+				Boolean isParentExists = utilityHelper.checkWhetherParentRecordExits(category.getParentId(),
+						ConstantUtility.CATEGORY_TABLE_NAME);
+				if (isParentExists) {
+					for (CategoryDetail categoryDetail : category.getDetails()) {
+						Boolean isCategoryDetailExists = utilityHelper.checkWhetherDuplicateCategoryDetailRecordExits(
+								categoryDetail, ConstantUtility.CATEGORY_DETAIL_TABLE_NAME, null);
+						if (isCategoryDetailExists) {
+							throw new DuplicateIdException(requestInfo);
+						}
+						Boolean isUomExists = utilityHelper.checkWhetherUomExists(categoryDetail);
+						if (isUomExists) {
+							try {
+								category.setAuditDetails(auditDetails);
+								Long id = categoryRepository.createCategory(category.getTenantId(), category);
+								category.setId(id);
+							} catch (Exception e) {
+								throw new InvalidInputException(requestInfo);
+							}
+						} else {
+							throw new InvalidInputException(requestInfo);
+						}
+					}
+				} else {
+					throw new InvalidInputException(requestInfo);
+				}
+			} else {
+				try {
+					category.setAuditDetails(auditDetails);
+					Long id = categoryRepository.createCategory(category.getTenantId(), category);
+					category.setId(id);
+				} catch (Exception e) {
+					throw new InvalidInputException(requestInfo);
+				}
 			}
 		}
 
 		CategoryResponse categoryResponse = new CategoryResponse();
-
-		ResponseInfo responseInfo = responseInfoFactory
-				.createResponseInfoFromRequestInfo(categoryRequest.getRequestInfo(), true);
-
+		ResponseInfo responseInfo = responseInfoFactory.createResponseInfoFromRequestInfo(requestInfo, true);
 		categoryResponse.setCategories(categoryRequest.getCategories());
 		categoryResponse.setResponseInfo(responseInfo);
 
@@ -70,35 +96,60 @@ public class CategoryServiceImpl implements CategoryService {
 	@Transactional
 	public CategoryResponse updateCategoryMaster(CategoryRequest categoryRequest) {
 
+		RequestInfo requestInfo = categoryRequest.getRequestInfo();
 		for (Category category : categoryRequest.getCategories()) {
 
-			Boolean isExists = utilityHelper.checkWhetherRecordExits(category.getTenantId(), category.getCode(),
-					ConstantUtility.CATEGORY_TABLE_NAME, category.getId());
-
-			if (isExists)
-				throw new DuplicateIdException(categoryRequest.getRequestInfo());
-
-			RequestInfo requestInfo = categoryRequest.getRequestInfo();
-			try {
-
-				Long updatedTime = new Date().getTime();
-				category.getAuditDetails().setLastModifiedTime(updatedTime);
-				category.getAuditDetails().setLastModifiedBy(requestInfo.getUserInfo().getUsername());
-				category = categoryRepository.updateCategory(category);
-
-			} catch (Exception e) {
-
-				throw new InvalidInputException(categoryRequest.getRequestInfo());
-
+			Long ParentId = category.getParentId();
+			Boolean isExists = utilityHelper.checkWhetherDuplicateRecordExits(category.getTenantId(),
+					category.getCode(), ConstantUtility.CATEGORY_TABLE_NAME, category.getId());
+			if (isExists) {
+				throw new DuplicateIdException(requestInfo);
+			}
+			if (ParentId != null) {
+				Boolean isParentExists = utilityHelper.checkWhetherParentRecordExits(category.getParentId(),
+						ConstantUtility.CATEGORY_TABLE_NAME);
+				if (isParentExists) {
+					for (CategoryDetail categoryDetail : category.getDetails()) {
+						Boolean isCategoryDetailExists = utilityHelper.checkWhetherDuplicateCategoryDetailRecordExits(
+								categoryDetail, ConstantUtility.CATEGORY_DETAIL_TABLE_NAME, categoryDetail.getId());
+						if (isCategoryDetailExists) {
+							throw new DuplicateIdException(requestInfo);
+						}
+						Boolean isUomExists = utilityHelper.checkWhetherUomExists(categoryDetail);
+						if (isUomExists) {
+							try {
+								Long updatedTime = new Date().getTime();
+								category.getAuditDetails().setLastModifiedTime(updatedTime);
+								category.getAuditDetails().setLastModifiedBy(requestInfo.getUserInfo().getUsername());
+								categoryDetail = categoryRepository.updateCategoryDetail(categoryDetail);
+								category = categoryRepository.updateCategory(category);
+							} catch (Exception e) {
+								throw new InvalidInputException(categoryRequest.getRequestInfo());
+							}
+						} else {
+							throw new InvalidInputException(requestInfo);
+						}
+					}
+				} else {
+					throw new InvalidInputException(requestInfo);
+				}
+			} else {
+				try {
+					Long updatedTime = new Date().getTime();
+					category.getAuditDetails().setLastModifiedTime(updatedTime);
+					category.getAuditDetails().setLastModifiedBy(requestInfo.getUserInfo().getUsername());
+					category = categoryRepository.updateCategory(category);
+				} catch (Exception e) {
+					throw new InvalidInputException(categoryRequest.getRequestInfo());
+				}
 			}
 		}
 
 		CategoryResponse categoryResponse = new CategoryResponse();
-
 		categoryResponse.setCategories(categoryRequest.getCategories());
-		ResponseInfo responseInfo = responseInfoFactory
-				.createResponseInfoFromRequestInfo(categoryRequest.getRequestInfo(), true);
+		ResponseInfo responseInfo = responseInfoFactory.createResponseInfoFromRequestInfo(requestInfo, true);
 		categoryResponse.setResponseInfo(responseInfo);
+
 		return categoryResponse;
 	}
 

@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.egov.models.AuditDetails;
 import org.egov.models.Category;
+import org.egov.models.CategoryDetail;
 import org.egov.tradelicense.repository.builder.CategoryQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,8 +34,7 @@ public class CategoryRepository {
 	 */
 	public Long createCategory(String tenantId, Category category) {
 
-		Long createdTime = new Date().getTime();
-
+		AuditDetails auditDetails = category.getAuditDetails();
 		String categoryInsert = CategoryQueryBuilder.INSERT_CATEGORY_QUERY;
 
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
@@ -46,10 +45,36 @@ public class CategoryRepository {
 				ps.setString(1, category.getTenantId());
 				ps.setString(2, category.getCode());
 				ps.setString(3, category.getName());
-				ps.setString(4, category.getAuditDetails().getCreatedBy());
-				ps.setString(5, category.getAuditDetails().getLastModifiedBy());
-				ps.setLong(6, createdTime);
-				ps.setLong(7, createdTime);
+				ps.setString(4, auditDetails.getCreatedBy());
+				ps.setString(5, auditDetails.getLastModifiedBy());
+				ps.setLong(6, auditDetails.getCreatedTime());
+				ps.setLong(7, auditDetails.getLastModifiedTime());
+				return ps;
+			}
+		};
+
+		// The newly generated key will be saved in this object
+		final KeyHolder holder = new GeneratedKeyHolder();
+		jdbcTemplate.update(psc, holder);
+
+		return Long.valueOf(holder.getKey().intValue());
+
+	}
+
+	public Long createCategoryDetail(CategoryDetail categoryDetail) {
+
+		String categoryDetailInsert = CategoryQueryBuilder.INSERT_CATEGORY_DETAIL_QUERY;
+
+		final PreparedStatementCreator psc = new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
+				final PreparedStatement ps = connection.prepareStatement(categoryDetailInsert, new String[] { "id" });
+
+				ps.setLong(1, categoryDetail.getCategoryId());
+				ps.setString(2, categoryDetail.getFeeType().toString());
+				ps.setString(3, categoryDetail.getRateType().toString());
+				ps.setString(4, categoryDetail.getUomId().toString());
+
 				return ps;
 			}
 		};
@@ -70,8 +95,7 @@ public class CategoryRepository {
 	 */
 	public Category updateCategory(Category category) {
 
-		Long updatedTime = new Date().getTime();
-
+		AuditDetails auditDetails = category.getAuditDetails();
 		String categoryUpdateSql = CategoryQueryBuilder.UPDATE_CATEGORY_QUERY;
 
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
@@ -83,7 +107,7 @@ public class CategoryRepository {
 				ps.setString(2, category.getCode());
 				ps.setString(3, category.getName());
 				ps.setString(4, category.getAuditDetails().getLastModifiedBy());
-				ps.setLong(5, updatedTime);
+				ps.setLong(5, auditDetails.getLastModifiedTime());
 				ps.setLong(6, category.getId());
 
 				return ps;
@@ -92,6 +116,29 @@ public class CategoryRepository {
 
 		jdbcTemplate.update(psc);
 		return category;
+	}
+
+	public CategoryDetail updateCategoryDetail(CategoryDetail categoryDetail) {
+
+		String categoryDetailsUpdateSql = CategoryQueryBuilder.UPDATE_CATEGORY_DETAIL_QUERY;
+
+		final PreparedStatementCreator psc = new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
+				final PreparedStatement ps = connection.prepareStatement(categoryDetailsUpdateSql);
+
+				ps.setLong(1, categoryDetail.getCategoryId());
+				ps.setString(2, categoryDetail.getFeeType().toString());
+				ps.setString(3, categoryDetail.getRateType().toString());
+				ps.setString(4, categoryDetail.getUomId().toString());
+				ps.setLong(5, categoryDetail.getId());
+
+				return ps;
+			}
+		};
+
+		jdbcTemplate.update(psc);
+		return categoryDetail;
 	}
 
 	/**

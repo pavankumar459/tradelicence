@@ -40,16 +40,14 @@ public class TradeLicenseMasterController {
 	/**
 	 * Description : This api for creating category master
 	 * 
-	 * @param tenantId
 	 * @param CategoryRequest
 	 * @return CategoryResponse
 	 */
 
 	@RequestMapping(path = "/category/_create", method = RequestMethod.POST)
-	public CategoryResponse createCategoryMaster(@RequestParam(required = true) String tenantId,
-			@RequestBody CategoryRequest categoryRequest) {
+	public CategoryResponse createCategoryMaster(@RequestBody CategoryRequest categoryRequest) {
 
-		return categoryService.createCategoryMaster(tenantId, categoryRequest);
+		return categoryService.createCategoryMaster(categoryRequest);
 
 	}
 
@@ -80,17 +78,22 @@ public class TradeLicenseMasterController {
 	 * @return CategoryResponse
 	 * @throws Exception
 	 */
-	@RequestMapping(path = "/category/_search", method = RequestMethod.POST)
-	public CategoryResponse getCategoryMaster(@RequestBody RequestInfoWrapper requestInfo,
-			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
-			@RequestParam(required = false) String name, @RequestParam(required = false) String code,
-			@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer offSet)
-			throws Exception {
-
-		return categoryService.getCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, pageSize,
-				offSet);
-
-	}
+	 @RequestMapping(path = "/category/_search", method = RequestMethod.POST)
+	 public CategoryResponse getCategoryMaster(@RequestBody RequestInfoWrapper
+	 requestInfo,
+	 @RequestParam(required = true) String tenantId, @RequestParam(required =
+	 false) Integer[] ids,
+	 @RequestParam(required = false) String name, @RequestParam(required =
+	 false) String code,
+	 @RequestParam(required = false) Integer pageSize, @RequestParam(required
+	 = false) Integer offSet)
+	 throws Exception {
+	
+	 return categoryService.getCategoryMaster(requestInfo.getRequestInfo(),
+	 tenantId, ids, name, code, pageSize,
+	 offSet);
+	
+	 }
 
 	/**
 	 * Description : This api for creating UOM master

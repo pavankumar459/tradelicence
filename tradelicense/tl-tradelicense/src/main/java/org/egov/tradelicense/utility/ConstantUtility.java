@@ -12,6 +12,8 @@ public class ConstantUtility {
 	// Master table names
 
 	public static final String CATEGORY_TABLE_NAME = "egtl_mstr_category";
+	
+	public static final String CATEGORY_DETAIL_TABLE_NAME = "egtl_category_details";
 
 	public static final String UOM_TABLE_NAME = "egtl_mstr_uom";
 }

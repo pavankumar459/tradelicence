@@ -3,9 +3,11 @@ package org.egov.tradelicense.repository.helper;
 import java.util.Date;
 
 import org.egov.models.AuditDetails;
+import org.egov.models.CategoryDetail;
 import org.egov.models.RequestInfo;
 import org.egov.models.UserInfo;
 import org.egov.tradelicense.repository.builder.UtilityBuilder;
+import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -24,78 +26,94 @@ public class UtilityHelper {
 	 * @param code
 	 * @return True / false if record exists / record does n't exists
 	 */
-	public Boolean checkWhetherRecordExits(String tenantId, String code, String tableName, Long id) {
+	public Boolean checkWhetherDuplicateRecordExits(String tenantId, String code, String tableName, Long id) {
 
 		Boolean isExists = Boolean.TRUE;
-
 		String query = UtilityBuilder.getUniqueTenantCodeQuery(tableName, code, tenantId, id);
-
 		int count = 0;
 
 		try {
-
 			count = (Integer) jdbcTemplate.queryForObject(query, Integer.class);
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
 
-		if (count == 0)
+		if (count == 0) {
 			isExists = Boolean.FALSE;
+		}
 
 		return isExists;
-
 	}
 
-	/*public Boolean checkWhetherCategoryExists(SubCategory subCategory) {
+	/**
+	 * This will check whether any record exists with the given parentId in
+	 * database or not
+	 * 
+	 * @param tenantId
+	 * @param parentId
+	 * @return True / false if record exists / record does n't exists
+	 */
+	public Boolean checkWhetherParentRecordExits(Long parentId, String tableName) {
 
-		Boolean isExists = Boolean.FALSE;
-		String tableName = ConstantUtility.CATEGORY_TABLE_NAME;
-		Long categoryId = subCategory.getCategoryId();
-		String query = UtilityBuilder.getCategoryValidationQuery(tableName, categoryId);
+		Boolean isExists = Boolean.TRUE;
+		String query = UtilityBuilder.getCategoryParentValidationQuery(tableName, parentId);
 		int count = 0;
 
 		try {
-
 			count = (Integer) jdbcTemplate.queryForObject(query, Integer.class);
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
 
-		if (count > 0)
-			isExists = Boolean.TRUE;
+		if (count == 0) {
+			isExists = Boolean.FALSE;
+		}
 
 		return isExists;
 	}
 
-	public Boolean checkWhetherUomExists(SubCategoryDetail subCategoryDetail) {
+	public Boolean checkWhetherDuplicateCategoryDetailRecordExits(CategoryDetail categoryDetail, String tableName, Long id) {
+
+		Boolean isExists = Boolean.TRUE;
+		Long categoryId = categoryDetail.getCategoryId();
+		String feeType = categoryDetail.getFeeType().toString();
+		String rateType = categoryDetail.getRateType().toString();
+		String query = UtilityBuilder.getCategoryDetailValidationQuery(tableName, categoryId, feeType, rateType, id);
+		int count = 0;
+
+		try {
+			count = (Integer) jdbcTemplate.queryForObject(query, Integer.class);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		if (count == 0) {
+			isExists = Boolean.FALSE;
+		}
+
+		return isExists;
+	}
+
+	public Boolean checkWhetherUomExists(CategoryDetail categoryDetail) {
 
 		Boolean isExists = Boolean.FALSE;
 		String tableName = ConstantUtility.UOM_TABLE_NAME;
-		String uomId = subCategoryDetail.getUomId();
+		Long uomId = categoryDetail.getUomId();
 		String query = UtilityBuilder.getUomValidationQuery(tableName, uomId);
 		int count = 0;
 
 		try {
-
 			count = (Integer) jdbcTemplate.queryForObject(query, Integer.class);
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
 
-		if (count > 0)
+		if (count > 0) {
 			isExists = Boolean.TRUE;
+		}
 
 		return isExists;
-	}*/
+	}
 
 	public AuditDetails getCreateMasterAuditDetals(RequestInfo requestInfo) {
 
@@ -104,6 +122,7 @@ public class UtilityHelper {
 		auditDetails.setCreatedTime(createdTime);
 		auditDetails.setLastModifiedTime(createdTime);
 		UserInfo userInfo = requestInfo.getUserInfo();
+
 		if (userInfo != null) {
 			auditDetails.setCreatedBy(userInfo.getUsername());
 			auditDetails.setLastModifiedBy(requestInfo.getUserInfo().getUsername());

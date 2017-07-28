@@ -21,15 +21,33 @@ public class UtilityBuilder {
 
 	}
 
-	public static String getCategoryValidationQuery(String tableName, Long categoryId) {
+	public static String getCategoryParentValidationQuery(String tableName, Long parentId) {
 
-		StringBuffer categoryValidationQuery = new StringBuffer("select count(*) from " + tableName);
-		categoryValidationQuery.append(" where id = '" + categoryId + "'");
+		StringBuffer categoryParentValidationQuery = new StringBuffer("select count(*) from " + tableName);
+		categoryParentValidationQuery.append(" where id = '" + parentId + "'");
 
-		return categoryValidationQuery.toString();
+		return categoryParentValidationQuery.toString();
 	}
 
-	public static String getUomValidationQuery(String tableName, String uomId) {
+	public static String getCategoryDetailValidationQuery(String tableName, Long categoryId, String feeType,
+			String rateType, Long id) {
+
+		StringBuffer categoryDetailValidationQuery = new StringBuffer("select count(*) from " + tableName);
+		categoryDetailValidationQuery.append(" where id = '" + categoryId + "'");
+		if (feeType != null && !feeType.isEmpty()) {
+			categoryDetailValidationQuery.append(" where feeType = '" + feeType + "'");
+		}
+		if (rateType != null && !rateType.isEmpty()) {
+			categoryDetailValidationQuery.append(" where rateType = '" + rateType + "'");
+		}
+		if (id != null) {
+			categoryDetailValidationQuery.append(" AND id !=" + id);
+		}
+
+		return categoryDetailValidationQuery.toString();
+	}
+
+	public static String getUomValidationQuery(String tableName, Long uomId) {
 
 		StringBuffer uomValidationQuery = new StringBuffer("select count(*) from " + tableName);
 		uomValidationQuery.append(" where id = '" + uomId + "'");

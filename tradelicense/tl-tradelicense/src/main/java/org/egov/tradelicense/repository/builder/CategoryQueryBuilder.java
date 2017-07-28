@@ -13,8 +13,14 @@ public class CategoryQueryBuilder {
 			+ " (tenantId, code, name, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
 			+ " VALUES(?,?,?,?,?,?,?)";
 
+	public static final String INSERT_CATEGORY_DETAIL_QUERY = "INSERT INTO egtl_category_details"
+			+ " (categoryId, feeType, rateType, uomId)" + " VALUES(?,?,?,?)";
+
 	public static final String UPDATE_CATEGORY_QUERY = "UPDATE egtl_mstr_category"
 			+ " SET tenantId = ?, code = ?, name = ?," + " lastModifiedBy = ?, lastModifiedTime = ?" + " WHERE id = ?";
+
+	public static final String UPDATE_CATEGORY_DETAIL_QUERY = "UPDATE egtl_category_details"
+			+ " SET categoryId = ?, feeType = ?, rateType = ?," + " uomId = ?" + " WHERE id = ?";
 
 	public static String buildSearchQuery(String tenantId, Integer[] ids, String name, String code, Integer pageSize,
 			Integer offSet, List<Object> preparedStatementValues) {

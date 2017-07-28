@@ -14,7 +14,7 @@ public interface CategoryService {
 	 * @return CategoryResponse
 	 * @throws Exception
 	 */
-	public CategoryResponse createCategoryMaster(String tenantId, CategoryRequest categoryRequest);
+	public CategoryResponse createCategoryMaster(CategoryRequest categoryRequest);
 
 	/**
 	 * Description : service method for updating category master
