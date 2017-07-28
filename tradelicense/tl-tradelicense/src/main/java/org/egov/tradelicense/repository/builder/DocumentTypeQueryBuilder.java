@@ -5,13 +5,13 @@ import java.util.List;
 public class DocumentTypeQueryBuilder {
 
 	public static final String INSERT_DOCUMENT_TYPE_QUERY = "INSERT INTO egtl_mstr_document_type"
-			+ " (tenantId, name, mandatory, enabled, application_type, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
+			+ " (tenantId, name, mandatory, enabled, applicationType, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
 			+ " VALUES(?,?,?,?,?,?,?,?,?)";
 
 
 
 	public static final String UPDATE_DOCUMENT_TYPE_QUERY = "UPDATE egtl_mstr_document_type"
-			+ " SET tenantId = ?, name = ?, mandatory = ?, enabled = ?, application_type = ?," + " lastModifiedBy = ?, lastModifiedTime = ?" + " WHERE id = ?";
+			+ " SET tenantId = ?, name = ?, mandatory = ?, enabled = ?, applicationType = ?," + " lastModifiedBy = ?, lastModifiedTime = ?" + " WHERE id = ?";
 
 
 
@@ -51,7 +51,7 @@ public class DocumentTypeQueryBuilder {
 		}
 		
 		if (applicationType != null && !applicationType.isEmpty()) {
-			searchSql.append(" AND application_type =? ");
+			searchSql.append(" AND applicationType =? ");
 			preparedStatementValues.add(applicationType);
 		}
 

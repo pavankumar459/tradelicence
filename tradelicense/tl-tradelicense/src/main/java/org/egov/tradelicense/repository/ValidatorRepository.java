@@ -93,7 +93,7 @@ public class ValidatorRepository {
 
 		return isExists;
 	}*/
-	
+
 	/**
 	 * This will check whether any record exists with the given tenantId & name
 	 * in database or not
@@ -126,8 +126,8 @@ public class ValidatorRepository {
 		return isExists;
 
 	}
-	
-	
+
+
 	public Boolean checkWhetherDocumentTypeExists(DocumentType documentType) {
 
 		Boolean isExists = Boolean.FALSE;

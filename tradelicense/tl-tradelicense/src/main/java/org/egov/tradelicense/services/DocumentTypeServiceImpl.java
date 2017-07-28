@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.egov.models.AuditDetails;
-import org.egov.models.Category;
-import org.egov.models.CategoryResponse;
 import org.egov.models.DocumentType;
 import org.egov.models.DocumentTypeRequest;
 import org.egov.models.DocumentTypeResponse;
@@ -20,12 +18,11 @@ import org.egov.tradelicense.repository.DocumentTypeRepository;
 import org.egov.tradelicense.repository.ValidatorRepository;
 import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DocumentTypeServiceImpl implements DocumentTypeService {
-	
+
 	@Autowired
 	private PropertiesManager propertiesManager;
 

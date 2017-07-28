@@ -8,9 +8,6 @@ import java.util.List;
 
 import org.egov.enums.ApplicationTypeEnum;
 import org.egov.models.AuditDetails;
-import org.egov.models.Category;
-import org.egov.models.CategoryRequest;
-import org.egov.models.CategoryResponse;
 import org.egov.models.DocumentType;
 import org.egov.models.DocumentTypeRequest;
 import org.egov.models.DocumentTypeResponse;
@@ -40,8 +37,8 @@ public class DocumentTypeServiceTest {
 
 	@Autowired
 	DocumentTypeService documentTypeService;
-	
-	
+
+
 	@Autowired
 	private PropertiesManager propertiesManager;
 

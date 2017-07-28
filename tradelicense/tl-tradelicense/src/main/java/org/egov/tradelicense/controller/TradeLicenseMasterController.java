@@ -39,7 +39,7 @@ public class TradeLicenseMasterController {
 
 	@Autowired
 	PenaltyRateService penaltyRateService;
-	
+
 	@Autowired
 	DocumentTypeService documentTypeService;
 
@@ -84,22 +84,22 @@ public class TradeLicenseMasterController {
 	 * @return CategoryResponse
 	 * @throws Exception
 	 */
-	 @RequestMapping(path = "/category/_search", method = RequestMethod.POST)
-	 public CategoryResponse getCategoryMaster(@RequestBody RequestInfoWrapper
-	 requestInfo,
-	 @RequestParam(required = true) String tenantId, @RequestParam(required =
-	 false) Integer[] ids,
-	 @RequestParam(required = false) String name, @RequestParam(required =
-	 false) String code,
-	 @RequestParam(required = false) Integer pageSize, @RequestParam(required
-	 = false) Integer offSet)
-	 throws Exception {
-	
-	 return categoryService.getCategoryMaster(requestInfo.getRequestInfo(),
-	 tenantId, ids, name, code, pageSize,
-	 offSet);
-	
-	 }
+	@RequestMapping(path = "/category/_search", method = RequestMethod.POST)
+	public CategoryResponse getCategoryMaster(@RequestBody RequestInfoWrapper
+			requestInfo,
+			@RequestParam(required = true) String tenantId, @RequestParam(required =
+			false) Integer[] ids,
+			@RequestParam(required = false) String name, @RequestParam(required =
+			false) String code,
+			@RequestParam(required = false) Integer pageSize, @RequestParam(required
+					= false) Integer offSet)
+							throws Exception {
+
+		return categoryService.getCategoryMaster(requestInfo.getRequestInfo(),
+				tenantId, ids, name, code, pageSize,
+				offSet);
+
+	}
 
 	/**
 	 * Description : This api for creating UOM master
@@ -107,12 +107,12 @@ public class TradeLicenseMasterController {
 	 * @param UOMRequest
 	 * @return UOMResponse
 	 */
-	 @RequestMapping(path = "/uom/_create", method = RequestMethod.POST)
-		public UOMResponse createUomMaster(@RequestBody UOMRequest uomRequest) {
+	@RequestMapping(path = "/uom/_create", method = RequestMethod.POST)
+	public UOMResponse createUomMaster(@RequestBody UOMRequest uomRequest) {
 
-			return uomService.createUomMaster( uomRequest );
+		return uomService.createUomMaster( uomRequest );
 
-		}
+	}
 
 	/**
 	 * Description : This api for updating UOM master
@@ -199,16 +199,18 @@ public class TradeLicenseMasterController {
 	 */
 	@RequestMapping(path = "/penaltyrate/_search", method = RequestMethod.POST)
 	public PenaltyRateResponse getPenaltyRateMaster(@RequestBody RequestInfoWrapper requestInfo,
-			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
-			@RequestParam(required = true) String applicationTypeId, @RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = true) String tenantId,
+			@RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = true) String applicationTypeId, 
+			@RequestParam(required = false) Integer pageSize,
 			@RequestParam(required = false) Integer offSet) throws Exception {
 
 		return penaltyRateService.getPenaltyRateMaster(requestInfo.getRequestInfo(), tenantId, ids, applicationTypeId,
 				pageSize, offSet);
 
 	}
-	
-	
+
+
 	/**
 	 * Description : This api for creating documentType master
 	 * 

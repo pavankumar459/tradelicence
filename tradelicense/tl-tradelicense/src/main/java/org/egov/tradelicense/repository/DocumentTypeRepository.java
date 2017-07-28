@@ -10,9 +10,7 @@ import java.util.Map;
 
 import org.egov.enums.ApplicationTypeEnum;
 import org.egov.models.AuditDetails;
-import org.egov.models.Category;
 import org.egov.models.DocumentType;
-import org.egov.tradelicense.repository.builder.CategoryQueryBuilder;
 import org.egov.tradelicense.repository.builder.DocumentTypeQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
