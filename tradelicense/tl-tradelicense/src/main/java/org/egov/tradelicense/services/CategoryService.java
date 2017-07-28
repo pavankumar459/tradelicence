@@ -40,6 +40,6 @@ public interface CategoryService {
 	 * @throws Exception
 	 */
 	public CategoryResponse getCategoryMaster(RequestInfo requestInfo, String tenantId, Integer[] ids, String name,
-			String code, Integer pageSize, Integer offSet);
+			String code, String type, Integer pageSize, Integer offSet);
 
 }

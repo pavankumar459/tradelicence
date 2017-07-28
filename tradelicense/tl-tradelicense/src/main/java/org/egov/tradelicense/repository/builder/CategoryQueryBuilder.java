@@ -21,12 +21,36 @@ public class CategoryQueryBuilder {
 
 	public static final String UPDATE_CATEGORY_DETAIL_QUERY = "UPDATE egtl_category_details"
 			+ " SET categoryId = ?, feeType = ?, rateType = ?," + " uomId = ?" + " WHERE id = ?";
+	
+	public static final String buildCategoryDetailSearchQuery(Long categoryId, Integer pageSize,
+			Integer offSet, List<Object> preparedStatementValues){
+		
+		StringBuffer searchSql = new StringBuffer();
+		searchSql.append("select * from egtl_category_details where ");
+		if(categoryId != null){
+			searchSql.append(" categoryId = ? ");
+			preparedStatementValues.add(categoryId);
+		}
+		if (pageSize == null)
+			pageSize = 30;
+
+		searchSql.append(" limit ? ");
+		preparedStatementValues.add(pageSize);
+
+		if (offSet == null)
+			offSet = 0;
+
+		searchSql.append(" offset ? ");
+		preparedStatementValues.add(offSet);
+
+		return searchSql.toString();
+	}
+			
 
 	public static String buildSearchQuery(String tenantId, Integer[] ids, String name, String code, Integer pageSize,
 			Integer offSet, List<Object> preparedStatementValues) {
 
 		StringBuffer searchSql = new StringBuffer();
-
 		searchSql.append("select * from egtl_mstr_category where ");
 		searchSql.append(" tenantId = ? ");
 		preparedStatementValues.add(tenantId);

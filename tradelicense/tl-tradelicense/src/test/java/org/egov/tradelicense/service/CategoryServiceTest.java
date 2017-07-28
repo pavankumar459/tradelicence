@@ -42,6 +42,7 @@ public class CategoryServiceTest {
 	public String tenantId = "default";
 	public String name = "Flammables v1.1";
 	public String code = "Flammables v1.1";
+	public String type = "CATEGORY";
 	public String updatedName = "Flammables v1.1 name updated";
 	public String updatedCode = "Flammables v1.1 code updated";
 
@@ -97,7 +98,7 @@ public class CategoryServiceTest {
 
 		try {
 			CategoryResponse categoryResponse = categoryService.getCategoryMaster(requestInfo, tenantId,
-					new Integer[] { categoryId.intValue() }, name, code, pageSize, offset);
+					new Integer[] { categoryId.intValue() }, name, code, type, pageSize, offset);
 			if (categoryResponse.getCategories().size() == 0)
 				assertTrue(false);
 
@@ -208,7 +209,7 @@ public class CategoryServiceTest {
 
 		try {
 			CategoryResponse categoryResponse = categoryService.getCategoryMaster(requestInfo, tenantId,
-					new Integer[] { categoryId.intValue() }, updatedName, code, pageSize, offset);
+					new Integer[] { categoryId.intValue() }, updatedName, code, type, pageSize, offset);
 			if (categoryResponse.getCategories().size() == 0)
 				assertTrue(false);
 
@@ -314,7 +315,7 @@ public class CategoryServiceTest {
 
 		try {
 			CategoryResponse categoryResponse = categoryService.getCategoryMaster(requestInfo, tenantId,
-					new Integer[] { categoryId.intValue() }, updatedName, updatedCode, pageSize, offset);
+					new Integer[] { categoryId.intValue() }, updatedName, updatedCode, type, pageSize, offset);
 			if (categoryResponse.getCategories().size() == 0)
 				assertTrue(false);
 

@@ -85,19 +85,14 @@ public class TradeLicenseMasterController {
 	 * @throws Exception
 	 */
 	@RequestMapping(path = "/category/_search", method = RequestMethod.POST)
-	public CategoryResponse getCategoryMaster(@RequestBody RequestInfoWrapper
-			requestInfo,
-			@RequestParam(required = true) String tenantId, @RequestParam(required =
-			false) Integer[] ids,
-			@RequestParam(required = false) String name, @RequestParam(required =
-			false) String code,
-			@RequestParam(required = false) Integer pageSize, @RequestParam(required
-					= false) Integer offSet)
-							throws Exception {
+	public CategoryResponse getCategoryMaster(@RequestBody RequestInfoWrapper requestInfo,
+			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = false) String name, @RequestParam(required = false) String code,
+			@RequestParam(required = true) String type, @RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = false) Integer offSet) throws Exception {
 
-		return categoryService.getCategoryMaster(requestInfo.getRequestInfo(),
-				tenantId, ids, name, code, pageSize,
-				offSet);
+		return categoryService.getCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, type,
+				pageSize, offSet);
 
 	}
 

@@ -1,11 +1,13 @@
 package org.egov.tradelicense.repository.helper;
 
 import java.util.Date;
+import java.util.List;
 
 import org.egov.models.AuditDetails;
 import org.egov.models.CategoryDetail;
 import org.egov.models.RequestInfo;
 import org.egov.models.UserInfo;
+import org.egov.tradelicense.repository.builder.CategoryQueryBuilder;
 import org.egov.tradelicense.repository.builder.UtilityBuilder;
 import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +116,7 @@ public class UtilityHelper {
 
 		return isExists;
 	}
-
+	
 	public AuditDetails getCreateMasterAuditDetals(RequestInfo requestInfo) {
 
 		AuditDetails auditDetails = new AuditDetails();

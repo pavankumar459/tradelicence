@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.egov.enums.FeeTypeEnum;
+import org.egov.enums.RateTypeEnum;
 import org.egov.models.AuditDetails;
 import org.egov.models.Category;
 import org.egov.models.CategoryDetail;
@@ -163,6 +165,37 @@ public class CategoryRepository {
 
 		return categories;
 
+	}
+
+	public List<CategoryDetail> getCategoryDetailsByCategoryId(Long categoryId, Integer pageSize, Integer offSet) {
+
+		List<Object> preparedStatementValues = new ArrayList<>();
+		String categoryDetailSearchQuery = CategoryQueryBuilder.buildCategoryDetailSearchQuery(categoryId, pageSize,
+				offSet, preparedStatementValues);
+		List<CategoryDetail> categoryDetails = getCategoryDetails(categoryDetailSearchQuery.toString(),
+				preparedStatementValues);
+
+		return categoryDetails;
+
+	}
+
+	private List<CategoryDetail> getCategoryDetails(String query, List<Object> preparedStatementValues) {
+
+		List<CategoryDetail> categoryDetails = new ArrayList<>();
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(query, preparedStatementValues.toArray());
+
+		for (Map<String, Object> row : rows) {
+			CategoryDetail categoryDetail = new CategoryDetail();
+			categoryDetail.setId(getLong(row.get("id")));
+			categoryDetail.setCategoryId(getLong(row.get("categoryId")));
+			categoryDetail.setFeeType(FeeTypeEnum.fromValue(getString(row.get("feeType"))));
+			categoryDetail.setRateType(RateTypeEnum.fromValue(getString(row.get("rateType"))));
+			categoryDetail.setUomId(getLong(row.get("uomId")));
+
+			categoryDetails.add(categoryDetail);
+		}
+
+		return categoryDetails;
 	}
 
 	/**
