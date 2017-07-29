@@ -18,6 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * PenaltyRateService implementation class
+ * 
+ * @author Pavan Kumar Kamma
+ *
+ */
 @Service
 public class PenaltyRateServiceImpl implements PenaltyRateService {
 

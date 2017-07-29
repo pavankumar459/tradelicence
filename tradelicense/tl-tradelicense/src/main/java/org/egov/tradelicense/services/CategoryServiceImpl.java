@@ -21,6 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * CategoryService implementation class
+ * 
+ * @author Pavan Kumar Kamma
+ *
+ */
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -58,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 					try {
 						category.setAuditDetails(auditDetails);
-						Long categoryId = categoryRepository.createCategory(category.getTenantId(), category);
+						Long categoryId = categoryRepository.createCategory(category);
 						category.setId(categoryId);
 						for (CategoryDetail categoryDetail : category.getDetails()) {
 							categoryDetail.setCategoryId(categoryId);
@@ -84,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
 			} else {
 				try {
 					category.setAuditDetails(auditDetails);
-					Long id = categoryRepository.createCategory(category.getTenantId(), category);
+					Long id = categoryRepository.createCategory(category);
 					category.setId(id);
 				} catch (Exception e) {
 					throw new InvalidInputException(requestInfo);

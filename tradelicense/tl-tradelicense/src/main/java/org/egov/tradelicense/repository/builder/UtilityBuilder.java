@@ -1,9 +1,10 @@
 package org.egov.tradelicense.repository.builder;
 
 /**
+ * This class will have all the common queries which will be used in the
+ * tradelicense master
  * 
- * @author PavanKumar Kamma This class will have all the common queries which
- *         will be used in the tradelicense master
+ * @author PavanKumar Kamma
  *
  */
 public class UtilityBuilder {
@@ -18,7 +19,6 @@ public class UtilityBuilder {
 		}
 
 		return uniqueQuery.toString();
-
 	}
 
 	public static String getCategoryParentValidationQuery(String tableName, Long parentId) {
@@ -33,7 +33,7 @@ public class UtilityBuilder {
 			String rateType, Long id) {
 
 		StringBuffer categoryDetailValidationQuery = new StringBuffer("select count(*) from " + tableName + " where");
-		
+
 		if (categoryId != null) {
 			categoryDetailValidationQuery.append(" categoryId = '" + categoryId + "'");
 		}
@@ -50,6 +50,33 @@ public class UtilityBuilder {
 		return categoryDetailValidationQuery.toString();
 	}
 
+	public static String getFeeMatrixValidationQuery(String tableName, String tenantId, String applicationType,
+			Long categoryId, Long subCategoryId, String financialYear, Long id) {
+
+		StringBuffer feeMatrixValidationQuery = new StringBuffer("select count(*) from " + tableName + " where");
+
+		if (tenantId != null) {
+			feeMatrixValidationQuery.append(" tenantId = '" + tenantId + "'");
+		}
+		if (applicationType != null && !applicationType.isEmpty()) {
+			feeMatrixValidationQuery.append(" AND applicationType = '" + applicationType + "'");
+		}
+		if (categoryId != null) {
+			feeMatrixValidationQuery.append(" AND categoryId = '" + categoryId + "'");
+		}
+		if (subCategoryId != null) {
+			feeMatrixValidationQuery.append(" AND subCategoryId = '" + subCategoryId + "'");
+		}
+		if (financialYear != null) {
+			feeMatrixValidationQuery.append(" AND financialYear = '" + financialYear + "'");
+		}
+		if (id != null) {
+			feeMatrixValidationQuery.append(" AND id !=" + id);
+		}
+
+		return feeMatrixValidationQuery.toString();
+	}
+
 	public static String getUomValidationQuery(String tableName, Long uomId) {
 
 		StringBuffer uomValidationQuery = new StringBuffer("select count(*) from " + tableName);
@@ -57,8 +84,9 @@ public class UtilityBuilder {
 
 		return uomValidationQuery.toString();
 	}
-	
-	public static String getUniqueTenantCodeQuerywithName(String tableName, String name, String tenantId, String applicationType, Long id) {
+
+	public static String getUniqueTenantCodeQuerywithName(String tableName, String name, String tenantId,
+			String applicationType, Long id) {
 
 		StringBuffer uniqueQuery = new StringBuffer("select count(*) from " + tableName);
 		uniqueQuery.append(" where name = '" + name + "'");
@@ -69,11 +97,10 @@ public class UtilityBuilder {
 		}
 
 		return uniqueQuery.toString();
-
 	}
-	
-	
-	public static String getDocumentTypeValidationQuery(String tanentId, String name, String applicationName, String tableName) {
+
+	public static String getDocumentTypeValidationQuery(String tanentId, String name, String applicationName,
+			String tableName) {
 
 		StringBuffer documentTypeValidationQuery = new StringBuffer("select count(*) from " + tableName);
 		documentTypeValidationQuery.append(" where tenantId = '" + tanentId + "'");
@@ -82,5 +109,4 @@ public class UtilityBuilder {
 
 		return documentTypeValidationQuery.toString();
 	}
-
 }

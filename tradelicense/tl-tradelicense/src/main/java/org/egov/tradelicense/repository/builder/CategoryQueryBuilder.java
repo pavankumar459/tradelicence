@@ -13,12 +13,12 @@ public class CategoryQueryBuilder {
 			+ " (tenantId, name, code, parentId, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
 			+ " VALUES(?,?,?,?,?,?,?,?)";
 
-	public static final String INSERT_CATEGORY_DETAIL_QUERY = "INSERT INTO egtl_category_details"
-			+ " (categoryId, feeType, rateType, uomId)" + " VALUES(?,?,?,?)";
-
 	public static final String UPDATE_CATEGORY_QUERY = "UPDATE egtl_mstr_category"
 			+ " SET tenantId = ?, name = ?, code = ?, parentId = ?," + " lastModifiedBy = ?, lastModifiedTime = ?"
 			+ " WHERE id = ?";
+
+	public static final String INSERT_CATEGORY_DETAIL_QUERY = "INSERT INTO egtl_category_details"
+			+ " (categoryId, feeType, rateType, uomId)" + " VALUES(?,?,?,?)";
 
 	public static final String UPDATE_CATEGORY_DETAIL_QUERY = "UPDATE egtl_category_details"
 			+ " SET categoryId = ?, feeType = ?, rateType = ?," + " uomId = ?" + " WHERE id = ?";

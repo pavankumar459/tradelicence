@@ -17,8 +17,14 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository class for create/update/search PenaltyRate master
+ * 
+ * @author Pavan Kumar Kamma
+ *
+ */
+
 @Repository
-@SuppressWarnings({ "unchecked", "rawtypes" })
 public class PenaltyRateRepository {
 
 	@Autowired
@@ -28,11 +34,11 @@ public class PenaltyRateRepository {
 	private PenaltyRateHelper penaltyRateHelper;
 
 	/**
-	 * Description : this method will create PenaltyRate
+	 * Description : this method will create PenaltyRate in database
 	 * 
 	 * @param tenantId
-	 * @param Category
-	 * @return categoryId
+	 * @param PenaltyRate
+	 * @return penaltyRateId
 	 */
 	public Long craeatePenaltyRate(String tenantId, PenaltyRate penaltyRate) {
 
@@ -64,7 +70,7 @@ public class PenaltyRateRepository {
 	}
 
 	/**
-	 * Description : this method for update PenaltyRate
+	 * Description : this method for update PenaltyRate in database
 	 * 
 	 * @param PenaltyRate
 	 * @return PenaltyRate
@@ -98,20 +104,19 @@ public class PenaltyRateRepository {
 	/**
 	 * Description : this method to search PenaltyRate
 	 * 
-	 * @param requestInfo
 	 * @param tenantId
 	 * @param ids
-	 * @param applicationTypeId
+	 * @param applicationType
 	 * @param pageSize
 	 * @param offSet
 	 * @return List<PenaltyRate>
 	 * @throws Exception
 	 */
-	public List<PenaltyRate> searchPenaltyRate(String tenantId, Integer[] ids, String applicationTypeId,
+	public List<PenaltyRate> searchPenaltyRate(String tenantId, Integer[] ids, String applicationType,
 			Integer pageSize, Integer offSet) {
 
 		List<Object> preparedStatementValues = new ArrayList<>();
-		String penaltyRateSearchQuery = PenaltyRateQueryBuilder.buildSearchQuery(tenantId, ids, applicationTypeId,
+		String penaltyRateSearchQuery = PenaltyRateQueryBuilder.buildSearchQuery(tenantId, ids, applicationType,
 				pageSize, offSet, preparedStatementValues);
 		List<PenaltyRate> penaltyRates = penaltyRateHelper.getPenaltyRates(penaltyRateSearchQuery.toString(),
 				preparedStatementValues);

@@ -20,25 +20,29 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository class for create/update/search category master
+ * 
+ * @author Pavan Kumar Kamma
+ *
+ */
+
 @Repository
-@SuppressWarnings({ "unchecked", "rawtypes" })
 public class CategoryRepository {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	/**
-	 * Description : this method will creating category
+	 * Description : this method will create category in database
 	 * 
-	 * @param tenantId
 	 * @param Category
 	 * @return categoryId
 	 */
-	public Long createCategory(String tenantId, Category category) {
+	public Long createCategory(Category category) {
 
 		AuditDetails auditDetails = category.getAuditDetails();
 		String categoryInsert = CategoryQueryBuilder.INSERT_CATEGORY_QUERY;
-
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
@@ -52,6 +56,7 @@ public class CategoryRepository {
 				ps.setString(6, auditDetails.getLastModifiedBy());
 				ps.setLong(7, auditDetails.getCreatedTime());
 				ps.setLong(8, auditDetails.getLastModifiedTime());
+
 				return ps;
 			}
 		};
@@ -61,13 +66,17 @@ public class CategoryRepository {
 		jdbcTemplate.update(psc, holder);
 
 		return Long.valueOf(holder.getKey().intValue());
-
 	}
 
+	/**
+	 * Description : this method will create categoryDetail in database
+	 * 
+	 * @param CategoryDetail
+	 * @return CategoryDetailId
+	 */
 	public Long createCategoryDetail(CategoryDetail categoryDetail) {
 
 		String categoryDetailInsert = CategoryQueryBuilder.INSERT_CATEGORY_DETAIL_QUERY;
-
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
@@ -87,11 +96,10 @@ public class CategoryRepository {
 		jdbcTemplate.update(psc, holder);
 
 		return Long.valueOf(holder.getKey().intValue());
-
 	}
 
 	/**
-	 * Description : this method for updating category
+	 * Description : this method for update category in database
 	 * 
 	 * @param Category
 	 * @return Category
@@ -100,7 +108,6 @@ public class CategoryRepository {
 
 		AuditDetails auditDetails = category.getAuditDetails();
 		String categoryUpdateSql = CategoryQueryBuilder.UPDATE_CATEGORY_QUERY;
-
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
@@ -122,10 +129,15 @@ public class CategoryRepository {
 		return category;
 	}
 
+	/**
+	 * Description : this method for update categoryDetail in database
+	 * 
+	 * @param CategoryDetail
+	 * @return CategoryDetail
+	 */
 	public CategoryDetail updateCategoryDetail(CategoryDetail categoryDetail) {
 
 		String categoryDetailsUpdateSql = CategoryQueryBuilder.UPDATE_CATEGORY_DETAIL_QUERY;
-
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
@@ -155,7 +167,6 @@ public class CategoryRepository {
 	 * @param pageSize
 	 * @param offSet
 	 * @return List<Category>
-	 * @throws Exception
 	 */
 	public List<Category> searchCategory(String tenantId, Integer[] ids, String name, String code, Integer pageSize,
 			Integer offSet) {
@@ -166,9 +177,16 @@ public class CategoryRepository {
 		List<Category> categories = getCategories(categorySearchQuery.toString(), preparedStatementValues);
 
 		return categories;
-
 	}
 
+	/**
+	 * Description : this method for search CategoryDetail of a category
+	 * 
+	 * @param categoryId
+	 * @param pageSize
+	 * @param offSet
+	 * @return List<CategoryDetail>
+	 */
 	public List<CategoryDetail> getCategoryDetailsByCategoryId(Long categoryId, Integer pageSize, Integer offSet) {
 
 		List<Object> preparedStatementValues = new ArrayList<>();
@@ -178,9 +196,15 @@ public class CategoryRepository {
 				preparedStatementValues);
 
 		return categoryDetails;
-
 	}
 
+	/**
+	 * This method will execute the given query & will build the CategoryDetail
+	 * object
+	 * 
+	 * @param query
+	 * @return {@link CategoryDetail} List of CategoryDetail
+	 */
 	private List<CategoryDetail> getCategoryDetails(String query, List<Object> preparedStatementValues) {
 
 		List<CategoryDetail> categoryDetails = new ArrayList<>();
@@ -204,7 +228,6 @@ public class CategoryRepository {
 	 * This method will execute the given query & will build the Category object
 	 * 
 	 * @param query
-	 *            String that need to be executed
 	 * @return {@link Category} List of Category
 	 */
 	private List<Category> getCategories(String query, List<Object> preparedStatementValues) {
@@ -218,7 +241,7 @@ public class CategoryRepository {
 			category.setTenantId(getString(row.get("tenantid")));
 			category.setCode(getString(row.get("code")));
 			category.setName(getString(row.get("name")));
-			if(getLong(row.get("parentId")) == 0){
+			if (getLong(row.get("parentId")) == 0) {
 				category.setParentId(null);
 			} else {
 				category.setParentId(getLong(row.get("parentId")));
@@ -255,6 +278,7 @@ public class CategoryRepository {
 	 *            that need to be cast to Double
 	 * @return {@link Double}
 	 */
+	@SuppressWarnings("unused")
 	private Double getDouble(Object object) {
 		return object == null ? 0.0 : Double.parseDouble(object.toString());
 	}
@@ -269,5 +293,4 @@ public class CategoryRepository {
 	private Long getLong(Object object) {
 		return object == null ? 0 : Long.parseLong(object.toString());
 	}
-
 }

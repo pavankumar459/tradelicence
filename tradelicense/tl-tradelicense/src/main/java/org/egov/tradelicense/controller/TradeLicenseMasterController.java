@@ -1,5 +1,7 @@
 package org.egov.tradelicense.controller;
 
+import javax.validation.Valid;
+
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
 import org.egov.models.DocumentTypeRequest;
@@ -24,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * This controller have the all api's related to tradelicense master
+ * This controller have the all api's related to trade license master
  * 
  * @author Pavan Kumar Kamma
  *
@@ -41,10 +43,10 @@ public class TradeLicenseMasterController {
 	UOMService uomService;
 
 	@Autowired
-	PenaltyRateService penaltyRateService;
+	DocumentTypeService documentTypeService;
 
 	@Autowired
-	DocumentTypeService documentTypeService;
+	PenaltyRateService penaltyRateService;
 
 	@Autowired
 	FeeMatrixService feeMatrixService;
@@ -54,13 +56,12 @@ public class TradeLicenseMasterController {
 	 * 
 	 * @param CategoryRequest
 	 * @return CategoryResponse
+	 * @throws Exception
 	 */
-
 	@RequestMapping(path = "/category/_create", method = RequestMethod.POST)
-	public CategoryResponse createCategoryMaster(@RequestBody CategoryRequest categoryRequest) {
+	public CategoryResponse createCategoryMaster(@Valid @RequestBody CategoryRequest categoryRequest) throws Exception {
 
 		return categoryService.createCategoryMaster(categoryRequest);
-
 	}
 
 	/**
@@ -69,12 +70,12 @@ public class TradeLicenseMasterController {
 	 * 
 	 * @param CategoryRequest
 	 * @return CategoryResponse
+	 * @throws Exception
 	 */
 	@RequestMapping(path = "/category/_update", method = RequestMethod.POST)
-	public CategoryResponse updateCategoryMaster(@RequestBody CategoryRequest categoryRequest) {
+	public CategoryResponse updateCategoryMaster(@Valid @RequestBody CategoryRequest categoryRequest) throws Exception {
 
 		return categoryService.updateCategoryMaster(categoryRequest);
-
 	}
 
 	/**
@@ -85,6 +86,7 @@ public class TradeLicenseMasterController {
 	 * @param ids
 	 * @param name
 	 * @param code
+	 * @param type
 	 * @param pageSize
 	 * @param offSet
 	 * @return CategoryResponse
@@ -99,7 +101,6 @@ public class TradeLicenseMasterController {
 
 		return categoryService.getCategoryMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, type,
 				pageSize, offSet);
-
 	}
 
 	/**
@@ -107,12 +108,12 @@ public class TradeLicenseMasterController {
 	 * 
 	 * @param UOMRequest
 	 * @return UOMResponse
+	 * @throws Exception
 	 */
 	@RequestMapping(path = "/uom/_create", method = RequestMethod.POST)
-	public UOMResponse createUomMaster(@RequestBody UOMRequest uomRequest) {
+	public UOMResponse createUomMaster(@Valid @RequestBody UOMRequest uomRequest) throws Exception {
 
 		return uomService.createUomMaster(uomRequest);
-
 	}
 
 	/**
@@ -121,12 +122,12 @@ public class TradeLicenseMasterController {
 	 * 
 	 * @param UOMRequest
 	 * @return UOMResponse
+	 * @throws Exception
 	 */
 	@RequestMapping(path = "/uom/_update", method = RequestMethod.POST)
-	public UOMResponse updateUomMaster(@RequestBody UOMRequest uomRequest) {
+	public UOMResponse updateUomMaster(@Valid @RequestBody UOMRequest uomRequest) throws Exception {
 
 		return uomService.updateUomMaster(uomRequest);
-
 	}
 
 	/**
@@ -152,58 +153,6 @@ public class TradeLicenseMasterController {
 
 		return uomService.getUomMaster(requestInfo.getRequestInfo(), tenantId, ids, name, code, active, pageSize,
 				offSet);
-
-	}
-
-	/**
-	 * Description : This api for creating penaltyRate master
-	 * 
-	 * @param tenantId
-	 * @param PenaltyRateRequest
-	 * @return PenaltyRateResponse
-	 */
-
-	@RequestMapping(path = "/penaltyrate/_create", method = RequestMethod.POST)
-	public PenaltyRateResponse createPenaltyRateMaster(@RequestParam(required = true) String tenantId,
-			@RequestBody PenaltyRateRequest penaltyRateRequest) {
-
-		return penaltyRateService.createPenaltyRateMaster(tenantId, penaltyRateRequest);
-	}
-
-	/**
-	 * Description : This api for updating penaltyRate master
-	 * 
-	 * @param PenaltyRateRequest
-	 * @return PenaltyRateResponse
-	 */
-
-	@RequestMapping(path = "/penaltyrate/_update", method = RequestMethod.POST)
-	public PenaltyRateResponse updatePenaltyRateMaster(@RequestBody PenaltyRateRequest penaltyRateRequest) {
-
-		return penaltyRateService.updatePenaltyRateMaster(penaltyRateRequest);
-	}
-
-	/**
-	 * Description : This api for searching penaltyRate master
-	 * 
-	 * @param requestInfo
-	 * @param tenantId
-	 * @param ids
-	 * @param applicationTypeId
-	 * @param pageSize
-	 * @param offSet
-	 * @return PenaltyRateResponse
-	 * @throws Exception
-	 */
-	@RequestMapping(path = "/penaltyrate/_search", method = RequestMethod.POST)
-	public PenaltyRateResponse getPenaltyRateMaster(@RequestBody RequestInfoWrapper requestInfo,
-			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
-			@RequestParam(required = true) String applicationTypeId, @RequestParam(required = false) Integer pageSize,
-			@RequestParam(required = false) Integer offSet) throws Exception {
-
-		return penaltyRateService.getPenaltyRateMaster(requestInfo.getRequestInfo(), tenantId, ids, applicationTypeId,
-				pageSize, offSet);
-
 	}
 
 	/**
@@ -212,13 +161,13 @@ public class TradeLicenseMasterController {
 	 * @param tenantId
 	 * @param DocumentTypeRequest
 	 * @return DocumentTypeResponse
+	 * @throws Exception
 	 */
-
 	@RequestMapping(path = "/documenttype/_create", method = RequestMethod.POST)
-	public DocumentTypeResponse createDocumentTypeMaster(@RequestBody DocumentTypeRequest documentTypeRequest) {
+	public DocumentTypeResponse createDocumentTypeMaster(@Valid @RequestBody DocumentTypeRequest documentTypeRequest)
+			throws Exception {
 
 		return documentTypeService.createDocumentType(documentTypeRequest);
-
 	}
 
 	/**
@@ -226,12 +175,13 @@ public class TradeLicenseMasterController {
 	 * 
 	 * @param DocumentTypeRequest
 	 * @return DocumentTypeResponse
+	 * @throws Exception
 	 */
 	@RequestMapping(path = "/documenttype/_update", method = RequestMethod.POST)
-	public DocumentTypeResponse updateDocumentTypeMaster(@RequestBody DocumentTypeRequest documentTypeRequest) {
+	public DocumentTypeResponse updateDocumentTypeMaster(@Valid @RequestBody DocumentTypeRequest documentTypeRequest)
+			throws Exception {
 
 		return documentTypeService.updateDocumentType(documentTypeRequest);
-
 	}
 
 	/**
@@ -241,10 +191,11 @@ public class TradeLicenseMasterController {
 	 * @param tenantId
 	 * @param ids
 	 * @param name
+	 * @param enabled
 	 * @param applicationType
 	 * @param pageSize
 	 * @param offSet
-	 * @return PenaltyRateResponse
+	 * @return DocumentTypeResponse
 	 * @throws Exception
 	 */
 	@RequestMapping(path = "/documenttype/_search", method = RequestMethod.POST)
@@ -259,32 +210,83 @@ public class TradeLicenseMasterController {
 	}
 
 	/**
+	 * Description : This api for creating penaltyRate master
+	 * 
+	 * @param tenantId
+	 * @param PenaltyRateRequest
+	 * @return PenaltyRateResponse
+	 * @throws Exception
+	 */
+	@RequestMapping(path = "/penaltyrate/_create", method = RequestMethod.POST)
+	public PenaltyRateResponse createPenaltyRateMaster(@RequestParam(required = true) String tenantId,
+			@Valid @RequestBody PenaltyRateRequest penaltyRateRequest) throws Exception {
+
+		return penaltyRateService.createPenaltyRateMaster(tenantId, penaltyRateRequest);
+	}
+
+	/**
+	 * Description : This api for updating penaltyRate master
+	 * 
+	 * @param PenaltyRateRequest
+	 * @return PenaltyRateResponse
+	 * @throws Exception
+	 */
+	@RequestMapping(path = "/penaltyrate/_update", method = RequestMethod.POST)
+	public PenaltyRateResponse updatePenaltyRateMaster(@Valid @RequestBody PenaltyRateRequest penaltyRateRequest)
+			throws Exception {
+
+		return penaltyRateService.updatePenaltyRateMaster(penaltyRateRequest);
+	}
+
+	/**
+	 * Description : This api for searching penaltyRate master
+	 * 
+	 * @param requestInfo
+	 * @param tenantId
+	 * @param ids
+	 * @param applicationType
+	 * @param pageSize
+	 * @param offSet
+	 * @return PenaltyRateResponse
+	 * @throws Exception
+	 */
+	@RequestMapping(path = "/penaltyrate/_search", method = RequestMethod.POST)
+	public PenaltyRateResponse getPenaltyRateMaster(@RequestBody RequestInfoWrapper requestInfo,
+			@RequestParam(required = true) String tenantId, @RequestParam(required = false) Integer[] ids,
+			@RequestParam(required = true) String applicationType, @RequestParam(required = false) Integer pageSize,
+			@RequestParam(required = false) Integer offSet) throws Exception {
+
+		return penaltyRateService.getPenaltyRateMaster(requestInfo.getRequestInfo(), tenantId, ids, applicationType,
+				pageSize, offSet);
+	}
+
+	/**
 	 * Description : This api for creating feeMatrix master
 	 * 
 	 * @param tenantId
 	 * @param FeeMatrixRequest
 	 * @return FeeMatrixResponse
+	 * @throws Exception
 	 */
 	@RequestMapping(path = "/feematrix/_create", method = RequestMethod.POST)
 	public FeeMatrixResponse createFeeMatrixMaster(@RequestParam(required = true) String tenantId,
-			@RequestBody FeeMatrixRequest feeMatrixRequest) {
+			@Valid @RequestBody FeeMatrixRequest feeMatrixRequest) throws Exception {
 
 		return feeMatrixService.createFeeMatrixMaster(tenantId, feeMatrixRequest);
-
 	}
 
 	/**
 	 * Description : This api for updating feeMatrix master
 	 * 
-	 * 
 	 * @param FeeMatrixRequest
 	 * @return FeeMatrixResponse
+	 * @throws Exception
 	 */
 	@RequestMapping(path = "/feematrix/_update", method = RequestMethod.POST)
-	public FeeMatrixResponse updateFeeMatrixMaster(@RequestBody FeeMatrixRequest feeMatrixRequest) {
+	public FeeMatrixResponse updateFeeMatrixMaster(@Valid @RequestBody FeeMatrixRequest feeMatrixRequest)
+			throws Exception {
 
 		return feeMatrixService.updateFeeMatrixMaster(feeMatrixRequest);
-
 	}
 
 	/**
@@ -314,6 +316,5 @@ public class TradeLicenseMasterController {
 
 		return feeMatrixService.getFeeMatrixMaster(requestInfo.getRequestInfo(), tenantId, ids, categoryId,
 				subcategoryId, financialYear, applicationType, businessNature, pageSize, offSet);
-
 	}
 }

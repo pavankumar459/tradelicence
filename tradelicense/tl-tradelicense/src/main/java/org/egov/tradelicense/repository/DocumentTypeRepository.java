@@ -19,34 +19,39 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository class for create/update/search DocumentType master
+ * 
+ * @author Shubham pratap Singh
+ *
+ */
+
 @Repository
-@SuppressWarnings({ "unchecked", "rawtypes" })
 public class DocumentTypeRepository {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	/**
-	 * Description : this method will creating DocumentType
+	 * Description : this method will create DocumentType in database
 	 * 
-	 * @param tenantId
-	 * @param Category
-	 * @return categoryId
+	 * @param DocumentType
+	 * @return documentTypeId
 	 */
-	public Long createDocumentType( DocumentType DocumentType) {
+	public Long createDocumentType(DocumentType documentType) {
 
 		String documentTypeInsert = DocumentTypeQueryBuilder.INSERT_DOCUMENT_TYPE_QUERY;
-		AuditDetails auditDetails = DocumentType.getAuditDetails();
+		AuditDetails auditDetails = documentType.getAuditDetails();
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
 				final PreparedStatement ps = connection.prepareStatement(documentTypeInsert, new String[] { "id" });
 
-				ps.setString(1, DocumentType.getTenantId());
-				ps.setString(2, DocumentType.getName());
-				ps.setBoolean(3, DocumentType.getMandatory());
-				ps.setBoolean(4, DocumentType.getEnabled());
-				ps.setString(5, DocumentType.getApplicationType().toString());
+				ps.setString(1, documentType.getTenantId());
+				ps.setString(2, documentType.getName());
+				ps.setBoolean(3, documentType.getMandatory());
+				ps.setBoolean(4, documentType.getEnabled());
+				ps.setString(5, documentType.getApplicationType().toString());
 				ps.setString(6, auditDetails.getCreatedBy());
 				ps.setString(7, auditDetails.getLastModifiedBy());
 				ps.setLong(8, auditDetails.getCreatedTime());
@@ -60,13 +65,10 @@ public class DocumentTypeRepository {
 		jdbcTemplate.update(psc, holder);
 
 		return Long.valueOf(holder.getKey().intValue());
-
 	}
 
-
-
 	/**
-	 * Description : this method for updating DocumentType
+	 * Description : this method for updating DocumentType in deatabas
 	 * 
 	 * @param DocumentType
 	 * @return DocumentType
@@ -99,35 +101,32 @@ public class DocumentTypeRepository {
 		return documentType;
 	}
 
-
 	/**
 	 * Description : this method for search DocumentType
 	 * 
 	 * @param tenantId
 	 * @param ids
 	 * @param name
+	 * @param enabled
 	 * @param applicationType
 	 * @param pageSize
 	 * @param offSet
 	 * @return List<DocumentType>
-	 * @throws Exception
 	 */
-	public List<DocumentType> searchDocumentType(String tenantId, Integer[] ids, String name, Boolean enabled, String applicationType, Integer pageSize,
-			Integer offSet) {
+	public List<DocumentType> searchDocumentType(String tenantId, Integer[] ids, String name, Boolean enabled,
+			String applicationType, Integer pageSize, Integer offSet) {
 
 		List<Object> preparedStatementValues = new ArrayList<>();
-		String documentTypeSearchQuery = DocumentTypeQueryBuilder.buildSearchQuery(tenantId, ids, name, enabled, applicationType, pageSize, offSet,
-				preparedStatementValues);
+		String documentTypeSearchQuery = DocumentTypeQueryBuilder.buildSearchQuery(tenantId, ids, name, enabled,
+				applicationType, pageSize, offSet, preparedStatementValues);
 		List<DocumentType> documentTypes = getDocumentType(documentTypeSearchQuery.toString(), preparedStatementValues);
 
 		return documentTypes;
-
 	}
 
-
-
 	/**
-	 * This method will execute the given query & will build the DocumentType object
+	 * This method will execute the given query & will build the DocumentType
+	 * object
 	 * 
 	 * @param query
 	 *            String that need to be executed
@@ -159,7 +158,6 @@ public class DocumentTypeRepository {
 		return documentTypes;
 	}
 
-
 	/**
 	 * This method will cast the given object to String
 	 * 
@@ -178,6 +176,7 @@ public class DocumentTypeRepository {
 	 *            that need to be cast to Double
 	 * @return {@link Double}
 	 */
+	@SuppressWarnings("unused")
 	private Double getDouble(Object object) {
 		return object == null ? 0.0 : Double.parseDouble(object.toString());
 	}
@@ -192,9 +191,7 @@ public class DocumentTypeRepository {
 	private Long getLong(Object object) {
 		return object == null ? 0 : Long.parseLong(object.toString());
 	}
-	
-	
-	
+
 	/**
 	 * This method will cast the given object to Boolean
 	 * 
@@ -203,7 +200,6 @@ public class DocumentTypeRepository {
 	 * @return {@link boolean}
 	 */
 	private Boolean getBoolean(Object object) {
-		return object == null ? Boolean.FALSE : (Boolean)object;
+		return object == null ? Boolean.FALSE : (Boolean) object;
 	}
-
 }

@@ -4,6 +4,12 @@ import org.egov.models.PenaltyRateRequest;
 import org.egov.models.PenaltyRateResponse;
 import org.egov.models.RequestInfo;
 
+/**
+ * Service class for PenaltyRate master
+ * 
+ * @author Pavan Kumar Kamma
+ *
+ */
 public interface PenaltyRateService {
 
 	/**

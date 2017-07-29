@@ -4,6 +4,11 @@ import org.egov.models.FeeMatrixRequest;
 import org.egov.models.FeeMatrixResponse;
 import org.egov.models.RequestInfo;
 
+/**
+ * Service class for FeeMatrix master
+ * 
+ * @author Pavan Kumar Kamma
+ */
 public interface FeeMatrixService {
 
 	/**

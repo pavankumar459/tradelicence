@@ -18,26 +18,29 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository class for create/update/search UOM master
+ * 
+ * @author Pavan Kumar Kamma
+ *
+ */
+
 @Repository
-@SuppressWarnings({ "unchecked", "rawtypes" })
 public class UOMRepository {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	/**
-	 * Description : this method for creating UOM master
+	 * Description : this method will create UOM in database
 	 * 
-	 * @param tenantId
 	 * @param UOM
 	 * @return UOMId
 	 */
-	public Long createUom( UOM uom) {
+	public Long createUom(UOM uom) {
 
 		Long createdTime = new Date().getTime();
-
 		String uomInsert = UomQueryBuilder.INSERT_UOM_QUERY;
-
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
@@ -60,12 +63,10 @@ public class UOMRepository {
 		jdbcTemplate.update(psc, holder);
 
 		return Long.valueOf(holder.getKey().intValue());
-
 	}
 
 	/**
-	 * Description : this method for updating UOM master
-	 * 
+	 * Description : this method will update UOM in database
 	 * 
 	 * @param UOM
 	 * @return UOM
@@ -73,7 +74,6 @@ public class UOMRepository {
 	public UOM updateUom(UOM uom) {
 
 		Long updatedTime = new Date().getTime();
-
 		String uomUpdateSql = UomQueryBuilder.UPDATE_UOM_QUERY;
 
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
@@ -118,7 +118,6 @@ public class UOMRepository {
 		List<UOM> uoms = getUoms(uomSearchQuery.toString(), preparedStatementValues);
 
 		return uoms;
-
 	}
 
 	/**
@@ -132,8 +131,8 @@ public class UOMRepository {
 
 		List<UOM> uoms = new ArrayList<>();
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(query, preparedStatementValues.toArray());
-
 		for (Map<String, Object> row : rows) {
+
 			UOM uom = new UOM();
 			uom.setId(getLong(row.get("id")));
 			uom.setTenantId(getString(row.get("tenantid")));
@@ -148,7 +147,6 @@ public class UOMRepository {
 			uom.setAuditDetails(auditDetails);
 
 			uoms.add(uom);
-
 		}
 
 		return uoms;
@@ -172,6 +170,7 @@ public class UOMRepository {
 	 *            that need to be cast to Double
 	 * @return {@link Double}
 	 */
+	@SuppressWarnings("unused")
 	private Double getDouble(Object object) {
 		return object == null ? 0.0 : Double.parseDouble(object.toString());
 	}
@@ -186,5 +185,4 @@ public class UOMRepository {
 	private Long getLong(Object object) {
 		return object == null ? 0 : Long.parseLong(object.toString());
 	}
-
 }

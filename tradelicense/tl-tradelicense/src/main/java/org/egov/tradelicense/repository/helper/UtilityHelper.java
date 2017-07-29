@@ -1,13 +1,11 @@
 package org.egov.tradelicense.repository.helper;
 
 import java.util.Date;
-import java.util.List;
 
 import org.egov.models.AuditDetails;
 import org.egov.models.CategoryDetail;
 import org.egov.models.RequestInfo;
 import org.egov.models.UserInfo;
-import org.egov.tradelicense.repository.builder.CategoryQueryBuilder;
 import org.egov.tradelicense.repository.builder.UtilityBuilder;
 import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +72,8 @@ public class UtilityHelper {
 		return isExists;
 	}
 
-	public Boolean checkWhetherDuplicateCategoryDetailRecordExits(CategoryDetail categoryDetail, String tableName, Long id) {
+	public Boolean checkWhetherDuplicateCategoryDetailRecordExits(CategoryDetail categoryDetail, String tableName,
+			Long id) {
 
 		Boolean isExists = Boolean.TRUE;
 		Long categoryId = categoryDetail.getCategoryId();
@@ -116,7 +115,7 @@ public class UtilityHelper {
 
 		return isExists;
 	}
-	
+
 	public AuditDetails getCreateMasterAuditDetals(RequestInfo requestInfo) {
 
 		AuditDetails auditDetails = new AuditDetails();
@@ -131,5 +130,26 @@ public class UtilityHelper {
 		}
 
 		return auditDetails;
+	}
+
+	public Boolean checkWhetherDuplicateFeeMatrixRecordExits(String tenantId, String applicationType, Long categoryId,
+			Long subCategoryId, String financialYear, String feeMatrixTableName, Long id) {
+
+		Boolean isExists = Boolean.TRUE;
+		String query = UtilityBuilder.getFeeMatrixValidationQuery(feeMatrixTableName, tenantId, applicationType,
+				categoryId, subCategoryId, financialYear, id);
+		int count = 0;
+
+		try {
+			count = (Integer) jdbcTemplate.queryForObject(query, Integer.class);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		if (count == 0) {
+			isExists = Boolean.FALSE;
+		}
+
+		return isExists;
 	}
 }

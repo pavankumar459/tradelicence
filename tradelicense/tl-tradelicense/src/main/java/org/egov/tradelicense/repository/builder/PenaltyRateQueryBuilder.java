@@ -10,22 +10,26 @@ import java.util.List;
 public class PenaltyRateQueryBuilder {
 
 	public static final String INSERT_PENALTY_RATE_QUERY = "INSERT INTO egtl_mstr_penalty_rate"
-			+ " (tenantId, applicationTypeId, fromRange, toRange, rate, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
+			+ " (tenantId, applicationType, fromRange, toRange, rate, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
 			+ " VALUES(?,?,?,?,?,?,?,?,?)";
 
 	public static final String UPDATE_PENALTY_RATE_QUERY = "UPDATE egtl_mstr_penalty_rate"
-			+ " SET tenantId = ?, applicationTypeId = ?, fromRange = ?, toRange = ?, rate = ?,"
+			+ " SET tenantId = ?, applicationType = ?, fromRange = ?, toRange = ?, rate = ?,"
 			+ " lastModifiedBy = ?, lastModifiedTime = ?" + " WHERE id = ?";
 
-	public static String buildSearchQuery(String tenantId, Integer[] ids, String applicationTypeId, Integer pageSize,
+	public static String buildSearchQuery(String tenantId, Integer[] ids, String applicationType, Integer pageSize,
 			Integer offSet, List<Object> preparedStatementValues) {
 
 		StringBuffer searchSql = new StringBuffer();
 		searchSql.append("select * from egtl_mstr_penalty_rate where ");
 		searchSql.append(" tenantId = ? ");
-		searchSql.append(" AND applicationTypeId = ? ");
 		preparedStatementValues.add(tenantId);
-		preparedStatementValues.add(applicationTypeId);
+
+		if (applicationType != null && !applicationType.isEmpty()) {
+			searchSql.append(" AND applicationType = ? ");
+			preparedStatementValues.add(applicationType);
+		}
+
 		if (ids != null && ids.length > 0) {
 
 			String searchIds = "";

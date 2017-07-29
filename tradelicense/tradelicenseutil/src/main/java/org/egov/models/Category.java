@@ -40,7 +40,7 @@ public class Category {
 
 	private Long parentId = null;
 
-	private BusinessNatureEnum businessNature = null;;
+	private BusinessNatureEnum businessNature = null;
 
 	private List<CategoryDetail> details;
 

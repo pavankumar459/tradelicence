@@ -34,27 +34,49 @@ public class GlobalExceptionHandler {
 	private PropertiesManager propertiesManager;
 
 	/**
-	 * Description : MethodArgumentNotValidException type exception handler
-	 * 
-	 * @param ex
-	 * @return ErrorRes
-	 */
+     * Description : Null pointer exception handler
+     * 
+     * @param ex
+     * @return
+     */
 
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ErrorRes processValidationError(MethodArgumentNotValidException ex) {
-		Map<String, String> errors = new HashMap<String, String>();
-		for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
-			errors.put(error.getField(), error.getDefaultMessage());
-		}
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorRes nullPointerException(NullPointerException ex) {
+        ex.printStackTrace();
+        Map<String, String> errors = new HashMap<String, String>();
+        Error error = new Error(HttpStatus.BAD_REQUEST.toString(), propertiesManager.getInvalidInput(), null,
+                errors);
+        List<Error> errorList = new ArrayList<Error>();
+        errorList.add(error);
+        ResponseInfo responseInfo = new ResponseInfo();
+        responseInfo.setStatus(propertiesManager.getFailedStatus());
+        return new ErrorRes(responseInfo, errorList);
+    }
 
-		Error error = new Error(HttpStatus.BAD_REQUEST.toString(), propertiesManager.getInvalidInput(), null, errors);
-		List<Error> errorList = new ArrayList<Error>();
-		errorList.add(error);
-		ResponseInfo responseInfo = new ResponseInfo();
-		responseInfo.setStatus(propertiesManager.getFailedStatus());
-		return new ErrorRes(responseInfo, errorList);
-	}
+    /**
+     * Description : MethodArgumentNotValidException type exception handler
+     * 
+     * @param ex
+     * @return
+     */
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorRes processValidationError(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<String, String>();
+        for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.put(error.getField(), error.getDefaultMessage());
+        }
+
+        Error error = new Error(HttpStatus.BAD_REQUEST.toString(), propertiesManager.getInvalidInput(), null,
+                errors);
+        List<Error> errorList = new ArrayList<Error>();
+        errorList.add(error);
+        ResponseInfo responseInfo = new ResponseInfo();
+        responseInfo.setStatus(propertiesManager.getFailedStatus());
+        return new ErrorRes(responseInfo, errorList);
+    }
 
 	/**
 	 * Description : General exception handler method

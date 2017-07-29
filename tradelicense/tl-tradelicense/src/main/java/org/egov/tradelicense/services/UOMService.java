@@ -4,6 +4,12 @@ import org.egov.models.RequestInfo;
 import org.egov.models.UOMRequest;
 import org.egov.models.UOMResponse;
 
+/**
+ * Service class for UOM master
+ * 
+ * @author Pavan Kumar Kamma
+ *
+ */
 public interface UOMService {
 
 	/**
