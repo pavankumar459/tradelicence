@@ -1,18 +1,25 @@
 {
-    "responseInfo": {
-       
-    },
-    "categories": [
-        {
-            "tenantId": "default",
-            "name": null,
-            "code": null,
-            "auditDetails": {
-                "createdBy": null,
-                "lastModifiedBy": null,
-                "createdTime": null,
-                "lastModifiedTime": null
-            }
-        }
-    ]
+	"responseInfo": {
+		"apiId": null,
+		"ver": null,
+		"ts": null,
+		"resMsgId": null,
+		"msgId": null,
+		"status": null
+	},
+	"categories": [{
+		"id": null,
+		"tenantId": "default",
+		"name": null,
+		"code": null,
+		"parentId": null,
+		"businessNature": null,
+		"details": null,
+		"auditDetails": {
+			"createdBy": null,
+			"lastModifiedBy": null,
+			"createdTime": null,
+			"lastModifiedTime": null
+		}
+	}]
 }

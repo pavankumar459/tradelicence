@@ -39,10 +39,11 @@ public class CategoryRepository {
 	 * @param Category
 	 * @return categoryId
 	 */
-	public Long createCategory(Category category) {
-
+	public Long createCategory( Category category) {
+		
 		AuditDetails auditDetails = category.getAuditDetails();
 		String categoryInsert = CategoryQueryBuilder.INSERT_CATEGORY_QUERY;
+
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
@@ -51,23 +52,35 @@ public class CategoryRepository {
 				ps.setString(1, category.getTenantId());
 				ps.setString(2, category.getName());
 				ps.setString(3, category.getCode());
-				ps.setLong(4, category.getParentId());
-				ps.setString(5, auditDetails.getCreatedBy());
-				ps.setString(6, auditDetails.getLastModifiedBy());
-				ps.setLong(7, auditDetails.getCreatedTime());
-				ps.setLong(8, auditDetails.getLastModifiedTime());
-
+				if(category.getParentId() != null){
+					ps.setLong(4, category.getParentId());
+				}
+				else{
+					ps.setNull(4, java.sql.Types.NULL);	
+				}
+				
+				if(category.getBusinessNature() == null){
+					ps.setString(5, null);	
+				}
+				else{
+					ps.setString(5, category.getBusinessNature().name());
+				}
+				
+				ps.setString(6, auditDetails.getCreatedBy());
+				ps.setString(7, auditDetails.getLastModifiedBy());
+				ps.setLong(8, auditDetails.getCreatedTime());
+				ps.setLong(9, auditDetails.getLastModifiedTime());
 				return ps;
 			}
 		};
-
+		
 		// The newly generated key will be saved in this object
 		final KeyHolder holder = new GeneratedKeyHolder();
 		jdbcTemplate.update(psc, holder);
 
 		return Long.valueOf(holder.getKey().intValue());
-	}
 
+	}
 	/**
 	 * Description : this method will create categoryDetail in database
 	 * 
@@ -104,10 +117,11 @@ public class CategoryRepository {
 	 * @param Category
 	 * @return Category
 	 */
-	public Category updateCategory(Category category) {
+public Category updateCategory(Category category) {
 
 		AuditDetails auditDetails = category.getAuditDetails();
 		String categoryUpdateSql = CategoryQueryBuilder.UPDATE_CATEGORY_QUERY;
+
 		final PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
@@ -116,10 +130,22 @@ public class CategoryRepository {
 				ps.setString(1, category.getTenantId());
 				ps.setString(2, category.getName());
 				ps.setString(3, category.getCode());
-				ps.setLong(4, category.getParentId());
-				ps.setString(5, category.getAuditDetails().getLastModifiedBy());
-				ps.setLong(6, auditDetails.getLastModifiedTime());
-				ps.setLong(7, category.getId());
+				if(category.getParentId() != null){
+					ps.setLong(4, category.getParentId());
+				}
+				else{
+					ps.setNull(4, java.sql.Types.NULL);	
+				}
+				
+				if(category.getBusinessNature() == null){
+					ps.setString(5, null);	
+				}
+				else{
+					ps.setString(5, category.getBusinessNature().name());
+				}
+				ps.setString(6, category.getAuditDetails().getLastModifiedBy());
+				ps.setLong(7, auditDetails.getLastModifiedTime());
+				ps.setLong(8, category.getId());
 
 				return ps;
 			}

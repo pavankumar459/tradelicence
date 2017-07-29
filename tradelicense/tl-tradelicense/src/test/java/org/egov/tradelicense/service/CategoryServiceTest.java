@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.egov.enums.FeeTypeEnum;
+import org.egov.enums.RateTypeEnum;
 import org.egov.models.AuditDetails;
 import org.egov.models.Category;
+import org.egov.models.CategoryDetail;
 import org.egov.models.CategoryRequest;
 import org.egov.models.CategoryResponse;
 import org.egov.models.RequestInfo;
@@ -38,10 +41,10 @@ public class CategoryServiceTest {
 	@Autowired
 	private PropertiesManager propertiesManager;
 
-	public Long categoryId = 1l;
+	public static Long categoryId = 1l;
 	public String tenantId = "default";
-	public String name = "Flammables v1.1";
-	public String code = "Flammables v1.1";
+	public String name = "Flammables";
+	public String code = "Flammables";
 	public String type = "CATEGORY";
 	public String updatedName = "Flammables v1.1 name updated";
 	public String updatedCode = "Flammables v1.1 code updated";
@@ -56,6 +59,7 @@ public class CategoryServiceTest {
 		category.setTenantId(tenantId);
 		category.setName(name);
 		category.setCode(code);
+		category.setParentId(null);
 		long createdTime = new Date().getTime();
 
 		AuditDetails auditDetails = new AuditDetails();
@@ -120,6 +124,150 @@ public class CategoryServiceTest {
 		category.setTenantId(tenantId);
 		category.setName(name);
 		category.setCode(code);
+		long createdTime = new Date().getTime();
+
+		AuditDetails auditDetails = new AuditDetails();
+		auditDetails.setCreatedBy("pavan");
+		auditDetails.setLastModifiedBy("pavan");
+		auditDetails.setCreatedTime(createdTime);
+		auditDetails.setLastModifiedTime(createdTime);
+
+		category.setAuditDetails(auditDetails);
+		categories.add(category);
+
+		CategoryRequest categoryRequest = new CategoryRequest();
+		categoryRequest.setCategories(categories);
+		categoryRequest.setRequestInfo(requestInfo);
+
+		try {
+			CategoryResponse categoryResponse = categoryService.createCategoryMaster(categoryRequest);
+			if (categoryResponse.getCategories().size() == 0) {
+				assertTrue(false);
+			}
+			this.categoryId = categoryResponse.getCategories().get(0).getId();
+
+			assertTrue(true);
+
+		} catch (Exception e) {
+			if (e.getClass().isInstance(new DuplicateIdException())) {
+				assertTrue(true);
+			} else {
+				assertTrue(false);
+			}
+		}
+
+	}
+	
+	
+	
+	@Test
+	public void testzsearchCategoryDetails() {
+
+		Integer pageSize = Integer.valueOf(propertiesManager.getDefaultPageSize());
+		Integer offset = Integer.valueOf(propertiesManager.getDefaultOffset());
+		RequestInfo requestInfo = getRequestInfoObject();
+
+		RequestInfoWrapper requestInfoWrapper = new RequestInfoWrapper();
+		requestInfoWrapper.setRequestInfo(requestInfo);
+
+		try {
+			CategoryResponse categoryResponse = categoryService.getCategoryMaster(requestInfo, tenantId,
+					new Integer[] { categoryId.intValue() }, name, code, "SUBCATEGORY", pageSize, offset);
+			if (categoryResponse.getCategories().size() == 0)
+				assertTrue(false);
+
+			assertTrue(true);
+
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+
+	}
+
+	
+	@Test
+	public void testCycreateCategoryDetails() {
+		RequestInfo requestInfo = getRequestInfoObject();
+
+		List<Category> categories = new ArrayList<>();
+
+		Category category = new Category();
+		category.setTenantId(tenantId);
+		category.setName(name);
+		category.setCode(code);
+		category.setParentId(categoryId);
+		
+		
+		 CategoryDetail details = new CategoryDetail();
+	        details.setId(Long.valueOf(5));
+	        details.setCategoryId(categoryId);
+	        details.setFeeType(FeeTypeEnum.fromValue("License"));
+	        details.setRateType(RateTypeEnum.fromValue("Flat_By_Percentage"));
+	        details.setUomId(Long.valueOf(1));
+	        
+	        List<CategoryDetail> catDetails = new ArrayList<CategoryDetail>();
+	        catDetails.add(details);
+	        
+	        category.setDetails(catDetails);
+		long createdTime = new Date().getTime();
+
+		AuditDetails auditDetails = new AuditDetails();
+		auditDetails.setCreatedBy("pavan");
+		auditDetails.setLastModifiedBy("pavan");
+		auditDetails.setCreatedTime(createdTime);
+		auditDetails.setLastModifiedTime(createdTime);
+
+		category.setAuditDetails(auditDetails);
+		categories.add(category);
+
+		CategoryRequest categoryRequest = new CategoryRequest();
+		categoryRequest.setCategories(categories);
+		categoryRequest.setRequestInfo(requestInfo);
+
+		try {
+			CategoryResponse categoryResponse = categoryService.createCategoryMaster(categoryRequest);
+			if (categoryResponse.getCategories().size() == 0) {
+				assertTrue(false);
+			}
+			this.categoryId = categoryResponse.getCategories().get(0).getId();
+
+			assertTrue(true);
+
+		} catch (Exception e) {
+			if (e.getClass().isInstance(new DuplicateIdException())) {
+				assertTrue(true);
+			} else {
+				assertTrue(false);
+			}
+		}
+
+	}
+	
+	
+	@Test
+	public void testCyxcreateduplicateCategoryDetails() {
+		RequestInfo requestInfo = getRequestInfoObject();
+
+		List<Category> categories = new ArrayList<>();
+
+		Category category = new Category();
+		category.setTenantId(tenantId);
+		category.setName(name);
+		category.setCode(code);
+		category.setParentId(categoryId);
+		
+		
+		 CategoryDetail details = new CategoryDetail();
+	        details.setId(Long.valueOf(5));
+	        details.setCategoryId(categoryId);
+	        details.setFeeType(FeeTypeEnum.fromValue("License"));
+	        details.setRateType(RateTypeEnum.fromValue("Flat_By_Percentage"));
+	        details.setUomId(Long.valueOf(1));
+	        
+	        List<CategoryDetail> catDetails = new ArrayList<CategoryDetail>();
+	        catDetails.add(details);
+	        
+	        category.setDetails(catDetails);
 		long createdTime = new Date().getTime();
 
 		AuditDetails auditDetails = new AuditDetails();

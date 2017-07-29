@@ -10,11 +10,11 @@ import java.util.List;
 public class CategoryQueryBuilder {
 
 	public static final String INSERT_CATEGORY_QUERY = "INSERT INTO egtl_mstr_category"
-			+ " (tenantId, name, code, parentId, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
-			+ " VALUES(?,?,?,?,?,?,?,?)";
+			+ " (tenantId, name, code, parentId, businessNature, createdBy, lastModifiedBy, createdTime, lastModifiedTime)"
+			+ " VALUES(?,?,?,?,?,?,?,?,?)";
 
 	public static final String UPDATE_CATEGORY_QUERY = "UPDATE egtl_mstr_category"
-			+ " SET tenantId = ?, name = ?, code = ?, parentId = ?," + " lastModifiedBy = ?, lastModifiedTime = ?"
+			+ " SET tenantId = ?, name = ?, code = ?, parentId = ?, businessNature = ?," + " lastModifiedBy = ?, lastModifiedTime = ?"
 			+ " WHERE id = ?";
 
 	public static final String INSERT_CATEGORY_DETAIL_QUERY = "INSERT INTO egtl_category_details"
