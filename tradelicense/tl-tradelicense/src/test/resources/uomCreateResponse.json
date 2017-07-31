@@ -5,8 +5,8 @@
     "uoms": [
         {
             "tenantId": "default",
-            "name":"HP",
-            "code":"HP",
+            "name":null,
+            "code":null,
             "active": null,
             "auditDetails": {
                 "createdBy": null,

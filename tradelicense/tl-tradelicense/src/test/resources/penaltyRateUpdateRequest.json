@@ -14,7 +14,7 @@
          {  
             "id":1,
             "tenantId":"default",
-            "applicationType":"new",
+            "applicationType":"New",
             "fromRange":-999,
             "toRange":0,
             "rate": 50,

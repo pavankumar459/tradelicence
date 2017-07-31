@@ -43,7 +43,7 @@ public class PenaltyRateControllerTest {
 
 	@MockBean
 	private CategoryService categoryService;
-	
+
 	@MockBean
 	FeeMatrixService feeMatrixService;
 
@@ -52,13 +52,13 @@ public class PenaltyRateControllerTest {
 
 	@MockBean
 	private PenaltyRateService penaltyRateService;
-	
+
 	@MockBean
 	DocumentTypeService documentTypeService;
-	
+
 	@MockBean
 	private PropertiesManager propertiesManager;
-	
+
 	@Autowired
 	private MockMvc mockMvc;
 

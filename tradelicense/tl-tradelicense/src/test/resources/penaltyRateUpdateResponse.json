@@ -4,6 +4,7 @@
     },
     "penaltyRates": [
         {
+            "id": null,
             "tenantId":"default",
             "applicationType":null,
             "fromRange":null,
