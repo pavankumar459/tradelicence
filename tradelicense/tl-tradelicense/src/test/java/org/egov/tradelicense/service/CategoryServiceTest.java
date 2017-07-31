@@ -80,7 +80,7 @@ public class CategoryServiceTest {
 			if (categoryResponse.getCategories().size() == 0) {
 				assertTrue(false);
 			}
-			this.categoryId = categoryResponse.getCategories().get(0).getId();
+			categoryId = categoryResponse.getCategories().get(0).getId();
 
 			assertTrue(true);
 
@@ -103,8 +103,11 @@ public class CategoryServiceTest {
 		try {
 			CategoryResponse categoryResponse = categoryService.getCategoryMaster(requestInfo, tenantId,
 					new Integer[] { categoryId.intValue() }, name, code, type, pageSize, offset);
-			if (categoryResponse.getCategories().size() == 0)
-				assertTrue(false);
+			
+			if (categoryResponse.getCategories().size() == 0){
+					assertTrue(false);
+			}
+				
 
 			assertTrue(true);
 
@@ -144,7 +147,7 @@ public class CategoryServiceTest {
 			if (categoryResponse.getCategories().size() == 0) {
 				assertTrue(false);
 			}
-			this.categoryId = categoryResponse.getCategories().get(0).getId();
+			categoryId = categoryResponse.getCategories().get(0).getId();
 
 			assertTrue(true);
 

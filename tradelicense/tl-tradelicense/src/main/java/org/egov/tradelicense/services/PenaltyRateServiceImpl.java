@@ -44,7 +44,7 @@ public class PenaltyRateServiceImpl implements PenaltyRateService {
 	public PenaltyRateResponse createPenaltyRateMaster(String tenantId, PenaltyRateRequest penaltyRateRequest) {
 
 		RequestInfo requestInfo = penaltyRateRequest.getRequestInfo();
-		penaltyRateHelper.validatePenaltyRange(tenantId, penaltyRateRequest);
+		penaltyRateHelper.validatePenaltyRange(tenantId, penaltyRateRequest, true);
 		AuditDetails auditDetails = utilityHelper.getCreateMasterAuditDetals(requestInfo);
 		for (PenaltyRate penaltyRate : penaltyRateRequest.getPenaltyRates()) {
 			try {
@@ -69,7 +69,7 @@ public class PenaltyRateServiceImpl implements PenaltyRateService {
 	public PenaltyRateResponse updatePenaltyRateMaster(PenaltyRateRequest penaltyRateRequest) {
 
 		RequestInfo requestInfo = penaltyRateRequest.getRequestInfo();
-		penaltyRateHelper.validateUpdatePenaltyRange(penaltyRateRequest);
+		penaltyRateHelper.validatePenaltyRange(null,penaltyRateRequest,false);
 		for (PenaltyRate penaltyRate : penaltyRateRequest.getPenaltyRates()) {
 			try {
 				Long updatedTime = new Date().getTime();
