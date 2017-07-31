@@ -52,13 +52,7 @@ public class CategoryRepository {
 				ps.setString(1, category.getTenantId());
 				ps.setString(2, category.getName());
 				ps.setString(3, category.getCode());
-				if(category.getParentId() != null){
-					ps.setLong(4, category.getParentId());
-				}
-				else{
-					ps.setNull(4, java.sql.Types.NULL);	
-				}
-				
+				ps.setObject(4, category.getParentId());				
 				if(category.getBusinessNature() == null){
 					ps.setString(5, null);	
 				}
@@ -130,13 +124,8 @@ public Category updateCategory(Category category) {
 				ps.setString(1, category.getTenantId());
 				ps.setString(2, category.getName());
 				ps.setString(3, category.getCode());
-				if(category.getParentId() != null){
-					ps.setLong(4, category.getParentId());
-				}
-				else{
-					ps.setNull(4, java.sql.Types.NULL);	
-				}
 				
+				ps.setObject(4, category.getParentId());
 				if(category.getBusinessNature() == null){
 					ps.setString(5, null);	
 				}

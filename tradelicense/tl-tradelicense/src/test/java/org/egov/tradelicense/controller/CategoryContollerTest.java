@@ -264,6 +264,54 @@ public class CategoryContollerTest {
 		assertTrue(Boolean.TRUE);
 
 	}
+	
+	
+	@Test
+	public void testSearchCategoryDetails() throws Exception {
+
+		CategoryResponse categoryResponse = new CategoryResponse();
+		List<Category> categories = new ArrayList<>();
+		Category category = new Category();
+		category.setTenantId("default");
+		category.setParentId(Long.parseLong("2"));
+
+		AuditDetails auditDetails = new AuditDetails();
+		category.setAuditDetails(auditDetails);
+
+		categories.add(category);
+		  CategoryDetail details = new CategoryDetail();
+	        details.setId(Long.valueOf(5));
+	        details.setCategoryId(Long.valueOf(10));
+	        details.setFeeType(FeeTypeEnum.fromValue("License"));
+	        details.setRateType(RateTypeEnum.fromValue("Flat_By_Percentage"));
+	        details.setUomId(Long.valueOf(1));
+	        
+	        List<CategoryDetail> catDetails = new ArrayList<CategoryDetail>();
+	        catDetails.add(details);
+	        category.setDetails(catDetails);
+		categoryResponse.setResponseInfo(new ResponseInfo());
+		categoryResponse.setCategories(categories);
+
+		try {
+
+			when(categoryService.getCategoryMaster(any(RequestInfo.class), any(String.class), any(Integer[].class),
+					any(String.class), any(String.class), any(String.class), any(Integer.class), any(Integer.class)))
+			.thenReturn(categoryResponse);
+
+			mockMvc.perform(post("/tradelicense/category/_search").param("tenantId", "default").param("type", "SUBCATEGORY")
+					.contentType(MediaType.APPLICATION_JSON).content(getFileContents("categoryDetailsSearchRequest.json")))
+			.andExpect(status().isOk())
+			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(content().json(getFileContents("categoryDetailsSearchResponse.json")));
+
+		} catch (Exception e) {
+			assertTrue(Boolean.FALSE);
+			e.printStackTrace();
+		}
+
+		assertTrue(Boolean.TRUE);
+
+	}
 
 	private String getFileContents(String fileName) throws IOException {
 		ClassLoader classLoader = getClass().getClassLoader();

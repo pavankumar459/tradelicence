@@ -1,6 +1,5 @@
 package org.egov.models;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,7 +31,7 @@ public class DocumentType {
 	private String tenantId = null;
 
 	@NotNull
-	@Max(value = 256)
+	@Size(max = 256)
 	private String name = null;
 
 	private Boolean mandatory = true;

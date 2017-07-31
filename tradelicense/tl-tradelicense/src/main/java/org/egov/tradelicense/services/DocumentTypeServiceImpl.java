@@ -16,6 +16,7 @@ import org.egov.tradelicense.exception.DuplicateIdException;
 import org.egov.tradelicense.exception.InvalidInputException;
 import org.egov.tradelicense.repository.DocumentTypeRepository;
 import org.egov.tradelicense.repository.ValidatorRepository;
+import org.egov.tradelicense.repository.helper.UtilityHelper;
 import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,13 +34,14 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
 	private PropertiesManager propertiesManager;
 
 	@Autowired
-	private ValidatorRepository validatorRepository;
-
-	@Autowired
 	DocumentTypeRepository documentTypeRepository;
 
 	@Autowired
 	ResponseInfoFactory responseInfoFactory;
+	
+	
+	@Autowired
+	UtilityHelper utilityHelper;
 
 	@Override
 	public DocumentTypeResponse createDocumentType( DocumentTypeRequest documentTypeRequest)  {
@@ -48,7 +50,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
 		AuditDetails auditDetails = getCreateDocumentTypeAuditDetails(requestInfo);
 		for (DocumentType documentType : documentTypeRequest.getDocumentTypes()) {
 
-			Boolean isExists = validatorRepository.checkWhetherDocumentTypeExists( documentType );
+			Boolean isExists = utilityHelper.checkWhetherDocumentTypeExists( documentType );
 
 			if (isExists)
 				throw new DuplicateIdException(propertiesManager.getDocumentTypeCustomMsg(),requestInfo);
@@ -89,7 +91,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
 
 		for (DocumentType documentType : documentTypeRequest.getDocumentTypes()) {
 
-			Boolean isExists = validatorRepository.checkWhetherRecordExitswithName(documentType.getTenantId(), documentType.getName(),
+			Boolean isExists = utilityHelper.checkWhetherRecordExitswithName(documentType.getTenantId(), documentType.getName(),
 					ConstantUtility.DOCUMENT_TYPE_TABLE_NAME, documentType.getId(), documentType.getApplicationType().toString());
 
 			if (isExists)

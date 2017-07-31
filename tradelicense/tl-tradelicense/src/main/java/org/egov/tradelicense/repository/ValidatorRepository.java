@@ -94,14 +94,14 @@ public class ValidatorRepository {
 		return isExists;
 	}*/
 
-	/**
+/*	*//**
 	 * This will check whether any record exists with the given tenantId & name
 	 * in database or not
 	 * 
 	 * @param tenantId
 	 * @param name
 	 * @return True / false if record exists / record does n't exists
-	 */
+	 *//*
 	public Boolean checkWhetherRecordExitswithName(String tenantId, String name, String tableName, Long id, String applicationName) {
 
 		Boolean isExists = Boolean.TRUE;
@@ -152,5 +152,5 @@ public class ValidatorRepository {
 			isExists = Boolean.TRUE;
 
 		return isExists;
-	}
+	}*/
 }
