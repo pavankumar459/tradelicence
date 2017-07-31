@@ -98,6 +98,21 @@ public class UtilityBuilder {
 
 		return uniqueQuery.toString();
 	}
+	
+	
+	public static String getUniqueLicenseStatusQueryforUpdate(String tenantId, String name,
+			String code, Long id, String tableName ) {
+
+		StringBuffer uniqueQuery = new StringBuffer("select count(*) from " + tableName);
+		uniqueQuery.append(" where name = '" + name + "'");
+		uniqueQuery.append(" AND tenantId = '" + tenantId + "'");
+		uniqueQuery.append(" AND code = '" + code + "'");
+		if (id != null) {
+			uniqueQuery.append(" AND id !=" + id);
+		}
+
+		return uniqueQuery.toString();
+	}
 
 	public static String getDocumentTypeValidationQuery(String tanentId, String name, String applicationName,
 			String tableName) {
@@ -108,5 +123,15 @@ public class UtilityBuilder {
 		documentTypeValidationQuery.append(" AND applicationType = '" + applicationName + "'");
 
 		return documentTypeValidationQuery.toString();
+	}
+
+	public static String getLicenseStatusValidationQuery(String tenantId, String code, String name, String tableName) {
+		
+		StringBuffer uniqueQuery = new StringBuffer("select count(*) from " + tableName);
+		uniqueQuery.append(" where name = '" + name + "'");
+		uniqueQuery.append(" AND tenantId = '" + tenantId + "'");
+		uniqueQuery.append(" AND code = '" + code + "'");
+		
+		return uniqueQuery.toString();
 	}
 }

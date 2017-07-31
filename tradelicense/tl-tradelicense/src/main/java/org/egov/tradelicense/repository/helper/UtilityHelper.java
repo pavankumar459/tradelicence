@@ -214,4 +214,67 @@ public class UtilityHelper {
 
 		return isExists;
 	}
+
+	public Boolean checkWhetherLicenseStatusExists(String tenantId, String code, String name, String tableName) {
+	
+		String query = UtilityBuilder.getLicenseStatusValidationQuery(tenantId, code, name, tableName);
+		
+		Boolean isExists = Boolean.FALSE;
+		
+		int count = 0;
+
+		try {
+
+			count = (Integer) jdbcTemplate.queryForObject(query, Integer.class);
+
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+
+		}
+
+		if (count > 0)
+			isExists = Boolean.TRUE;
+
+		return isExists;
+		
+	}
+	
+	
+	/**
+	 * This will check whether any record exists with the given tenantId & name
+	 * in database or not
+	 * 
+	 * @param tenantId
+	 * @param name
+	 * @return True / false if record exists / record does n't exists
+	 */
+	public Boolean checkWhetherRecordExitswithNameCode(String tenantId, String name, String code, Long id, String tableName) {
+
+		Boolean isExists = Boolean.TRUE;
+
+		String query = UtilityBuilder.getUniqueLicenseStatusQueryforUpdate(tenantId, name, code, id, tableName);
+
+		int count = 0;
+
+		try {
+
+			count = (Integer) jdbcTemplate.queryForObject(query, Integer.class);
+
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+
+		}
+
+		if (count == 0)
+			isExists = Boolean.FALSE;
+
+		return isExists;
+
+	}
+
+	
+	
+	
 }

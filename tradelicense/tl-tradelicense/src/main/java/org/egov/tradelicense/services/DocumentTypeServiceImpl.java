@@ -20,6 +20,7 @@ import org.egov.tradelicense.repository.helper.UtilityHelper;
 import org.egov.tradelicense.utility.ConstantUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DocumentTypeService implementation class
@@ -44,6 +45,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
 	UtilityHelper utilityHelper;
 
 	@Override
+	@Transactional
 	public DocumentTypeResponse createDocumentType( DocumentTypeRequest documentTypeRequest)  {
 
 		RequestInfo requestInfo = documentTypeRequest.getRequestInfo();
@@ -87,6 +89,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
 	}
 
 	@Override
+	@Transactional
 	public DocumentTypeResponse updateDocumentType(DocumentTypeRequest documentTypeRequest) {
 
 		for (DocumentType documentType : documentTypeRequest.getDocumentTypes()) {

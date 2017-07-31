@@ -56,4 +56,7 @@ public class PropertiesManager {
 	
 	@Value("${duplicate.businessnature.code}")
 	private String businessNatureCustomMsg;
+	
+	@Value("${duplicate.license.status}")
+	private String licenseStatusCustomMsg;
 }
