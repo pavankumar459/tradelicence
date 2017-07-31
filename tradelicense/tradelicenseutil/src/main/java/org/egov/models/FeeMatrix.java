@@ -52,7 +52,7 @@ public class FeeMatrix {
 
 	private String effectiveTo = null;
 
-	private List<FeeMatrixDetail> feeMatixDetails;
+	private List<FeeMatrixDetail> feeMatrixDetails;
 
 	@JsonProperty("auditDetails")
 	private AuditDetails auditDetails = null;

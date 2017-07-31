@@ -49,7 +49,11 @@ public class UOMRepository {
 				ps.setString(1, uom.getTenantId());
 				ps.setString(2, uom.getCode());
 				ps.setString(3, uom.getName());
-				ps.setBoolean(4, uom.getActive());
+				if(uom.getActive() != null){
+					ps.setBoolean(4, uom.getActive());
+				} else {
+					ps.setNull(4, java.sql.Types.NULL);
+				}
 				ps.setString(5, uom.getAuditDetails().getCreatedBy());
 				ps.setString(6, uom.getAuditDetails().getLastModifiedBy());
 				ps.setLong(7, createdTime);

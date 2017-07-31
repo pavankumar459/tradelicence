@@ -125,8 +125,8 @@ CREATE TABLE egtl_mstr_fee_matrix(
     businessNature character varying NOT NULL,
     subCategoryId bigint NOT NULL,
     financialYear character varying(50) NOT NULL,
-    effectivefrom timestamp without time zone,
-    effectiveto timestamp without time zone,
+    effectiveFrom timestamp without time zone,
+    effectiveTo timestamp without time zone,
     createdBy character varying,
     lastModifiedBy character varying,
     createdTime bigint,
@@ -152,7 +152,7 @@ CREATE TABLE egtl_fee_matrix_details (
     id bigint NOT NULL,
     feeMatrixId bigint NOT NULL,
     uomFrom bigint NOT NULL,
-    uomto bigint NOT NULL,
+    uomTo bigint NOT NULL,
     amount double precision
 );
 

@@ -36,16 +36,15 @@ public interface FeeMatrixService {
 	 * @param tenantId
 	 * @param ids
 	 * @param categoryId
-	 * @param subcategoryId
+	 * @param subCategoryId
 	 * @param financialYear
 	 * @param applicationType
 	 * @param businessNature
 	 * @param pageSize
 	 * @param offSet
 	 * @return FeeMatrixResponse
-	 * @throws Exception
 	 */
 	public FeeMatrixResponse getFeeMatrixMaster(RequestInfo requestInfo, String tenantId, Integer[] ids,
-			Integer categoryId, Integer subcategoryId, Integer financialYear, String applicationType,
+			Integer categoryId, Integer subCategoryId, String financialYear, String applicationType,
 			String businessNature, Integer pageSize, Integer offSet);
 }

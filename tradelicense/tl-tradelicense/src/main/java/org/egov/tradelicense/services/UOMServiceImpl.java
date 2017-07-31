@@ -59,7 +59,7 @@ public class UOMServiceImpl implements UOMService {
 			try {
 
 				uom.setAuditDetails(auditDetails);
-				Long id = uomRepository.createUom( uom);
+				Long id = uomRepository.createUom(uom);
 				uom.setId(id);
 
 			} catch (Exception e) {
